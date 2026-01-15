@@ -10,14 +10,13 @@ app_icon = "octicon octicon-file-directory"
 app_color = "grey"
 app_email = "hello@frappe.io"
 app_license = "GNU GPL V3"
-# app_logo_url = "/assets/education/images/edu-logo.svg"
-app_logo_url = ""
+app_logo_url = "/assets/education/edu-logo.svg"
 app_home = "/desk/education"
 
 add_to_apps_screen = [
     {
         "name": app_name,
-        "logo": "",
+        "logo": "/assets/education/edu-logo.svg",
         "title": app_title,
         "route": app_home,
         "has_permission": "education.check_app_permission",
