@@ -28,7 +28,9 @@
   "razorpay_secret",
   "column_break_atxc",
   "school_college_name_abbreviation",
-  "school_college_logo"
+  "school_college_logo",
+  "scholarship_settings_tab",
+  "eligible_statuses"
  ],
  "fields": [
   {
@@ -174,11 +176,22 @@
    "fieldname": "sales_order_transaction_date_fee_schedule",
    "fieldtype": "Check",
    "label": "Sales Order Posting Date should be same as Fee Schedule Posting Date"
+  },
+  {
+   "fieldname": "scholarship_settings_tab",
+   "fieldtype": "Tab Break",
+   "label": "Scholarship Settings"
+  },
+  {
+   "fieldname": "eligible_statuses",
+   "fieldtype": "Table",
+   "label": "Eligible Statuses",
+   "options": "Eligible Status"
   }
  ],
  "issingle": 1,
  "links": [],
- "modified": "2026-02-04 12:15:05.069346",
+ "modified": "2026-02-22 14:45:03.676523",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Education Settings",

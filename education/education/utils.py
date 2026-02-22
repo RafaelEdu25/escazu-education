@@ -3,6 +3,8 @@
 import frappe
 from frappe import _
 
+from frappe.utils import formatdate, format_datetime
+
 
 class OverlapError(frappe.ValidationError):
 	pass
@@ -63,7 +65,10 @@ def validate_duplicate_student(students):
 		if stud.student in unique_students:
 			frappe.throw(
 				_("Student {0} - {1} appears Multiple times in row {2} & {3}").format(
-					stud.student, stud.student_name, unique_students.index(stud.student) + 1, stud.idx
+					stud.student,
+					stud.student_name,
+					unique_students.index(stud.student) + 1,
+					stud.idx,
 				)
 			)
 		else:
@@ -432,3 +437,27 @@ def check_quiz_completion(quiz, enrollment_name):
 		if result == "Pass":
 			status = True
 	return status, score, result, time_taken
+
+
+@frappe.whitelist()
+def get_scholar_field_property(scholar, fieldname):
+	if not (scholar and fieldname):
+		return
+
+	field = frappe.get_meta("Scholar").get_field(fieldname)
+	if not field:
+		return
+
+	value = frappe.db.get_value("Scholar", scholar, fieldname)
+
+	if field.fieldtype == "Date":
+		value = formatdate(value)
+	elif field.fieldtype == "Datetime":
+		value = format_datetime(value)
+
+	return {
+		"value": value,
+		"datatype": field.fieldtype,
+		"label": field.label,
+		"options": field.options,
+	}
