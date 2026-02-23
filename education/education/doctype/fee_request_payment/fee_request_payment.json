@@ -1,0 +1,181 @@
+{
+ "actions": [],
+ "autoname": "FRP-.YYYY.-.#####",
+ "creation": "2026-02-23 09:30:07.096645",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "scholar",
+  "academic_year",
+  "academic_term",
+  "column_break_iqap",
+  "student_name",
+  "posting_date",
+  "column_break_ekbm",
+  "company",
+  "fee_request",
+  "school_details_section",
+  "official_school_name",
+  "column_break_gzcc",
+  "current_class",
+  "amount_section",
+  "paid_amount",
+  "section_break_x5ro",
+  "amended_from",
+  "column_break_mzxc"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_x5ro",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Fee Request Payment",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "scholar",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Scholar",
+   "options": "Scholar",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_iqap",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "scholar.student_name",
+   "fieldname": "student_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Student Name"
+  },
+  {
+   "fieldname": "column_break_ekbm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "scholar.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "scholar.official_school_name",
+   "fieldname": "official_school_name",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Official School Name",
+   "options": "Supplier",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_gzcc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "scholar.current_class",
+   "fieldname": "current_class",
+   "fieldtype": "Link",
+   "label": "Current Class",
+   "options": "Program"
+  },
+  {
+   "fieldname": "amount_section",
+   "fieldtype": "Section Break",
+   "label": "Amount"
+  },
+  {
+   "fieldname": "paid_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Paid Amount",
+   "options": "Company:company:default_currency",
+   "reqd": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "school_details_section",
+   "fieldtype": "Section Break",
+   "label": "School Details"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "fee_request",
+   "fieldtype": "Link",
+   "label": "Fee Request",
+   "options": "Fee Request",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_mzxc",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-02-23 16:00:55.475937",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Fee Request Payment",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -4,6 +4,13 @@
 frappe.ui.form.on('Fee Request', {
   refresh(frm) {
     frm.trigger('set_filters')
+    if (frm.is_new()) {
+      frm.set_value('paid_amount', 0)
+      frm.set_value('outstanding_amount', 0)
+      frm.set_value('payment_status', 'Unpaid')
+      frm.clear_table('payments')
+      frm.refresh_field('payments')
+    }
   },
   fee_structure_template: function (frm) {
     if (frm.doc.fee_structure_template) {
@@ -12,16 +19,18 @@ frappe.ui.form.on('Fee Request', {
 
       frappe.call({
         method:
-          'education.education.doctype.fee_request.get_fee_structure_template',
+          'education.education.doctype.fee_request.fee_request.get_fee_structure_template',
         args: {
           fee_structure_template: frm.doc.fee_structure_template,
         },
         callback: function (r) {
           const fee_components = r.message
           if (fee_components) {
+            frm.clear_table('fee_components')
             for (const component of fee_components) {
               const fee_request_item = frm.add_child('fee_components')
               fee_request_item.fees_category = component.fees_category
+              fee_request_item.amount = component.amount
             }
             frm.refresh_field('fee_components')
           }
@@ -61,6 +70,14 @@ frappe.ui.form.on('Fee Request', {
         filters: {
           company: frm.doc.company,
           status: ['in', eligible_statuses],
+        },
+      }
+    })
+
+    frm.set_query('fee_structure_template', function () {
+      return {
+        filters: {
+          docstatus: 1,
         },
       }
     })
