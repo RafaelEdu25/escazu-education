@@ -12,9 +12,9 @@ EXTRA_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 IGNORE_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 
 
-class IntegrationTestCaseNature(IntegrationTestCase):
+class IntegrationTestCaseType(IntegrationTestCase):
 	"""
-	Integration tests for CaseNature.
+	Integration tests for CaseType.
 	Use this class for testing interactions between multiple components.
 	"""
 

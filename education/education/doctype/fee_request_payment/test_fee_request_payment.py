@@ -1,4 +1,4 @@
-# Copyright (c) 2026, Navari and Contributors
+# Copyright (c) 2026, Frappe Technologies Pvt. Ltd. and Contributors
 # See license.txt
 
 # import frappe
@@ -12,9 +12,9 @@ EXTRA_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 IGNORE_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 
 
-class IntegrationTestCaseManager(IntegrationTestCase):
+class IntegrationTestFeeRequestPayment(IntegrationTestCase):
 	"""
-	Integration tests for CaseManager.
+	Integration tests for FeeRequestPayment.
 	Use this class for testing interactions between multiple components.
 	"""
 
