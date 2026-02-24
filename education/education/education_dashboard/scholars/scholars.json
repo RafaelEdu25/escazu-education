@@ -1,0 +1,29 @@
+{
+ "cards": [],
+ "charts": [
+  {
+   "chart": "Distribution of Scholars by Status",
+   "width": "Half"
+  },
+  {
+   "chart": "Distribution of Scholars by Cohort",
+   "width": "Half"
+  },
+  {
+   "chart": "Distribution of Scholars by County",
+   "width": "Half"
+  }
+ ],
+ "creation": "2026-02-24 08:37:36.961590",
+ "dashboard_name": "Scholars",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2026-02-24 09:04:49.121784",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Scholars",
+ "owner": "Administrator"
+}
