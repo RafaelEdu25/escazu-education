@@ -13,6 +13,7 @@
   "validate_course",
   "academic_term_reqd",
   "user_creation_skip",
+  "auto_promote_scholars",
   "accounting_section",
   "create_so",
   "column_break_aimg",
@@ -187,11 +188,18 @@
    "fieldtype": "Table",
    "label": "Eligible Statuses",
    "options": "Eligible Status"
+  },
+  {
+   "default": "1",
+   "description": "By default, Scholars are auto promoted to the next Program(class)",
+   "fieldname": "auto_promote_scholars",
+   "fieldtype": "Check",
+   "label": "Auto Promote Scholars"
   }
  ],
  "issingle": 1,
  "links": [],
- "modified": "2026-02-22 14:45:03.676523",
+ "modified": "2026-02-25 12:32:47.287222",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Education Settings",

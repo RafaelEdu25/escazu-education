@@ -210,23 +210,11 @@ after_install = "education.install.after_install"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"education.tasks.all"
-# 	],
-# 	"daily": [
-# 		"education.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"education.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"education.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"education.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	"cron": {
+		"0 2 1 1 *": ["education.education.scheduler.auto_promote_scholars"],
+	},
+}
 
 # Testing
 # -------

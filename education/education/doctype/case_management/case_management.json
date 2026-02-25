@@ -170,7 +170,7 @@
    "fieldname": "case_type",
    "fieldtype": "Link",
    "label": "Case Type",
-   "options": "Case Type",
+   "options": "NL Case Type",
    "reqd": 1
   },
   {
@@ -182,7 +182,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-02-23 08:56:42.984242",
+ "modified": "2026-02-25 12:51:55.648827",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Case Management",
