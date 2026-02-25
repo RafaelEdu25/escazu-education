@@ -10,6 +10,7 @@
   "column_break_ekst",
   "student_name",
   "circumstance_of_residence",
+  "teen_mom",
   "donor",
   "column_break_xsis",
   "company",
@@ -315,6 +316,13 @@
    "fieldname": "details_section",
    "fieldtype": "Section Break",
    "label": "Details"
+  },
+  {
+   "default": "No",
+   "fieldname": "teen_mom",
+   "fieldtype": "Select",
+   "label": "Teen Mom?",
+   "options": "Yes\nNo"
   }
  ],
  "grid_page_length": 50,
@@ -341,7 +349,7 @@
    "link_fieldname": "scholar"
   }
  ],
- "modified": "2026-02-23 11:53:39.849561",
+ "modified": "2026-02-25 18:25:33.988581",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar",
