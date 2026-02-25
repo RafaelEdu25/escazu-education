@@ -4,7 +4,7 @@
 import frappe
 from frappe.model.document import Document
 
-from frappe.utils import today
+from frappe.utils import today, getdate, get_year_start, get_year_ending
 
 
 class ScholarshipPromotionRule(Document):
@@ -18,8 +18,8 @@ class ScholarshipPromotionRule(Document):
 		if not any(d.is_final for d in self.class_progression):
 			frappe.throw("At least one Class Progression must be marked as Final.")
 
-	def promote_students(self):
-		"""Promote all eligible students based on the promotion rule"""
+	def promote_scholars(self):
+		"""Promote all eligible scholars based on the promotion rule"""
 
 		eligible_statuses = [row.status for row in self.eligible_statuses]
 
@@ -50,7 +50,7 @@ class ScholarshipPromotionRule(Document):
 				# Check if promotion is defined
 				elif scholar.current_form in progression_map:
 					next_class = progression_map[scholar.current_form]
-					self.promote_student(
+					self.promote_scholar(
 						scholar.name,
 						scholar.current_form,
 						next_class,
@@ -63,7 +63,7 @@ class ScholarshipPromotionRule(Document):
 					"Scholarship Promotion Rule",
 				)
 
-	def promote_student(self, scholar_id, from_class, next_class, current_status):
+	def promote_scholar(self, scholar_id, from_class, next_class, current_status):
 		scholar = frappe.get_doc("Scholar", scholar_id)
 
 		# Create progression log
@@ -121,7 +121,7 @@ class ScholarshipPromotionRule(Document):
 		return log.name
 
 
-def auto_promote_students_yearly():
+def auto_promote_scholars_yearly():
 	promotion_rules = frappe.get_all(
 		"Scholarship Promotion Rule",
 		fields=["name"],
@@ -129,4 +129,4 @@ def auto_promote_students_yearly():
 
 	for rule in promotion_rules:
 		rule_doc = frappe.get_doc("Scholarship Promotion Rule", rule.name)
-		rule_doc.promote_students()
+		rule_doc.promote_scholars()
