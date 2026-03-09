@@ -44,6 +44,7 @@
   "column_break_lxba",
   "recommender_department",
   "reason_for_recommending",
+  "specific_case",
   "guardian_information_tab",
   "guardian_name",
   "guardian_contact",
@@ -202,7 +203,7 @@
   },
   {
    "fieldname": "recommender_contact",
-   "fieldtype": "Data",
+   "fieldtype": "Phone",
    "label": "Recommender Contact"
   },
   {
@@ -233,7 +234,7 @@
   },
   {
    "fieldname": "guardian_contact",
-   "fieldtype": "Data",
+   "fieldtype": "Phone",
    "label": "Guardian Contact"
   },
   {
@@ -242,8 +243,9 @@
   },
   {
    "fieldname": "relationship_to_student",
-   "fieldtype": "Data",
-   "label": "Relationship to Student"
+   "fieldtype": "Select",
+   "label": "Relationship to Student",
+   "options": "\nFather\nMother\nGuardian"
   },
   {
    "fieldname": "donor",
@@ -323,6 +325,14 @@
    "fieldtype": "Select",
    "label": "Teen Mom?",
    "options": "Yes\nNo"
+  },
+  {
+   "depends_on": "eval:doc.reason_for_recommending === \"Teen Mom\" || doc.reason_for_recommending === \"Differently-Abled\"",
+   "fieldname": "specific_case",
+   "fieldtype": "Select",
+   "label": "Specific Case",
+   "mandatory_depends_on": "eval:doc.reason_for_recommending === \"Teen Mom\" || doc.reason_for_recommending === \"Differently-Abled\"",
+   "options": "\nChild Alive\nChild Deceased"
   }
  ],
  "grid_page_length": 50,
@@ -349,7 +359,7 @@
    "link_fieldname": "scholar"
   }
  ],
- "modified": "2026-02-25 18:25:33.988581",
+ "modified": "2026-03-09 11:08:30.718939",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar",

@@ -295,9 +295,21 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "view",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Open Insights",
+   "link_type": "URL",
+   "show_arrow": 0,
+   "type": "Link",
+   "url": "/insights/dashboards"
   }
  ],
- "modified": "2026-02-24 11:24:42.107001",
+ "modified": "2026-03-09 11:14:48.413211",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholarship",
