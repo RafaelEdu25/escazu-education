@@ -202,7 +202,7 @@
   },
   {
    "fieldname": "recommender_contact",
-   "fieldtype": "Data",
+   "fieldtype": "Phone",
    "label": "Recommender Contact"
   },
   {
@@ -233,7 +233,7 @@
   },
   {
    "fieldname": "guardian_contact",
-   "fieldtype": "Data",
+   "fieldtype": "Phone",
    "label": "Guardian Contact"
   },
   {
@@ -242,8 +242,9 @@
   },
   {
    "fieldname": "relationship_to_student",
-   "fieldtype": "Data",
-   "label": "Relationship to Student"
+   "fieldtype": "Select",
+   "label": "Relationship to Student",
+   "options": "\nFather\nMother\nGuardian"
   },
   {
    "fieldname": "donor",
@@ -349,7 +350,7 @@
    "link_fieldname": "scholar"
   }
  ],
- "modified": "2026-02-25 18:25:33.988581",
+ "modified": "2026-03-09 10:29:04.375354",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar",
