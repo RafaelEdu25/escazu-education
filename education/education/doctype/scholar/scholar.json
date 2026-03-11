@@ -214,7 +214,7 @@
    "fieldname": "recommender_department",
    "fieldtype": "Link",
    "label": "Recommender Department",
-   "options": "Department"
+   "options": "Recommender Department"
   },
   {
    "fieldname": "reason_for_recommending",
@@ -304,8 +304,9 @@
   {
    "default": "Today",
    "fieldname": "date_of_onboarding",
-   "fieldtype": "Date",
+   "fieldtype": "Link",
    "label": "Date of Onboarding",
+   "options": "Fiscal Year",
    "reqd": 1
   },
   {
@@ -359,7 +360,7 @@
    "link_fieldname": "scholar"
   }
  ],
- "modified": "2026-03-09 11:08:30.718939",
+ "modified": "2026-03-11 09:45:32.818222",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar",

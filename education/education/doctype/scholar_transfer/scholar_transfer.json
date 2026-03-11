@@ -12,6 +12,9 @@
   "column_break_jcyp",
   "transfer_date",
   "proof_of_attachment",
+  "section_break_tjhm",
+  "reason_for_transfer",
+  "column_break_fctn",
   "section_break_cmge",
   "transfer_details",
   "section_break_jyi1",
@@ -93,13 +96,27 @@
    "label": "Proof of Attachment",
    "no_copy": 1,
    "reqd": 1
+  },
+  {
+   "fieldname": "section_break_tjhm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "reason_for_transfer",
+   "fieldtype": "Small Text",
+   "label": "Reason for Transfer",
+   "no_copy": 1
+  },
+  {
+   "fieldname": "column_break_fctn",
+   "fieldtype": "Column Break"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-03-09 09:50:19.967950",
+ "modified": "2026-03-11 09:49:30.835094",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar Transfer",
