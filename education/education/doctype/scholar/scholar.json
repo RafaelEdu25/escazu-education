@@ -10,7 +10,6 @@
   "column_break_ekst",
   "student_name",
   "circumstance_of_residence",
-  "teen_mom",
   "donor",
   "column_break_xsis",
   "company",
@@ -25,17 +24,20 @@
   "section_break_ohcc",
   "scholar_recruitment",
   "education_details_tab",
+  "scholar_details_section",
   "class_at_onboarding",
   "current_class",
   "enrolled_at_onboarding",
   "currently_enrolled",
+  "column_break_uuyi",
   "cohort",
+  "promotion_rule",
+  "school_section",
   "column_break_ozta",
   "official_school_name",
   "county_of_school",
   "public_or_private",
   "day_or_boarding",
-  "promotion_rule",
   "transfer_history_section",
   "scholar_transfer_details",
   "recommendation_details_tab",
@@ -158,7 +160,7 @@
    "fieldname": "promotion_rule",
    "fieldtype": "Link",
    "in_standard_filter": 1,
-   "label": "Promotion Rule",
+   "label": "Curriculum Type",
    "options": "Scholarship Promotion Rule",
    "reqd": 1
   },
@@ -270,8 +272,10 @@
   {
    "fieldname": "scholar_transfer_details",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Scholar Transfer Details",
-   "options": "Scholar Transfer History"
+   "options": "Scholar Transfer History",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_ekst",
@@ -322,13 +326,6 @@
    "label": "Details"
   },
   {
-   "default": "No",
-   "fieldname": "teen_mom",
-   "fieldtype": "Select",
-   "label": "Teen Mom?",
-   "options": "Yes\nNo"
-  },
-  {
    "depends_on": "eval:doc.reason_for_recommending === \"Teen Mom\"",
    "fieldname": "specific_case_teen_mom",
    "fieldtype": "Select",
@@ -343,6 +340,20 @@
    "label": "Specific Case",
    "mandatory_depends_on": "eval:doc.reason_for_recommending === \"Differently-Abled\"",
    "options": "\nNone\nAlbinism\nDevelopmental disability\nDown syndrome\nHearing disability\nIntellectual disability\nLearning disability\nPhysical disability\nSpeech disability\nVisual disability\nOther disability (e.g., Epilepsy, Dwarfism, etc.)"
+  },
+  {
+   "fieldname": "scholar_details_section",
+   "fieldtype": "Section Break",
+   "label": "Scholar Details"
+  },
+  {
+   "fieldname": "column_break_uuyi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "school_section",
+   "fieldtype": "Section Break",
+   "label": "School "
   }
  ],
  "grid_page_length": 50,
@@ -369,7 +380,7 @@
    "link_fieldname": "scholar"
   }
  ],
- "modified": "2026-03-11 12:06:46.909217",
+ "modified": "2026-03-11 16:43:42.624783",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar",

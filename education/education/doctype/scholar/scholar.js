@@ -5,6 +5,7 @@ frappe.ui.form.on('Scholar', {
   refresh: (frm) => {
     frm.trigger('set_sub_county_filters')
     frm.trigger('set_ward_filters')
+    frm.trigger('showSchoolTransferDetails')
   },
 
   county: (frm) => {
@@ -35,4 +36,10 @@ frappe.ui.form.on('Scholar', {
       }
     })
   },
+
+  showSchoolTransferDetails(frm) {
+    if(frm.doc.scholar_transfer_details.length){
+      frm.set_df_property('scholar_transfer_details', 'hidden', 0)
+    }
+  }
 })
