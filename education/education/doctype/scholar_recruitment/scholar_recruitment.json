@@ -168,7 +168,7 @@
    "fieldname": "recommender_department",
    "fieldtype": "Link",
    "label": "Recommender Department",
-   "options": "Department"
+   "options": "Recommender Department"
   },
   {
    "fieldname": "reason_for_recommending",
@@ -268,7 +268,7 @@
    "link_fieldname": "scholar_recruitment"
   }
  ],
- "modified": "2026-03-09 09:53:53.275064",
+ "modified": "2026-03-12 09:52:29.947380",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar Recruitment",

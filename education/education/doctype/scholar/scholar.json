@@ -353,7 +353,7 @@
   {
    "fieldname": "school_section",
    "fieldtype": "Section Break",
-   "label": "School "
+   "label": "School Details"
   }
  ],
  "grid_page_length": 50,
@@ -380,7 +380,7 @@
    "link_fieldname": "scholar"
   }
  ],
- "modified": "2026-03-11 16:43:42.624783",
+ "modified": "2026-03-12 06:06:20.725412",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar",
