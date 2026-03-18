@@ -10,8 +10,8 @@
   "county_of_residence",
   "previous_school",
   "column_break_jcyp",
-  "transfer_date",
-  "proof_of_attachment",
+  "transfer_request_date",
+  "attachment",
   "section_break_tjhm",
   "reason_for_transfer",
   "column_break_fctn",
@@ -44,15 +44,6 @@
   {
    "fieldname": "column_break_jcyp",
    "fieldtype": "Column Break"
-  },
-  {
-   "default": "Today",
-   "fieldname": "transfer_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Transfer Date",
-   "reqd": 1
   },
   {
    "fieldname": "section_break_cmge",
@@ -91,32 +82,42 @@
    "read_only": 1
   },
   {
-   "fieldname": "proof_of_attachment",
-   "fieldtype": "Attach",
-   "label": "Proof of Attachment",
-   "no_copy": 1,
-   "reqd": 1
-  },
-  {
    "fieldname": "section_break_tjhm",
    "fieldtype": "Section Break"
   },
   {
    "fieldname": "reason_for_transfer",
-   "fieldtype": "Small Text",
+   "fieldtype": "Link",
    "label": "Reason for Transfer",
-   "no_copy": 1
+   "no_copy": 1,
+   "options": "Scholar Transfer Reason"
   },
   {
    "fieldname": "column_break_fctn",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "transfer_request_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Transfer Request Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment",
+   "no_copy": 1,
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-03-11 09:49:30.835094",
+ "modified": "2026-03-18 11:56:16.701732",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar Transfer",

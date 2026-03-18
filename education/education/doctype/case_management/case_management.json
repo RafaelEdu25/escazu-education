@@ -7,24 +7,27 @@
  "field_order": [
   "details_section",
   "scholar",
-  "cohort",
-  "primary_caregiver_name",
-  "case_report_date",
+  "recommender_department",
+  "primary_guardian_name",
+  "relationship_to_student",
   "column_break_wmxr",
   "student_name",
-  "class",
-  "primary_caregiver_contact",
-  "case_closure_date",
+  "reason_for_recommending",
+  "primary_guardian_contact",
+  "cohort",
   "column_break_andn",
   "company",
   "official_school_name",
-  "case_reported_by",
-  "case_status",
+  "class",
   "case_details_section",
   "case_manager",
+  "case_reported_by",
+  "case_report_date",
   "case_plan",
   "column_break_onrn",
   "case_type",
+  "case_status",
+  "case_closure_date",
   "case_outcome",
   "section_break_atgo",
   "amended_from"
@@ -114,21 +117,11 @@
    "options": "Pending\nOngoing\nClosed"
   },
   {
-   "fetch_from": "scholar.guardian_name",
-   "fieldname": "primary_caregiver_name",
-   "fieldtype": "Data",
-   "label": "Primary Caregiver Name"
-  },
-  {
-   "fetch_from": "scholar.guardian_contact",
-   "fieldname": "primary_caregiver_contact",
-   "fieldtype": "Data",
-   "label": "Primary Caregiver Contact"
-  },
-  {
    "fieldname": "case_reported_by",
-   "fieldtype": "Data",
-   "label": "Case Reported By"
+   "fieldtype": "Link",
+   "label": "Case Reported By",
+   "options": "User",
+   "read_only": 1
   },
   {
    "fieldname": "case_details_section",
@@ -139,8 +132,7 @@
    "fieldname": "case_manager",
    "fieldtype": "Link",
    "label": "Case Manager",
-   "options": "User",
-   "read_only": 1
+   "options": "User"
   },
   {
    "fieldname": "case_plan",
@@ -176,13 +168,49 @@
   {
    "fieldname": "section_break_atgo",
    "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "scholar.guardian_name",
+   "fieldname": "primary_guardian_name",
+   "fieldtype": "Data",
+   "label": "Primary Guardian Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "scholar.guardian_contact",
+   "fieldname": "primary_guardian_contact",
+   "fieldtype": "Data",
+   "label": "Primary Guardian Contact",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "scholar.relationship_to_student",
+   "fieldname": "relationship_to_student",
+   "fieldtype": "Data",
+   "label": "Relationship To Student",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "scholar.recommender_department",
+   "fieldname": "recommender_department",
+   "fieldtype": "Link",
+   "label": "Recommender Department",
+   "options": "Recommender Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reason_for_recommending",
+   "fieldtype": "Link",
+   "label": "Reason for Recommending",
+   "options": "Award Category",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-02-25 12:51:55.648827",
+ "modified": "2026-03-18 13:55:59.812370",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Case Management",
