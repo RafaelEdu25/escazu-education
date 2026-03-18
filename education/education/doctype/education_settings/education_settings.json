@@ -14,6 +14,8 @@
   "academic_term_reqd",
   "user_creation_skip",
   "auto_promote_scholars",
+  "validate_case_plan_outcome_on_submit",
+  "update_scholar_status_on_case_close",
   "accounting_section",
   "create_so",
   "column_break_aimg",
@@ -191,15 +193,29 @@
   },
   {
    "default": "1",
-   "description": "By default, Scholars are auto promoted to the next Program(class)",
+   "description": "If enabled, Scholars are auto promoted to the next Program(class)",
    "fieldname": "auto_promote_scholars",
    "fieldtype": "Check",
    "label": "Auto Promote Scholars"
+  },
+  {
+   "default": "0",
+   "description": "If enabled, Case Plan and Case Outcome will be validated before a Case Management is submitted",
+   "fieldname": "validate_case_plan_outcome_on_submit",
+   "fieldtype": "Check",
+   "label": "Validate Case Plan and Case Outcome on submit"
+  },
+  {
+   "default": "0",
+   "description": "If enabled, Scholar Status will be updated when a Case Management is submitted",
+   "fieldname": "update_scholar_status_on_case_close",
+   "fieldtype": "Check",
+   "label": "Update Scholar Status on Case Close"
   }
  ],
  "issingle": 1,
  "links": [],
- "modified": "2026-02-25 12:32:47.287222",
+ "modified": "2026-03-18 13:53:06.968748",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Education Settings",

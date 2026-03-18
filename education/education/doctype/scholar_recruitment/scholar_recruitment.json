@@ -6,12 +6,14 @@
  "engine": "InnoDB",
  "field_order": [
   "student_name",
+  "status",
   "circumstance_of_residence",
   "donor",
   "column_break_xsis",
   "company",
-  "status",
-  "application_date",
+  "scholarship_type",
+  "year_of_onboarding",
+  "entry_date",
   "student_address_section",
   "county",
   "sub_county",
@@ -197,8 +199,9 @@
   },
   {
    "fieldname": "relationship_to_student",
-   "fieldtype": "Data",
-   "label": "Relationship to Student"
+   "fieldtype": "Link",
+   "label": "Relationship to Student",
+   "options": "Guardian Relationship"
   },
   {
    "fieldname": "donor",
@@ -232,13 +235,6 @@
    "reqd": 1
   },
   {
-   "default": "Today",
-   "fieldname": "application_date",
-   "fieldtype": "Date",
-   "label": "Entry Date",
-   "reqd": 1
-  },
-  {
    "fetch_from": "official_school_name.public_or_private",
    "fieldname": "public_or_private",
    "fieldtype": "Data",
@@ -257,6 +253,29 @@
    "fieldtype": "Tab Break",
    "label": "Connections",
    "show_dashboard": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "entry_date",
+   "fieldtype": "Date",
+   "label": "Entry Date",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "year_of_onboarding",
+   "fieldtype": "Link",
+   "label": "Year of Onboarding",
+   "options": "Fiscal Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "scholarship_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Scholarship Type",
+   "options": "Scholarship Type",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
@@ -268,7 +287,7 @@
    "link_fieldname": "scholar_recruitment"
   }
  ],
- "modified": "2026-03-12 09:52:29.947380",
+ "modified": "2026-03-18 11:38:33.180502",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar Recruitment",
