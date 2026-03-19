@@ -208,7 +208,7 @@
   },
   {
    "fieldname": "recommender_contact",
-   "fieldtype": "Phone",
+   "fieldtype": "Data",
    "label": "Recommender Contact"
   },
   {
@@ -395,7 +395,7 @@
    "link_fieldname": "scholar"
   }
  ],
- "modified": "2026-03-18 11:36:08.396767",
+ "modified": "2026-03-19 13:58:33.440059",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar",
