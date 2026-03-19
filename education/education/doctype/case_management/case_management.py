@@ -30,8 +30,6 @@ class CaseManagement(Document):
 		if not update_scholar_status_on_case_close:
 			return
 
-		scholar_status = frappe.db.get_value("Case Type", self.case_type, "scholar_status")
+		scholar_status = frappe.db.get_value("NL Case Type", self.case_type, "scholar_status")
 		if not frappe.db.get_value("Scholar", self.scholar, "status") == scholar_status:
 			frappe.db.set_value("Scholar", self.scholar, "status", scholar_status)
-
-		# Add setting to bypass case plan/outcome checks

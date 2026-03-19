@@ -1,19 +1,33 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2026-03-19 16:34:17.860320",
+ "creation": "2026-01-21 11:30:17.202143",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "status"
+  "current_status",
+  "column_break_xdbp",
+  "final_status"
  ],
  "fields": [
   {
-   "fieldname": "status",
+   "fieldname": "current_status",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Status",
+   "label": "Current Status",
+   "options": "Scholar Status",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_xdbp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "final_status",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Final Status",
    "options": "Scholar Status",
    "reqd": 1
   }
@@ -22,15 +36,15 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-03-19 16:34:48.789882",
+ "modified": "2026-03-19 12:48:02.014481",
  "modified_by": "Administrator",
  "module": "Education",
- "name": "Eligible Status",
+ "name": "Status Progression",
  "owner": "Administrator",
  "permissions": [],
  "row_format": "Dynamic",
  "rows_threshold_for_grid_search": 20,
- "sort_field": "creation",
+ "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
 }
