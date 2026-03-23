@@ -138,8 +138,9 @@
    "options": "NL County"
   },
   {
+   "fetch_from": "official_school_name.custom_accommodation_type",
    "fieldname": "day_or_boarding",
-   "fieldtype": "Select",
+   "fieldtype": "Data",
    "label": "Day/Boarding",
    "options": "Day\nBoarding"
   },
@@ -287,7 +288,7 @@
    "link_fieldname": "scholar_recruitment"
   }
  ],
- "modified": "2026-03-18 11:38:33.180502",
+ "modified": "2026-03-23 22:57:05.885293",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar Recruitment",
