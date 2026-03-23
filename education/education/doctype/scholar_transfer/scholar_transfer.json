@@ -8,13 +8,22 @@
   "scholar",
   "student_name",
   "county_of_residence",
-  "previous_school",
   "column_break_jcyp",
   "transfer_request_date",
-  "attachment",
-  "section_break_tjhm",
   "reason_for_transfer",
-  "column_break_fctn",
+  "attachment",
+  "from_school_details_section",
+  "from_school",
+  "from_public_or_private",
+  "column_break_xflk",
+  "from_county_of_school",
+  "from_day_or_boarding",
+  "to_school_details_section",
+  "to_school",
+  "to_public_or_private",
+  "column_break_nnzx",
+  "to_county_of_school",
+  "to_day_or_boarding",
   "section_break_cmge",
   "transfer_details",
   "section_break_jyi1",
@@ -52,9 +61,9 @@
   {
    "fieldname": "transfer_details",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Scholar Transfer Details",
-   "options": "Scholar Property History",
-   "reqd": 1
+   "options": "Scholar Property History"
   },
   {
    "fieldname": "scholar",
@@ -74,27 +83,11 @@
    "read_only": 1
   },
   {
-   "fetch_from": "scholar.official_school_name",
-   "fieldname": "previous_school",
-   "fieldtype": "Link",
-   "label": "Previous School ",
-   "options": "Supplier",
-   "read_only": 1
-  },
-  {
-   "fieldname": "section_break_tjhm",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "reason_for_transfer",
    "fieldtype": "Link",
    "label": "Reason for Transfer",
    "no_copy": 1,
    "options": "Scholar Transfer Reason"
-  },
-  {
-   "fieldname": "column_break_fctn",
-   "fieldtype": "Column Break"
   },
   {
    "default": "Today",
@@ -109,15 +102,84 @@
    "fieldname": "attachment",
    "fieldtype": "Attach",
    "label": "Attachment",
-   "no_copy": 1,
-   "reqd": 1
+   "no_copy": 1
+  },
+  {
+   "fieldname": "from_school_details_section",
+   "fieldtype": "Section Break",
+   "label": "From School Details "
+  },
+  {
+   "fetch_from": "scholar.official_school_name",
+   "fieldname": "from_school",
+   "fieldtype": "Link",
+   "label": "From School ",
+   "options": "Supplier",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_xflk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "from_school.county_of_school",
+   "fieldname": "from_county_of_school",
+   "fieldtype": "Link",
+   "label": "County of School",
+   "options": "NL County"
+  },
+  {
+   "fetch_from": "from_school.public_or_private",
+   "fieldname": "from_public_or_private",
+   "fieldtype": "Data",
+   "label": "Public/Private"
+  },
+  {
+   "fetch_from": "from_school.custom_accomodation",
+   "fieldname": "from_day_or_boarding",
+   "fieldtype": "Data",
+   "label": "Day/Boarding"
+  },
+  {
+   "fieldname": "to_school_details_section",
+   "fieldtype": "Section Break",
+   "label": "To School Details"
+  },
+  {
+   "fieldname": "to_school",
+   "fieldtype": "Link",
+   "label": "To School",
+   "options": "Supplier"
+  },
+  {
+   "fetch_from": "to_school.public_or_private",
+   "fieldname": "to_public_or_private",
+   "fieldtype": "Data",
+   "label": "Public/Private"
+  },
+  {
+   "fieldname": "column_break_nnzx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "to_school.county_of_school",
+   "fieldname": "to_county_of_school",
+   "fieldtype": "Link",
+   "label": "County of School",
+   "options": "NL County"
+  },
+  {
+   "fetch_from": "to_school.custom_accomodation",
+   "fieldname": "to_day_or_boarding",
+   "fieldtype": "Data",
+   "label": "Day/Boarding"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-03-18 11:56:16.701732",
+ "modified": "2026-03-23 12:00:36.098287",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar Transfer",
