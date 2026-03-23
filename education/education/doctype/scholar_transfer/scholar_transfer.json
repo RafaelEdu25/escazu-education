@@ -135,7 +135,7 @@
    "label": "Public/Private"
   },
   {
-   "fetch_from": "from_school.custom_accomodation",
+   "fetch_from": "from_school.custom_accommodation_type",
    "fieldname": "from_day_or_boarding",
    "fieldtype": "Data",
    "label": "Day/Boarding"
@@ -169,7 +169,7 @@
    "options": "NL County"
   },
   {
-   "fetch_from": "to_school.custom_accomodation",
+   "fetch_from": "to_school.custom_accommodation_type",
    "fieldname": "to_day_or_boarding",
    "fieldtype": "Data",
    "label": "Day/Boarding"
@@ -179,7 +179,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-03-23 12:00:36.098287",
+ "modified": "2026-03-23 22:53:59.728520",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar Transfer",
