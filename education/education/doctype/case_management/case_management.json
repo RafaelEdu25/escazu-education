@@ -20,12 +20,13 @@
   "official_school_name",
   "class",
   "case_details_section",
-  "case_manager",
+  "case_type",
   "case_reported_by",
   "case_report_date",
   "case_plan",
   "column_break_onrn",
-  "case_type",
+  "case_manager",
+  "validate_case_type_and_case_plan",
   "case_status",
   "case_closure_date",
   "case_outcome",
@@ -118,10 +119,8 @@
   },
   {
    "fieldname": "case_reported_by",
-   "fieldtype": "Link",
-   "label": "Case Reported By",
-   "options": "User",
-   "read_only": 1
+   "fieldtype": "Data",
+   "label": "Case Reported By"
   },
   {
    "fieldname": "case_details_section",
@@ -132,7 +131,8 @@
    "fieldname": "case_manager",
    "fieldtype": "Link",
    "label": "Case Manager",
-   "options": "User"
+   "options": "User",
+   "read_only": 1
   },
   {
    "fieldname": "case_plan",
@@ -204,13 +204,22 @@
    "label": "Reason for Recommending",
    "options": "Award Category",
    "read_only": 1
+  },
+  {
+   "default": "0",
+   "fetch_from": "case_type.validate_case_plan_and_case_outcome",
+   "fieldname": "validate_case_type_and_case_plan",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Validate Case Type and Case Plan",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-03-18 13:55:59.812370",
+ "modified": "2026-03-25 08:58:32.242081",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Case Management",
