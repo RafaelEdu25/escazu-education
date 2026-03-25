@@ -9,14 +9,14 @@ from frappe import _
 
 class CaseManagement(Document):
 	def validate(self):
-		if not self.case_reported_by:
-			self.case_reported_by = frappe.session.user
+		if not self.case_manager:
+			self.case_manager = frappe.session.user
+
+		if self.case_status == "Closed" and not self.case_closure_date:
+			frappe.throw(_("Case Closure Date must be set when Case Status is 'Closed'."))
 
 	def before_submit(self):
-		validate_case_plan_outcome = frappe.db.get_single_value(
-			"Education Settings", "validate_case_plan_outcome_on_submit"
-		)
-		if validate_case_plan_outcome:
+		if self.validate_case_type_and_case_plan:
 			if not self.case_plan or not self.case_outcome:
 				frappe.throw(_("Case Plan and Case Outcome must be filled before submitting."))
 

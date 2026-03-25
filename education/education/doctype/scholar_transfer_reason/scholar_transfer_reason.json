@@ -6,7 +6,8 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "transfer_reason"
+  "transfer_reason",
+  "description"
  ],
  "fields": [
   {
@@ -14,12 +15,17 @@
    "fieldtype": "Data",
    "label": "Transfer Reason",
    "unique": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-03-18 11:48:47.675331",
+ "modified": "2026-03-25 07:54:41.910651",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar Transfer Reason",

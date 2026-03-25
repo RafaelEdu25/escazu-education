@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "scholar_status",
+  "validate_case_plan_and_case_outcome",
   "description"
  ],
  "fields": [
@@ -22,12 +23,18 @@
    "label": "Scholar Status",
    "options": "Scholar Status",
    "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "validate_case_plan_and_case_outcome",
+   "fieldtype": "Check",
+   "label": "Validate Case Plan and Case Outcome"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-02-23 08:44:07.297379",
+ "modified": "2026-03-25 08:10:41.957592",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "NL Case Type",
