@@ -56,6 +56,8 @@
   {
    "fieldname": "student_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Student Name",
    "reqd": 1
   },
@@ -72,6 +74,8 @@
   {
    "fieldname": "status",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Scholarship Status",
    "options": "Scholar Status",
    "reqd": 1
@@ -84,6 +88,8 @@
   {
    "fieldname": "county",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "County",
    "options": "NL County",
    "reqd": 1
@@ -91,6 +97,7 @@
   {
    "fieldname": "sub_county",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Sub County",
    "options": "NL Sub County",
    "reqd": 1
@@ -119,6 +126,8 @@
   {
    "fieldname": "current_class",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Current Class",
    "options": "Program",
    "reqd": 1
@@ -126,6 +135,8 @@
   {
    "fieldname": "official_school_name",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Official School Name",
    "options": "Supplier",
    "reqd": 1
@@ -134,6 +145,8 @@
    "fetch_from": "official_school_name.county_of_school",
    "fieldname": "county_of_school",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "County of School",
    "options": "NL County"
   },
@@ -141,8 +154,9 @@
    "fetch_from": "official_school_name.custom_accommodation_type",
    "fieldname": "day_or_boarding",
    "fieldtype": "Data",
-   "label": "Day/Boarding",
-   "options": "Day\nBoarding"
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Day/Boarding"
   },
   {
    "fieldname": "column_break_ozta",
@@ -231,6 +245,7 @@
   {
    "fieldname": "promotion_rule",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Promotion Rule",
    "options": "Scholarship Promotion Rule",
    "reqd": 1
@@ -239,8 +254,7 @@
    "fetch_from": "official_school_name.public_or_private",
    "fieldname": "public_or_private",
    "fieldtype": "Data",
-   "label": "Public/Private",
-   "options": "Public\nPrivate"
+   "label": "Public/Private"
   },
   {
    "fieldname": "cohort",
@@ -274,6 +288,7 @@
    "fieldname": "scholarship_type",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Scholarship Type",
    "options": "Scholarship Type",
    "reqd": 1
@@ -288,7 +303,7 @@
    "link_fieldname": "scholar_recruitment"
   }
  ],
- "modified": "2026-03-23 22:57:05.885293",
+ "modified": "2026-04-01 07:32:08.298352",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Scholar Recruitment",
