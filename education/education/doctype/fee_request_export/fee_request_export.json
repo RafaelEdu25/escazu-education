@@ -1,0 +1,151 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "FRE-.YYYY.-.####",
+ "creation": "2026-04-07 09:49:38.247724",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "filters_section",
+  "academic_year",
+  "bank",
+  "column_break_rita",
+  "academic_term",
+  "column_break_upjz",
+  "company",
+  "section_break_afvp",
+  "get_fee_requests",
+  "section_break_hrso",
+  "kcb_fee_requests",
+  "section_break_omia",
+  "standard_chartered_fee_requests",
+  "section_break_wnta",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_wnta",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Fee Request Export",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "description": "Bank template to use",
+   "fieldname": "bank",
+   "fieldtype": "Select",
+   "label": "Bank",
+   "options": "Standard Chartered\nKCB",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_rita",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_hrso",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.bank===\"KCB\";",
+   "fieldname": "kcb_fee_requests",
+   "fieldtype": "Table",
+   "label": "Fee Requests",
+   "mandatory_depends_on": "eval:doc.bank===\"KCB\";",
+   "options": "KCB Fee Request Export Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_omia",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.bank===\"Standard Chartered\";",
+   "fieldname": "standard_chartered_fee_requests",
+   "fieldtype": "Table",
+   "label": "Fee Requests",
+   "mandatory_depends_on": "eval:doc.bank===\"Standard Chartered\";",
+   "options": "Standard Chartered Fee Request Export Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "filters_section",
+   "fieldtype": "Section Break",
+   "label": "Filters"
+  },
+  {
+   "fieldname": "column_break_upjz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_afvp",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.docstatus===0;",
+   "fieldname": "get_fee_requests",
+   "fieldtype": "Button",
+   "label": "Get Fee Requests"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-04-07 18:12:51.554909",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Fee Request Export",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

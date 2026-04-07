@@ -34,6 +34,9 @@
   "payments",
   "section_break_bedg",
   "payment_status",
+  "exported_for_payment",
+  "column_break_moaj",
+  "exported_for_payment_on",
   "connections_tab"
  ],
  "fields": [
@@ -75,7 +78,8 @@
    "fieldtype": "Link",
    "in_standard_filter": 1,
    "label": "Company",
-   "options": "Company"
+   "options": "Company",
+   "reqd": 1
   },
   {
    "fetch_from": "scholar.current_class",
@@ -226,6 +230,24 @@
    "fieldtype": "Tab Break",
    "label": "Connections",
    "show_dashboard": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "exported_for_payment",
+   "fieldtype": "Check",
+   "label": "Exported for Payment",
+   "read_only": 1
+  },
+  {
+   "fieldname": "exported_for_payment_on",
+   "fieldtype": "Link",
+   "label": "Exported for Payment on",
+   "options": "Fee Request Export",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_moaj",
+   "fieldtype": "Column Break"
   }
  ],
  "grid_page_length": 50,
@@ -237,7 +259,7 @@
    "link_fieldname": "fee_request"
   }
  ],
- "modified": "2026-02-23 16:49:52.582654",
+ "modified": "2026-04-07 17:42:14.017921",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Fee Request",
