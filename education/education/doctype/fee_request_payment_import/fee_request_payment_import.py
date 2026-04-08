@@ -1,0 +1,192 @@
+# Copyright (c) 2026, Frappe Technologies Pvt. Ltd. and contributors
+# For license information, please see license.txt
+
+import csv
+import openpyxl
+from io import BytesIO
+
+import frappe
+from frappe.model.document import Document
+
+
+class FeeRequestPaymentImport(Document):
+	def before_save(self):
+		if self.payments:
+			total_amount = sum(p.amount for p in self.payments)
+			self.total_amount = total_amount
+
+	def on_submit(self):
+		if not self.payments:
+			frappe.throw("No payments to process.")
+
+		for payment in self.payments:
+			try:
+				frp = frappe.get_doc(
+					{
+						"doctype": "Fee Request Payment",
+						"fee_request": payment.fee_request,
+						"scholar": payment.scholar,
+						"paid_amount": payment.amount,
+						"academic_year": self.academic_year,
+						"academic_term": self.academic_term,
+					}
+				)
+				frp.save(ignore_permissions=True)
+				frp.submit()
+				payment.db_set("payment_created", True)
+			except Exception as e:
+				frappe.log_error(frappe.get_traceback(), "Payment Record Creation Failed")
+
+
+@frappe.whitelist()
+def process_payment_file(docname):
+	doc = frappe.get_doc("Fee Request Payment Import", docname)
+
+	if not doc.payment_file:
+		frappe.throw("Please attach a payment file.")
+
+	doc.status = "Processing"
+	doc.save(ignore_permissions=True)
+
+	try:
+		# file_path = frappe.get_site_path("private", "files", doc.payment_file)
+		file_path = frappe.get_site_path(doc.payment_file.lstrip("/files/"))  # noqa: B005
+		rows = read_file(file_path)
+		bank = doc.bank
+
+		payments = parse_file(rows, bank)
+
+		doc.set("payments", [])  # Clear existing payments if any
+		for payment in payments:
+			doc.append("payments", payment)
+
+		doc.status = "Completed"
+		doc.save(ignore_permissions=True)
+	except Exception as e:
+		doc.status = "Failed"
+		doc.save(ignore_permissions=True)
+		frappe.log_error(frappe.get_traceback(), "Payment Import Failed")
+		frappe.throw(str(e))
+
+
+def read_file(file_path):
+	if file_path.endswith(".csv"):
+		with open(file_path, newline="", encoding="utf-8") as f:
+			return list(csv.reader(f))
+
+	elif file_path.endswith(".xlsx"):
+		wb = openpyxl.load_workbook(file_path)
+		ws = wb.active
+		return [[cell.value for cell in row] for row in ws.iter_rows()]
+
+	else:
+		frappe.throw("Unsupported file format")
+
+
+def parse_file(rows, bank):
+	if bank == "KCB":
+		return parse_kcb(rows)
+	elif bank == "Standard Chartered":
+		return parse_standard_chartered(rows)
+	else:
+		frappe.throw("Unsupported bank")
+
+
+def find_header_index(rows, expected_header):
+	for i, row in enumerate(rows):
+		if expected_header in row:
+			return i, row
+	frappe.throw(f"Header '{expected_header}' not found")
+
+
+# KCB
+def parse_kcb(rows):
+	header_index, headers = find_header_index(rows, "Description")
+	idx = {h: i for i, h in enumerate(headers)}
+
+	data = []
+	for row in rows[header_index + 1 :]:
+		if not any(row):
+			continue
+
+		description = row[idx["Description"]]
+		parsed = parse_kcb_description(description)
+		if not parsed:
+			continue
+
+		details = parsed.get("beneficiary_reference").split("|")
+		data.append(
+			{
+				"scholar": details[1] if len(details) > 1 else None,
+				"fee_request": details[0] if len(details) > 0 else None,
+				"amount": float(
+					parsed.get("transfer_amount")
+					.replace(",", "")
+					.replace(" KES", "")
+					.replace("Sh", "")
+					.strip()
+					or 0
+				),
+			}
+		)
+
+	return data
+
+
+def parse_kcb_description(description):
+	"""
+	Convert multi-line description into dict
+	"""
+	result = {}
+
+	if not description:
+		return result
+
+	lines = description.split("\n")
+
+	for line in lines:
+		if ":" not in line:
+			continue
+
+		key, value = line.split(":", 1)
+		key = key.strip().lower().replace(" ", "_")
+		value = value.strip()
+
+		result[key] = value
+
+	return result
+
+
+# Standard Chartered
+def parse_standard_chartered(rows):
+	header_index, headers = find_header_index(rows, "Payment Details in English 1")
+	idx = {h: i for i, h in enumerate(headers)}
+
+	data = []
+	for row in rows[header_index + 1 :]:
+		if not any(row):
+			continue
+
+		if (
+			row[idx["Payment Details in English 1"]] == ""
+			or row[idx["Payment Details in English 1"]] is None
+		):
+			continue
+
+		details = row[idx["Payment Details in English 1"]].split("|")
+		data.append(
+			{
+				"scholar": details[1] if len(details) > 1 else None,
+				"fee_request": details[0] if len(details) > 0 else None,
+				"amount": float(
+					row[idx["Payment Amount"]]
+					.replace(",", "")
+					.replace(" KES", "")
+					.replace("Sh", "")
+					.strip()
+					or 0
+				),
+			}
+		)
+
+	return data

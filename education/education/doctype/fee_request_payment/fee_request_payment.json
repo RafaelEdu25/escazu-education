@@ -12,6 +12,7 @@
   "column_break_iqap",
   "student_name",
   "posting_date",
+  "fee_request_payment_import",
   "column_break_ekbm",
   "company",
   "fee_request",
@@ -147,13 +148,20 @@
   {
    "fieldname": "column_break_mzxc",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fee_request_payment_import",
+   "fieldtype": "Link",
+   "label": "Fee Request Payment Import",
+   "options": "Fee Request Payment Import",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-02-24 08:14:53.461994",
+ "modified": "2026-04-08 13:38:10.007474",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Fee Request Payment",
