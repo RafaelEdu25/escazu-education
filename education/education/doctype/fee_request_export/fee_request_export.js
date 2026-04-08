@@ -6,6 +6,33 @@ frappe.ui.form.on('Fee Request Export', {
     frm.ignore_doctypes_on_cancel_all = ['Fee Request']
   },
 
+  refresh(frm) {
+    if (frm.doc.docstatus === 1) {
+      frm.add_custom_button('Export Fee Requests', () => {
+        frappe.prompt(
+          [
+            {
+              fieldname: 'format',
+              label: 'Format',
+              fieldtype: 'Select',
+              options: ['Excel', 'CSV'],
+              default: 'Excel',
+              reqd: 1,
+            },
+          ],
+          (values) => {
+            const format = values.format.toLowerCase()
+
+            const url = `/api/method/education.education.doctype.fee_request_export.fee_request_export.export_fee_requests?export_docname=${frm.doc.name}&format=${format}`
+
+            window.open(url)
+          },
+          'Export Format'
+        )
+      })
+    }
+  },
+
   before_save: function (frm, cdt, cdn) {
     if (frm.doc.bank === 'Standard Chartered') {
       frm.doc.standard_chartered_fee_requests.forEach((row) => {
@@ -108,3 +135,43 @@ frappe.ui.form.on('Fee Request Export', {
     })
   },
 })
+
+function export_items_excel(frm) {
+  frappe.call({
+    method:
+      'education.education.doctype.fee_request_export.fee_request_export.export_fee_requests',
+    args: {
+      export_docname: frm.doc.name,
+      format: 'excel',
+    },
+    callback: function (r) {
+      if (r.message) {
+        window.open(r.message.file_url)
+        frappe.show_alert({
+          message: __('Excel file generated successfully'),
+          indicator: 'green',
+        })
+      }
+    },
+  })
+}
+
+function export_items_csv(frm) {
+  frappe.call({
+    method:
+      'education.education.doctype.fee_request_export.fee_request_export.export_fee_requests',
+    args: {
+      export_docname: frm.doc.name,
+      format: 'csv',
+    },
+    callback: function (r) {
+      if (r.message) {
+        window.open(r.message.file_url)
+        frappe.show_alert({
+          message: __('CSV file generated successfully'),
+          indicator: 'green',
+        })
+      }
+    },
+  })
+}
