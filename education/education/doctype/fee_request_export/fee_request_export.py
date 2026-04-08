@@ -4,6 +4,11 @@
 import frappe
 from frappe.model.document import Document
 
+import openpyxl
+from io import BytesIO, StringIO
+from openpyxl.styles import Font, Alignment
+import csv
+
 
 class FeeRequestExport(Document):
 	@frappe.whitelist()
@@ -133,9 +138,6 @@ class FeeRequestExport(Document):
 					)
 
 	def on_cancel(self):
-		# self.ignore_linked_doctypes = (
-		#     "Fee Request"
-		# )
 		if self.bank == "Standard Chartered":
 			for row in self.standard_chartered_fee_requests:
 				if row.fee_request:
@@ -159,3 +161,153 @@ class FeeRequestExport(Document):
 							"exported_for_payment_on": None,
 						},
 					)
+
+
+@frappe.whitelist()
+def export_fee_requests(export_docname, format="excel"):
+	"""Main entry point"""
+
+	doc = frappe.get_doc("Fee Request Export", export_docname)
+
+	if not doc.kcb_fee_requests and not doc.standard_chartered_fee_requests:
+		frappe.throw("No fee requests to export")
+
+	headers, data = get_headers_and_data(doc)
+
+	if format.lower() == "excel":
+		stream_excel(doc.name, headers, data)
+	else:
+		stream_csv(doc.name, headers, data)
+
+
+def get_headers_and_data(doc):
+	if doc.bank == "Standard Chartered":
+		headers = [
+			"NAME",
+			"ACCOUNT NO",
+			"BANK CODE",
+			"BRANCH CODE",
+			"AMOUNT",
+			"EMAIL ADDRESS",
+			"DETAILS",
+		]
+
+		data = [
+			[
+				row.student_name,
+				row.account_number,
+				row.bank_code,
+				row.branch_code,
+				row.amount,
+				row.email_address,
+				row.details,
+			]
+			for row in doc.standard_chartered_fee_requests
+		]
+
+	elif doc.bank == "KCB":
+		headers = [
+			"Debit Account",
+			"Branch BIC/SORT Code",
+			"Beneficiary Name",
+			"Bank",
+			"Branch",
+			"BIC/SORT Code",
+			"Account Number",
+			"My Reference",
+			"Beneficiary Reference",
+			"Amount",
+			"SMS Notification",
+			"Email Notification",
+		]
+
+		data = [
+			[
+				row.debit_account,
+				row.branch_bicsort_code,
+				row.beneficiary_name,
+				row.bank,
+				row.branch,
+				row.bicsort_code,
+				row.account_number,
+				row.my_reference,
+				row.beneficiary_reference,
+				row.amount,
+				row.sms_notification,
+				row.email_notification,
+			]
+			for row in doc.kcb_fee_requests
+		]
+
+	else:
+		frappe.throw("Unsupported bank type")
+
+	return headers, data
+
+
+def stream_excel(name, headers, data):
+	wb = openpyxl.Workbook()
+	ws = wb.active
+	ws.title = "Fee Requests"
+
+	# Metadata
+	ws.append(["Fee Request Export", name])
+	ws.append(["Export Date:", frappe.utils.getdate()])
+	ws.append([])
+
+	header_font = Font(bold=True)
+	header_alignment = Alignment(horizontal="center", vertical="center")
+
+	# Headers
+	ws.append(headers)
+
+	header_row = ws.max_row
+	for col_num, header in enumerate(headers, 1):
+		cell = ws.cell(row=header_row, column=col_num)
+		cell.font = header_font
+		cell.alignment = header_alignment
+
+	for row in data:
+		ws.append(row)
+
+	# Auto column width
+	for column in ws.columns:
+		max_length = 0
+		col_letter = column[0].column_letter
+
+		for cell in column:
+			try:
+				if cell.value:
+					max_length = max(max_length, len(str(cell.value)))
+			except Exception as e:  # E722
+				frappe.log_error(title="Error while adjusting column width", message=e)
+
+		ws.column_dimensions[col_letter].width = min(max_length + 2, 50)
+
+	output = BytesIO()
+	wb.save(output)
+	output.seek(0)
+
+	frappe.response.filename = f"{name}_fee_requests.xlsx"
+	frappe.response.filecontent = output.getvalue()
+	frappe.response.type = "binary"
+
+
+def stream_csv(name, headers, data):
+	output = StringIO()
+	writer = csv.writer(output)
+
+	# Metadata
+	writer.writerow(["Fee Request Export:", name])
+	writer.writerow(["Export Date:", frappe.utils.getdate()])
+	writer.writerow([])
+
+	# Headers
+	writer.writerow(headers)
+
+	# Data
+	writer.writerows(data)
+
+	frappe.response.filename = f"{name}_fee_requests.csv"
+	frappe.response.filecontent = output.getvalue()
+	frappe.response.type = "csv"
