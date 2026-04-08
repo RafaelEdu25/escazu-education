@@ -89,13 +89,13 @@
    "fieldname": "sms_notification",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "SMS NOTIFICATION"
+   "label": "SMS Notification"
   },
   {
    "fieldname": "email_notification",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "EMAIL NOTIFICATION"
+   "label": "Email Notification"
   },
   {
    "fieldname": "column_break_ytge",
@@ -126,7 +126,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-04-07 17:36:40.397661",
+ "modified": "2026-04-08 13:45:45.870916",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "KCB Fee Request Export Item",

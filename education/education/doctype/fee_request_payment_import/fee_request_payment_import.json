@@ -1,0 +1,139 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "FR-PI-.YYYY.-.####",
+ "creation": "2026-04-08 11:02:25.402794",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "academic_year",
+  "bank",
+  "column_break_udks",
+  "academic_term",
+  "payment_file",
+  "column_break_yvnf",
+  "company",
+  "section_break_hoyf",
+  "payments",
+  "section_break_awho",
+  "total_amount",
+  "section_break_senm",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_senm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Fee Request Payment Import",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "bank",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Bank",
+   "options": "Standard Chartered\nKCB",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_udks",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Year",
+   "mask": 1,
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_hoyf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "payments",
+   "fieldtype": "Table",
+   "label": "Payments",
+   "options": "Fee Request Payment Import Item",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_yvnf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "description": "Either in Excel or CSV format",
+   "fieldname": "payment_file",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "Payment File",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_awho",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "options": "Company:default_currency:currency",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-04-08 13:25:59.356428",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Fee Request Payment Import",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
