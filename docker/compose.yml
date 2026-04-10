@@ -1,6 +1,6 @@
 x-app: &app
   image: ${IMAGE_NAME}:${VERSION}
-  pull_policy: ${PULL_POLICY}
+  #pull_policy: ${PULL_POLICY}
   deploy:
     restart_policy:
       condition: on-failure
@@ -31,8 +31,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/logs
-    networks:
-      - bench-network
+
     depends_on:
       db:
         condition: service_healthy
@@ -62,9 +61,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/logs
-    networks:
-      - bench-network
-      - dokploy-network          # necesario para que Traefik pueda alcanzar el servicio
+
     depends_on:
       backend:
         condition: service_healthy
@@ -89,8 +86,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/logs
-    networks:
-      - bench-network
+
     depends_on:
       db:
         condition: service_healthy
@@ -117,8 +113,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/logs
-    networks:
-      - bench-network
+
     depends_on:
       backend:
         condition: service_healthy
@@ -135,8 +130,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/logs
-    networks:
-      - bench-network
+
     depends_on:
       backend:
         condition: service_healthy
@@ -153,8 +147,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/logs
-    networks:
-      - bench-network
+
     depends_on:
       backend:
         condition: service_healthy
@@ -172,8 +165,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/logs
-    networks:
-      - bench-network
+
     depends_on:
       backend:
         condition: service_healthy
@@ -209,8 +201,7 @@ services:
       EDUCATION_REPO: ${EDUCATION_REPO}
     volumes:
       - sites:/home/frappe/frappe-bench/sites
-    networks:
-      - bench-network
+
     depends_on:
       db:
         condition: service_healthy
@@ -262,8 +253,7 @@ services:
       EDUCATION_REPO: ${EDUCATION_REPO}
     volumes:
       - sites:/home/frappe/frappe-bench/sites
-    networks:
-      - bench-network
+
     depends_on:
       db:
         condition: service_healthy
@@ -298,8 +288,7 @@ services:
     volumes:
       - sites:/home/frappe/frappe-bench/sites
       - logs:/home/frappe/logs
-    networks:
-      - bench-network
+
 
   # ── BASE DE DATOS ─────────────────────────────────────────────────────────
   db:
@@ -322,8 +311,7 @@ services:
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
       - db-data:/var/lib/mysql
-    networks:
-      - bench-network
+
 
   # ── REDIS ─────────────────────────────────────────────────────────────────
   redis-cache:
@@ -333,8 +321,7 @@ services:
         condition: on-failure
     volumes:
       - redis-cache-data:/data
-    networks:
-      - bench-network
+
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -348,8 +335,7 @@ services:
         condition: on-failure
     volumes:
       - redis-queue-data:/data
-    networks:
-      - bench-network
+
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
@@ -363,8 +349,3 @@ volumes:
   sites:
   logs:
 
-networks:
-  bench-network:
-    driver: bridge
-  dokploy-network:
-    external: true    # red que Dokploy/Traefik ya creó en el servidor
