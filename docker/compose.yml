@@ -347,5 +347,6 @@ volumes:
   redis-cache-data:
   redis-queue-data:
   sites:
+    external: true
   logs:
 
