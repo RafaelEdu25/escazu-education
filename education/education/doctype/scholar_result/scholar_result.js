@@ -3,6 +3,7 @@
 
 frappe.ui.form.on('Scholar Result', {
   refresh: function (frm) {
+    frm.get_field('details').grid.cannot_add_rows = true
     frm.trigger('set_filters')
   },
   academic_year: function (frm) {
@@ -39,5 +40,44 @@ frappe.ui.form.on('Scholar Result', {
         },
       }
     })
+  },
+
+  grading_scale: function (frm) {
+    if (frm.doc.grading_scale) {
+      frappe.model.clear_table(frm.doc, 'details')
+      var row = frm.add_child('details')
+      row.maximum_score = 100
+      frm.refresh_field('details')
+    }
+  },
+})
+
+frappe.ui.form.on('Scholar Result Detail', {
+  score: function (frm, cdt, cdn) {
+    var d = locals[cdt][cdn]
+
+    if (!frm.doc.grading_scale) {
+      d.score = ''
+      frappe.throw(
+        __('Please fill in all the details to generate Scholar Result.')
+      )
+    }
+
+    if (d.score > 100) {
+      frappe.throw(__('Score cannot be greater than 100'))
+    } else {
+      frappe.call({
+        method: 'education.education.api.get_grade',
+        args: {
+          grading_scale: frm.doc.grading_scale,
+          percentage: (d.score / d.maximum_score) * 100,
+        },
+        callback: function (r) {
+          if (r.message) {
+            frappe.model.set_value(cdt, cdn, 'grade', r.message)
+          }
+        },
+      })
+    }
   },
 })

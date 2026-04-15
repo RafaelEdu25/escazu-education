@@ -1,0 +1,66 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-04-15 07:15:24.613165",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "maximum_score",
+  "score",
+  "grade",
+  "position_in_class",
+  "total_students_in_class"
+ ],
+ "fields": [
+  {
+   "fieldname": "score",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Score",
+   "reqd": 1
+  },
+  {
+   "fieldname": "grade",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Grade",
+   "read_only": 1
+  },
+  {
+   "fieldname": "position_in_class",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Position in Class",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_students_in_class",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Total Students in Class",
+   "reqd": 1
+  },
+  {
+   "fieldname": "maximum_score",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Maximum Score",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-04-15 07:46:49.939992",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Scholar Result Detail",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
