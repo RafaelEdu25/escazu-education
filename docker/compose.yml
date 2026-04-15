@@ -1,15 +1,29 @@
 x-app: &app
-  image: ${IMAGE_NAME}:${VERSION}
-  #pull_policy: ${PULL_POLICY}
+  image: ${IMAGE_NAME:-frappe/erpnext}:${VERSION:-version-16}
   deploy:
     restart_policy:
       condition: on-failure
       max_attempts: 3
   environment:
-    - REDIS_CACHE=${REDIS_CACHE}
-    - REDIS_QUEUE=${REDIS_QUEUE}
-    - EDUCATION_REPO=${EDUCATION_REPO}
-    - INSTALL_EDUCATION=${INSTALL_EDUCATION}
+    - REDIS_CACHE=${REDIS_CACHE:-redis-cache:6379}
+    - REDIS_QUEUE=${REDIS_QUEUE:-redis-queue:6379}
+    - EDUCATION_REPO=${EDUCATION_REPO:-https://github.com/DevOpsEdupan/escazu-education}
+    - INSTALL_EDUCATION=${INSTALL_EDUCATION:-1}
+    - DB_HOST=${DB_HOST:-db}
+    - DB_PORT=${DB_PORT:-3306}
+    - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-admin}
+    - SITE_NAME=${SITE_NAME:-education}
+    - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
+    - GUNICORN_WORKERS=${GUNICORN_WORKERS:-2}
+    - APP_BRANCH=${APP_BRANCH:-version-16}
+    - FRAPPE_SITE_NAME_HEADER=${FRAPPE_SITE_NAME_HEADER:-host}
+    - UPSTREAM_REAL_IP_ADDRESS=${UPSTREAM_REAL_IP_ADDRESS:-0.0.0.0}
+    - CONFIGURE=${CONFIGURE:-0}
+    - CREATE_SITE=${CREATE_SITE:-0}
+    - MIGRATE=${MIGRATE:-0}
+    - INSTALL_APP_ARGS=${INSTALL_APP_ARGS:---install-app erpnext}
+    - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-admin}
+    - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
 
 services:
 
@@ -304,7 +318,7 @@ services:
       restart_policy:
         condition: on-failure
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--password=${DB_ROOT_PASSWORD}"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--password=${DB_ROOT_PASSWORD:-admin}"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -314,8 +328,8 @@ services:
       - --skip-character-set-client-handshake
       - --skip-innodb-read-only-compressed
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-admin}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-admin}
     volumes:
       - db-data:/var/lib/mysql
 
