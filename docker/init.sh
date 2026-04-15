@@ -25,7 +25,7 @@ sed -i '/redis/d' ./Procfile
 sed -i '/watch/d' ./Procfile
 
 bench get-app erpnext
-bench get-app --branch edupan https://github.com/DevOpsEdupan/escazu-education.git education
+bench get-app https://github.com/DevOpsEdupan/escazu-education --branch edupan
 
 bench new-site education.internal.edupan.dev \
 --force \
