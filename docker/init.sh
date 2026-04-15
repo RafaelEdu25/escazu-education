@@ -29,7 +29,7 @@ bench get-app education
 
 bench new-site education.localhost \
 --force \
---mariadb-root-password 123 \
+--mariadb-root-password ScureP@ssw0rd202020 \
 --admin-password admin \
 --no-mariadb-socket
 
@@ -38,6 +38,6 @@ bench --site education.localhost install-app education
 bench --site education.localhost set-config developer_mode 1
 bench --site education.localhost enable-scheduler
 bench --site education.localhost clear-cache
-bench use education.localhost
+bench use education.internal.edupan.dev
 
 bench start

@@ -1,366 +1,42 @@
-x-app: &app
-  image: ${IMAGE_NAME:-frappe/erpnext}:${VERSION:-version-16}
-  deploy:
-    restart_policy:
-      condition: on-failure
-      max_attempts: 3
-  environment:
-    - REDIS_CACHE=${REDIS_CACHE:-redis-cache:6379}
-    - REDIS_QUEUE=${REDIS_QUEUE:-redis-queue:6379}
-    - EDUCATION_REPO=${EDUCATION_REPO:-https://github.com/DevOpsEdupan/escazu-education}
-    - INSTALL_EDUCATION=${INSTALL_EDUCATION:-1}
-    - DB_HOST=${DB_HOST:-db}
-    - DB_PORT=${DB_PORT:-3306}
-    - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-admin}
-    - SITE_NAME=${SITE_NAME:-education}
-    - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
-    - GUNICORN_WORKERS=${GUNICORN_WORKERS:-2}
-    - APP_BRANCH=${APP_BRANCH:-version-16}
-    - FRAPPE_SITE_NAME_HEADER=${FRAPPE_SITE_NAME_HEADER:-host}
-    - UPSTREAM_REAL_IP_ADDRESS=${UPSTREAM_REAL_IP_ADDRESS:-0.0.0.0}
-    - CONFIGURE=${CONFIGURE:-0}
-    - CREATE_SITE=${CREATE_SITE:-0}
-    - MIGRATE=${MIGRATE:-0}
-    - INSTALL_APP_ARGS=${INSTALL_APP_ARGS:---install-app erpnext}
-    - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD:-admin}
-    - ADMIN_PASSWORD=${ADMIN_PASSWORD:-admin}
-
+version: '3.7'
+name: education
 services:
-
-  # ── BACKEND (Gunicorn) ────────────────────────────────────────────────────
-  backend:
-    <<: *app
-    entrypoint: ["bash", "-c"]
-    command:
-      - |
-        mkdir -p /home/frappe/logs
-        [[ $${INSTALL_EDUCATION} == "1" && ! -d "apps/education" ]] &&
-          bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO}
-        exec /home/frappe/frappe-bench/env/bin/gunicorn \
-          --chdir /home/frappe/frappe-bench \
-          --bind 0.0.0.0:8000 \
-          --workers ${GUNICORN_WORKERS} \
-          --timeout 120 \
-          frappe.app:application --preload
-    volumes:
-      - sites:/home/frappe/frappe-bench/sites
-      - logs:/home/frappe/logs
-
-    depends_on:
-      db:
-        condition: service_healthy
-      redis-cache:
-        condition: service_healthy
-      redis-queue:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wait-for-it", "0.0.0.0:8000"]
-      interval: 5s
-      timeout: 10s
-      retries: 30
-
-  # ── FRONTEND (Nginx) — expuesto via Traefik, sin ports hardcodeados ───────
-  frontend:
-    <<: *app
-    command: ["nginx-entrypoint.sh"]
-    environment:
-      BACKEND: backend:8000
-      FRAPPE_SITE_NAME_HEADER: ${FRAPPE_SITE_NAME_HEADER}
-      SOCKETIO: websocket:9000
-      UPSTREAM_REAL_IP_ADDRESS: ${UPSTREAM_REAL_IP_ADDRESS}
-      UPSTREAM_REAL_IP_HEADER: X-Forwarded-For
-      UPSTREAM_REAL_IP_RECURSIVE: "on"
-    expose:
-      - "8080"
-    volumes:
-      - sites:/home/frappe/frappe-bench/sites
-      
-
-    depends_on:
-      backend:
-        condition: service_healthy
-      websocket:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wait-for-it", "0.0.0.0:8080"]
-      interval: 5s
-      timeout: 30s
-      retries: 30
-
-  # ── WEBSOCKET (Socket.IO) ─────────────────────────────────────────────────
-  websocket:
-    <<: *app
-    entrypoint: ["bash", "-c"]
-    command:
-      - |
-        mkdir -p /home/frappe/logs
-        [[ $${INSTALL_EDUCATION} == "1" && ! -d "apps/education" ]] &&
-          bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO}
-exec node /home/frappe/frappe-bench/apps/frappe/socketio.js
-    volumes:
-      - sites:/home/frappe/frappe-bench/sites
-      - logs:/home/frappe/logs
-
-    depends_on:
-      db:
-        condition: service_healthy
-      redis-cache:
-        condition: service_healthy
-      redis-queue:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "wait-for-it", "0.0.0.0:9000"]
-      interval: 5s
-      timeout: 10s
-      retries: 30
-
-  # ── WORKERS ───────────────────────────────────────────────────────────────
-  queue-default:
-    <<: *app
-    entrypoint: ["bash", "-c"]
-    command:
-      - |
-        mkdir -p /home/frappe/logs
-        [[ $${INSTALL_EDUCATION} == "1" && ! -d "apps/education" ]] &&
-          bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO}
-        exec bench worker --queue default
-    volumes:
-      - sites:/home/frappe/frappe-bench/sites
-      
-
-    depends_on:
-      backend:
-        condition: service_healthy
-
-  queue-long:
-    <<: *app
-    entrypoint: ["bash", "-c"]
-    command:
-      - |
-        mkdir -p /home/frappe/logs
-        [[ $${INSTALL_EDUCATION} == "1" && ! -d "apps/education" ]] &&
-          bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO}
-        exec bench worker --queue long
-    volumes:
-      - sites:/home/frappe/frappe-bench/sites
-      
-
-    depends_on:
-      backend:
-        condition: service_healthy
-
-  queue-short:
-    <<: *app
-    entrypoint: ["bash", "-c"]
-    command:
-      - |
-        mkdir -p /home/frappe/logs
-        [[ $${INSTALL_EDUCATION} == "1" && ! -d "apps/education" ]] &&
-          bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO}
-        exec bench worker --queue short
-    volumes:
-      - sites:/home/frappe/frappe-bench/sites
-      
-
-    depends_on:
-      backend:
-        condition: service_healthy
-
-  # ── SCHEDULER ─────────────────────────────────────────────────────────────
-  scheduler:
-    <<: *app
-    entrypoint: ["bash", "-c"]
-    command:
-      - |
-        mkdir -p /home/frappe/logs
-        [[ $${INSTALL_EDUCATION} == "1" && ! -d "apps/education" ]] &&
-          bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO}
-        exec bench schedule
-    volumes:
-      - sites:/home/frappe/frappe-bench/sites
-      
-
-    depends_on:
-      backend:
-        condition: service_healthy
-
-  # ── JOBS ONE-OFF ──────────────────────────────────────────────────────────
-  # En Dokploy: antes del primer deploy pon CONFIGURE=1 en Environment,
-  # despliega, luego vuelve a 0. Idem para CREATE_SITE y MIGRATE.
-  configurator:
-    <<: *app
-    deploy:
-      mode: replicated
-      replicas: ${CONFIGURE}
-      restart_policy:
-        condition: none
-    entrypoint: ["bash", "-c"]
-    command:
-      - |
-        ls -1 apps > sites/apps.txt
-        bench set-config -g  db_host        $${DB_HOST}
-        bench set-config -gp db_port        $${DB_PORT}
-        bench set-config -g  redis_cache    "redis://$${REDIS_CACHE}"
-        bench set-config -g  redis_queue    "redis://$${REDIS_QUEUE}"
-        bench set-config -g  redis_socketio "redis://$${REDIS_QUEUE}"
-        bench set-config -gp socketio_port  9000
-        [[ $${INSTALL_EDUCATION} == "1" ]] &&
-          bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO} --overwrite
-    environment:
-      DB_HOST: ${DB_HOST}
-      DB_PORT: ${DB_PORT}
-      REDIS_CACHE: ${REDIS_CACHE}
-      REDIS_QUEUE: ${REDIS_QUEUE}
-      INSTALL_EDUCATION: ${INSTALL_EDUCATION}
-      EDUCATION_REPO: ${EDUCATION_REPO}
-    volumes:
-      - sites:/home/frappe/frappe-bench/sites
-      - logs:/home/frappe/logs
-
-    depends_on:
-      db:
-        condition: service_healthy
-      redis-cache:
-        condition: service_healthy
-      redis-queue:
-        condition: service_healthy
-
-  create-site:
-    <<: *app
-    deploy:
-      mode: replicated
-      replicas: ${CREATE_SITE}
-      restart_policy:
-        condition: none
-    entrypoint: ["bash", "-c"]
-    command:
-      - |
-        wait-for-it -t 120 $${DB_HOST}:$${DB_PORT}
-        wait-for-it -t 120 redis-cache:6379
-        wait-for-it -t 120 redis-queue:6379
-        start=$(date +%s)
-        until [[ -n $(grep -hs ^ sites/common_site_config.json | jq -r ".db_host    // empty") ]] &&
-              [[ -n $(grep -hs ^ sites/common_site_config.json | jq -r ".redis_cache // empty") ]] &&
-              [[ -n $(grep -hs ^ sites/common_site_config.json | jq -r ".redis_queue // empty") ]]; do
-          echo "Esperando common_site_config.json..."
-          sleep 5
-          (( $(date +%s) - start > 120 )) && echo "Timeout esperando config" && exit 1
-        done
-        [[ -d "sites/$${SITE_NAME}" ]] && echo "$${SITE_NAME} ya existe, saltando" && exit 0
-        [[ $${INSTALL_EDUCATION} == "1" ]] &&
-          bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO}
-        bench new-site \
-          --mariadb-user-host-login-scope='%' \
-          --admin-password=$${ADMIN_PASSWORD} \
-          --db-root-username=root \
-          --db-root-password=$${DB_ROOT_PASSWORD} \
-          $${INSTALL_APP_ARGS} \
-          $${SITE_NAME}
-        bench --site $${SITE_NAME} set-config -g default_site $${SITE_NAME}
-    environment:
-      SITE_NAME: ${SITE_NAME}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-      DB_HOST: ${DB_HOST}
-      DB_PORT: ${DB_PORT}
-      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      INSTALL_APP_ARGS: ${INSTALL_APP_ARGS}
-      INSTALL_EDUCATION: ${INSTALL_EDUCATION}
-      EDUCATION_REPO: ${EDUCATION_REPO}
-    volumes:
-      - sites:/home/frappe/frappe-bench/sites
-      - logs:/home/frappe/logs
-
-    depends_on:
-      db:
-        condition: service_healthy
-      redis-cache:
-        condition: service_healthy
-      redis-queue:
-        condition: service_healthy
-
-  migration:
-    <<: *app
-    deploy:
-      mode: replicated
-      replicas: ${MIGRATE}
-      restart_policy:
-        condition: none
-    entrypoint: ["bash", "-c"]
-    command:
-      - |
-        [[ $${INSTALL_EDUCATION} == "1" && ! -d "apps/education" ]] &&
-          bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO}
-        wait-for-it -t 120 frontend:8080
-        bench --site $${SITE_NAME} set-config -p maintenance_mode 1
-        bench --site $${SITE_NAME} set-config -p pause_scheduler  1
-        bench --site $${SITE_NAME} migrate
-        bench --site $${SITE_NAME} set-config -p maintenance_mode 0
-        bench --site $${SITE_NAME} set-config -p pause_scheduler  0
-    environment:
-      SITE_NAME: ${SITE_NAME}
-      INSTALL_EDUCATION: ${INSTALL_EDUCATION}
-      EDUCATION_REPO: ${EDUCATION_REPO}
-    volumes:
-      - sites:/home/frappe/frappe-bench/sites
-      
-
-
-  # ── BASE DE DATOS ─────────────────────────────────────────────────────────
-  db:
-    image: mariadb:10.6
-    deploy:
-      restart_policy:
-        condition: on-failure
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--password=${DB_ROOT_PASSWORD:-admin}"]
-      interval: 5s
-      timeout: 5s
-      retries: 20
+  mariadb:
+    image: mariadb:10.8
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
       - --skip-character-set-client-handshake
-      - --skip-innodb-read-only-compressed
+      - --skip-innodb-read-only-compressed # Temporary fix for MariaDB 10.6
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-admin}
-      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-admin}
+      MYSQL_ROOT_PASSWORD: "ScureP@ssw0rd202020"
     volumes:
-      - db-data:/var/lib/mysql
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - frappe-network
 
+  redis:
+    image: redis:alpine
+    networks:
+      - frappe-network
 
-  # ── REDIS ─────────────────────────────────────────────────────────────────
-  redis-cache:
-    image: redis:6.2-alpine
-    deploy:
-      restart_policy:
-        condition: on-failure
+  frappe:
+    image: frappe/bench:latest
+    command: bash /workspace/init.sh
+    environment:
+      - SHELL=/bin/bash
+    working_dir: /home/frappe
     volumes:
-      - redis-cache-data:/data
-
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
-  redis-queue:
-    image: redis:6.2-alpine
-    deploy:
-      restart_policy:
-        condition: on-failure
-    volumes:
-      - redis-queue-data:/data
-
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      - .:/workspace
+    ports:
+      - 8000:8000
+      - 9000:9000
+    networks:
+      - frappe-network
 
 volumes:
-  sites:
-  logs:
-  db-data:
-  redis-cache-data:
-  redis-queue-data:
+  mariadb-data:
 
+networks:
+  frappe-network:
+    driver: bridge
