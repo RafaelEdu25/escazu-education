@@ -2,6 +2,18 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Fee Request', {
+  onload: function (frm) {
+    if (frm.is_new()) {
+      frm.set_value('paid_amount', 0)
+      frm.set_value('outstanding_amount', 0)
+      frm.set_value('payment_status', 'Unpaid')
+      frm.set_value('exported_for_payment', 0)
+      frm.set_value('exported_for_payment_on', null)
+      frm.clear_table('payments')
+      frm.refresh_field('payments')
+    }
+  },
+
   refresh(frm) {
     frm.trigger('set_filters')
     if (frm.is_new()) {

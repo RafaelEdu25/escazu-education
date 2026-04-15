@@ -3,7 +3,6 @@
 
 import csv
 import openpyxl
-from io import BytesIO
 
 import frappe
 from frappe.model.document import Document
@@ -29,6 +28,7 @@ class FeeRequestPaymentImport(Document):
 						"paid_amount": payment.amount,
 						"academic_year": self.academic_year,
 						"academic_term": self.academic_term,
+						"fee_request_payment_import": self.name,
 					}
 				)
 				frp.save(ignore_permissions=True)
@@ -115,18 +115,17 @@ def parse_kcb(rows):
 			continue
 
 		details = parsed.get("beneficiary_reference").split("|")
+		amount = parsed.get("transfer_amount")
+		if isinstance(amount, str):
+			amount = amount.replace(",", "").replace(" KES", "").replace("Sh", "").strip()
+			amount = float(amount) if amount else 0
+		else:
+			amount = float(amount or 0)
 		data.append(
 			{
 				"scholar": details[1] if len(details) > 1 else None,
 				"fee_request": details[0] if len(details) > 0 else None,
-				"amount": float(
-					parsed.get("transfer_amount")
-					.replace(",", "")
-					.replace(" KES", "")
-					.replace("Sh", "")
-					.strip()
-					or 0
-				),
+				"amount": amount,
 			}
 		)
 
@@ -174,18 +173,17 @@ def parse_standard_chartered(rows):
 			continue
 
 		details = row[idx["Payment Details in English 1"]].split("|")
+		amount = row[idx["Payment Amount"]]
+		if isinstance(amount, str):
+			amount = amount.replace(",", "").replace(" KES", "").replace("Sh", "").strip()
+			amount = float(amount) if amount else 0
+		else:
+			amount = float(amount or 0)
 		data.append(
 			{
 				"scholar": details[1] if len(details) > 1 else None,
 				"fee_request": details[0] if len(details) > 0 else None,
-				"amount": float(
-					row[idx["Payment Amount"]]
-					.replace(",", "")
-					.replace(" KES", "")
-					.replace("Sh", "")
-					.strip()
-					or 0
-				),
+				"amount": amount,
 			}
 		)
 
