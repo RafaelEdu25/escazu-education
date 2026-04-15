@@ -119,7 +119,8 @@ global_search_doctypes = {
 
 
 translated_doctypes = {
-    "Student Admission": "Admisión de Estudiantes"
+    "Student Admission": "Admisión de Estudiantes",
+    "Student": "Estudiante",
 }
 
 # include js, css files in header of web form
