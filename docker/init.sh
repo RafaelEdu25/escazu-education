@@ -35,9 +35,11 @@ bench new-site education.internal.edupan.dev \
 
 bench --site education.internal.edupan.dev install-app erpnext
 bench --site education.internal.edupan.dev install-app education
-bench --site education.internal.edupan.dev set-config developer_mode 1
+bench --site education.internal.edupan.dev set-config developer_mode 0
 bench --site education.internal.edupan.dev enable-scheduler
 bench --site education.internal.edupan.dev clear-cache
+bench --site education.internal.edupan.dev set-config host_name https://education.internal.edupan.dev
+
 bench use education.internal.edupan.dev
 
 bench start
