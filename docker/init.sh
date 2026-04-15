@@ -27,17 +27,17 @@ sed -i '/watch/d' ./Procfile
 bench get-app erpnext
 bench get-app education
 
-bench new-site education.localhost \
+bench new-site education.internal.edupan.dev \
 --force \
 --mariadb-root-password ScureP@ssw0rd202020 \
 --admin-password admin \
 --no-mariadb-socket
 
-bench --site education.localhost install-app erpnext
-bench --site education.localhost install-app education
-bench --site education.localhost set-config developer_mode 1
-bench --site education.localhost enable-scheduler
-bench --site education.localhost clear-cache
+bench --site education.internal.edupan.dev install-app erpnext
+bench --site education.internal.edupan.dev install-app education
+bench --site education.internal.edupan.dev set-config developer_mode 1
+bench --site education.internal.edupan.dev enable-scheduler
+bench --site education.internal.edupan.dev clear-cache
 bench use education.internal.edupan.dev
 
 bench start
