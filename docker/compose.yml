@@ -351,16 +351,8 @@ services:
 
 volumes:
   sites:
-    external: true
-    name: escazu-erp-x7wn9y_sites
   logs:
   db-data:
-    external: true
-    name: escazu-erp-x7wn9y_db-data
   redis-cache-data:
-    external: true
-    name: escazu-erp-x7wn9y_redis-cache-data
   redis-queue-data:
-    external: true
-    name: escazu-erp-x7wn9y_redis-queue-data
 
