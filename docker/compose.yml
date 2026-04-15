@@ -33,6 +33,7 @@ services:
     entrypoint: ["bash", "-c"]
     command:
       - |
+        mkdir -p /home/frappe/logs
         [[ $${INSTALL_EDUCATION} == "1" && ! -d "apps/education" ]] &&
           bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO}
         exec /home/frappe/frappe-bench/env/bin/gunicorn \
@@ -43,7 +44,7 @@ services:
           frappe.app:application --preload
     volumes:
       - sites:/home/frappe/frappe-bench/sites
-      
+      - logs:/home/frappe/logs
 
     depends_on:
       db:
@@ -92,12 +93,13 @@ services:
     entrypoint: ["bash", "-c"]
     command:
       - |
+        mkdir -p /home/frappe/logs
         [[ $${INSTALL_EDUCATION} == "1" && ! -d "apps/education" ]] &&
           bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO}
-        exec node /home/frappe/frappe-bench/apps/frappe/socketio.js
+exec node /home/frappe/frappe-bench/apps/frappe/socketio.js
     volumes:
       - sites:/home/frappe/frappe-bench/sites
-      
+      - logs:/home/frappe/logs
 
     depends_on:
       db:
@@ -118,6 +120,7 @@ services:
     entrypoint: ["bash", "-c"]
     command:
       - |
+        mkdir -p /home/frappe/logs
         [[ $${INSTALL_EDUCATION} == "1" && ! -d "apps/education" ]] &&
           bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO}
         exec bench worker --queue default
@@ -134,6 +137,7 @@ services:
     entrypoint: ["bash", "-c"]
     command:
       - |
+        mkdir -p /home/frappe/logs
         [[ $${INSTALL_EDUCATION} == "1" && ! -d "apps/education" ]] &&
           bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO}
         exec bench worker --queue long
@@ -150,6 +154,7 @@ services:
     entrypoint: ["bash", "-c"]
     command:
       - |
+        mkdir -p /home/frappe/logs
         [[ $${INSTALL_EDUCATION} == "1" && ! -d "apps/education" ]] &&
           bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO}
         exec bench worker --queue short
@@ -167,6 +172,7 @@ services:
     entrypoint: ["bash", "-c"]
     command:
       - |
+        mkdir -p /home/frappe/logs
         [[ $${INSTALL_EDUCATION} == "1" && ! -d "apps/education" ]] &&
           bench get-app --branch ${APP_BRANCH} $${EDUCATION_REPO}
         exec bench schedule
@@ -209,6 +215,7 @@ services:
       EDUCATION_REPO: ${EDUCATION_REPO}
     volumes:
       - sites:/home/frappe/frappe-bench/sites
+      - logs:/home/frappe/logs
 
     depends_on:
       db:
@@ -261,6 +268,7 @@ services:
       EDUCATION_REPO: ${EDUCATION_REPO}
     volumes:
       - sites:/home/frappe/frappe-bench/sites
+      - logs:/home/frappe/logs
 
     depends_on:
       db:
@@ -351,6 +359,7 @@ services:
 
 volumes:
   sites:
+  logs:
   db-data:
   redis-cache-data:
   redis-queue-data:
