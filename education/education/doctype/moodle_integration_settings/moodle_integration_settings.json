@@ -1,0 +1,69 @@
+{
+  "name": "Moodle Integration Settings",
+  "doctype": "DocType",
+  "module": "Education",
+  "is_submittable": 0,
+  "issingle": 1,
+  "autoname": "prompt",
+  "naming_rule": "Set by user",
+  "controller": "Moodle Integration Settings",
+  "fields": [
+    {
+     "fieldname": "enabled",
+     "fieldtype": "Check",
+     "label": "Enabled",
+     "description": "Habilitar la integración con Moodle",
+     "default": "1"
+   },
+   {
+     "fieldname": "moodle_url",
+     "fieldtype": "Data",
+     "label": "Moodle URL",
+     "description": "URL de la instancia de Moodle (ej: https://moodle.example.com)"
+   },
+{
+      "fieldname": "api_token",
+      "fieldtype": "Data",
+      "label": "API Token",
+      "description": "Token de acceso a los Web Services de Moodle"
+    },
+   {
+     "fieldname": "default_category_id",
+     "fieldtype": "Int",
+     "label": "Default Category ID",
+     "description": "ID de categoría por defecto para cursos nuevos en Moodle"
+   },
+   {
+"fieldname": "sync_on_create",
+      "fieldtype": "Check",
+      "label": "Sync on Create",
+      "description": "Sincronizar automáticamente cuando se crea un nuevo Curso",
+      "default": "1"
+    },
+    {
+      "fieldname": "sync_on_update",
+      "fieldtype": "Check",
+      "label": "Sync on Update",
+      "description": "Sincronizar automáticamente cuando se actualiza un Curso",
+      "default": "1"
+    },
+   {
+     "fieldname": "section_testing",
+     "fieldtype": "Section Break",
+     "label": "Testing"
+   },
+{
+      "fieldname": "test_connection",
+      "fieldtype": "Button",
+      "label": "Test Connection",
+      "description": "Probar la conexión con Moodle"
+    }
+  ],
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1
+  }
+ ]
+}

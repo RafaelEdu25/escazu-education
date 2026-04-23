@@ -21,6 +21,30 @@ class Course(Document):
 			if total_weightage != 100:
 				frappe.throw(_("Total Weightage of all Assessment Criteria must be 100%"))
 
+	def after_insert(self):
+		"""Hook llamado después de insertar el documento."""
+		from education.moodle_integration.events import on_course_created
+		on_course_created(self, "after_insert")
+
+	def on_update(self):
+		"""Hook llamado después de actualizar el documento."""
+		# Solo sincronizar si ya tiene moodle_course_id (ya existe en Moodle)
+		if self.moodle_course_id:
+			from education.moodle_integration.events import on_course_updated
+			on_course_updated(self, "on_update")
+
+	def on_rename(self, old_name, new_name, merge=False):
+		"""Hook llamado después de renombrar el documento."""
+		from education.moodle_integration.events import sync_course_to_moodle
+
+		if self.moodle_course_id:
+			frappe.enqueue(
+				sync_course_to_moodle,
+				course_name=new_name,
+				queue="short",
+				enqueue_after_commit=True,
+			)
+
 	def get_topics(self):
 		topic_data = []
 		for topic in self.topics:

@@ -20,9 +20,15 @@
   "assessment_criteria",
   "connections_tab"
  ],
- "fields": [
-  {
-   "fieldname": "course_name",
+"fields": [
+   {
+    "fieldname": "moodle_course_id",
+    "fieldtype": "Data",
+    "hidden": 1,
+    "label": "Moodle Course ID"
+   },
+   {
+    "fieldname": "course_name",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Course Name",

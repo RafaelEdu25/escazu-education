@@ -31,8 +31,7 @@ required_apps = ["erpnext"]
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/education/css/education.css"
-# app_include_js = "/assets/education/js/education.js"
-app_include_js = "education.bundle.js"
+app_include_js = "/assets/education/js/moodle_integration_settings.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/education/css/education.css"
@@ -124,7 +123,10 @@ global_search_doctypes = {
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-doctype_js = {"Supplier": "public/js/supplier.js"}
+doctype_js = {
+	"Supplier": "public/js/supplier.js",
+	"Moodle Integration Settings": "public/js/moodle_integration_settings.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -202,7 +204,7 @@ after_install = "education.install.after_install"
 doc_events = {
 	"Course": {
 		"after_insert": "education.moodle_integration.events.on_course_created",
-		"after_save":   "education.moodle_integration.events.on_course_saved",
+		"after_save": "education.moodle_integration.events.on_course_saved",
 		"after_rename": "education.moodle_integration.events.on_course_renamed",
 	},
 }
