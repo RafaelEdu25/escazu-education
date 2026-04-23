@@ -1,6 +1,6 @@
 frappe.ui.form.on('Course', {
   refresh: function (frm) {
-    if (!cur_frm.doc.__islocal) {
+    if (!frm.doc.__islocal) {
       frm.add_custom_button(__('Add to Programs'), function () {
         frm.trigger('add_course_to_programs')
       })
@@ -13,6 +13,12 @@ frappe.ui.form.on('Course', {
         },
       }
     })
+  },
+
+  after_save: function (frm) {
+    if (frm.doc.moodle_course_id) {
+      sync_course_to_moodle(frm);
+    }
   },
 
   add_course_to_programs: function (frm) {
@@ -36,8 +42,7 @@ frappe.ui.form.on('Course', {
           ],
           function (data) {
             frappe.call({
-              method:
-                'education.education.doctype.course.course.add_course_to_programs',
+              method: 'education.education.doctype.course.course.add_course_to_programs',
               args: {
                 course: frm.doc.name,
                 programs: data.programs,
@@ -56,19 +61,29 @@ frappe.ui.form.on('Course', {
           __('Add')
         )
       } else {
-        frappe.msgprint(
-          __('This course is already added to the existing programs')
-        )
+        frappe.msgprint(__('This course is already added to the existing programs'))
       }
     })
   },
 })
 
+function sync_course_to_moodle(frm) {
+  frappe.call({
+    method: 'education.moodle_integration.api.sync_course_to_moodle',
+    args: { course_name: frm.doc.name },
+    callback: function (r) {
+      if (r.message && (r.message.status === 'created' || r.message.status === 'updated')) {
+        frappe.show_alert({ message: __('✓ Curso sincronizado con Moodle'), indicator: 'green' });
+      } else if (r.message && r.message.status === 'error') {
+        frappe.show_alert({ message: __('✗ Error al sincronizar: ') + r.message.message, indicator: 'red' });
+      }
+    },
+  });
+}
+
 frappe.ui.form.on('Course Topic', {
   topics_add: function (frm) {
-    frm.fields_dict['topics'].grid.get_field('topic').get_query = function (
-      doc
-    ) {
+    frm.fields_dict['topics'].grid.get_field('topic').get_query = function (doc) {
       var topics_list = []
       if (!doc.__islocal) topics_list.push(doc.name)
       $.each(doc.topics, function (idx, val) {
@@ -82,8 +97,7 @@ frappe.ui.form.on('Course Topic', {
 let get_programs_without_course = function (course) {
   return frappe.call({
     type: 'GET',
-    method:
-      'education.education.doctype.course.course.get_programs_without_course',
+    method: 'education.education.doctype.course.course.get_programs_without_course',
     args: { course: course },
   })
 }
