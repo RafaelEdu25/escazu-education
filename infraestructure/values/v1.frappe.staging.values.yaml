@@ -1,0 +1,60 @@
+# ── Image ──────────────────────────────────────────────────────────────────────
+# Custom image with frappe + erpnext + education already baked in
+image:
+  repository: ghcr.io/devopsedupan/frappe
+  tag: "521d4d6"
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: ghcr-pull-secret
+
+# ── External MariaDB (Bitnami Galera in `databases` namespace) ─────────────────
+# Secret mariadb-galera-secret must be copied to `frappe` namespace before deploy
+dbHost: ""   # fill with LoadBalancer IP/hostname of mariadb-galera svc in databases ns
+dbPort: 3306
+dbRootUser: frappe
+dbRootPassword: ""
+dbExistingSecret: frappe-db-secret
+dbExistingSecretPasswordKey: db-password
+
+# ── Redis / Cache (internal Valkey deployed by chart) ─────────────────────────
+redis-cache:
+  enabled: true
+
+redis-queue:
+  enabled: true
+
+# ── Site creation ──────────────────────────────────────────────────────────────
+# bench install-app only — no bench get-app needed, apps already in image
+jobs:
+  createSite:
+    enabled: true
+    siteName: "education.escazu.edupan.dev"
+    adminPassword: ""
+    installApps:
+      - erpnext
+      - education
+
+# ── Ingress disabled — traffic routed via Gateway API HTTPRoute ────────────────
+ingress:
+  enabled: false
+
+# ── Workloads ──────────────────────────────────────────────────────────────────
+gunicorn:
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+
+worker:
+  replicaCount: 1
+
+# ── Storage ────────────────────────────────────────────────────────────────────
+persistence:
+  worker:
+    storageClass: nfs-rwx
+    size: 10Gi
