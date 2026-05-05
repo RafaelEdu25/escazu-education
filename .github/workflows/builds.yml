@@ -55,7 +55,7 @@ jobs:
             ${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.short_sha }}
             ${{ env.IMAGE_NAME }}:latest
           secret-files: |
-            apps=./apps.json
+            apps_json=./apps.json
           build-args: |
             FRAPPE_PATH=https://github.com/frappe/frappe
             FRAPPE_BRANCH=version-16
