@@ -59,8 +59,8 @@ jobs:
           build-args: |
             FRAPPE_PATH=https://github.com/frappe/frappe
             FRAPPE_BRANCH=version-16
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+            CACHE_BUST=${{ github.sha }}
+          no-cache: true
           platforms: linux/amd64
 
       - name: Print image tag
