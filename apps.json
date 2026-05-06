@@ -6,6 +6,7 @@
   {
     "url": "https://github.com/DevOpsEdupan/education",
     "branch": "edupan",
-    "skip_assets": false
+    "skip_assets": false,
+    "skip_asset_regeneration": false
   }
 ]
