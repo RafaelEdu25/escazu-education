@@ -1,5 +1,4 @@
-
-name: Build Custom Frappe Image
+name: Build Custom Frappe Image v2
 
 on:
   push:
