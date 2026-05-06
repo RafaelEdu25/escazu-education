@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: frappe-disable-maintenance-mode
+  namespace: frappe
+  annotations:
+    "helm.sh/hook": post-upgrade,post-install
+    "helm.sh/hook-weight": "10"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: OnFailure
+      imagePullSecrets:
+        - name: ghcr-pull-secret
+      containers:
+        - name: disable-maintenance
+          image: ghcr.io/devopsedupan/frappe:340ba04
+          command:
+            - bash
+            - -c
+            - |
+              cd /home/frappe/frappe-bench
+              bench --site education.escazu.edupan.dev set-maintenance-mode off
+          volumeMounts:
+            - name: sites
+              mountPath: /home/frappe/frappe-bench/sites
+      volumes:
+        - name: sites
+          persistentVolumeClaim:
+            claimName: frappe-education-erpnext
