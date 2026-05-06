@@ -3,9 +3,9 @@ name: Build Custom Frappe Image v2
 on:
   push:
     branches: [edupan]
-    paths:
-      - 'apps.json'
-      - 'Containerfile'
+    # paths:
+    #   - 'apps.json'
+    #   - 'Containerfile'
   workflow_dispatch:
 
 env:
