@@ -72,6 +72,13 @@ default_roles = [
 
 accounting_dimension_doctypes = ["Fee Schedule", "Fee Structure"]
 
+# SGF Escazú — RT-4: doctypes de jerarquía de cursos
+fixtures = [
+	"Program Module",
+	"Program Module Course",
+	"Program Module Prerequisite",
+]
+
 
 global_search_doctypes = {
 	"Education": [

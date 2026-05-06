@@ -12,6 +12,30 @@ from frappe.model.document import Document
 class Course(Document):
 	def validate(self):
 		self.validate_assessment_criteria()
+		self.validate_course_documents()
+
+	def validate_course_documents(self):
+			"""RF-17: eliminar filas vacías y validar campos requeridos."""
+			docs_validos = []
+			for row in self.course_documents:
+				tiene_nombre = bool(row.document_name and row.document_name.strip())
+				tiene_archivo = bool(row.document_file)
+				
+				if not tiene_nombre and not tiene_archivo:
+					# Fila completamente vacía → ignorar silenciosamente
+					continue
+				
+				if tiene_nombre and tiene_archivo:
+					docs_validos.append(row)
+				else:
+					# Fila parcialmente llena → error claro
+					frappe.throw(
+						_("Fila {0} en Documentos: debe completar tanto <b>Nombre</b> como <b>Archivo</b>.").format(
+							row.idx
+						)
+					)
+
+			self.course_documents = docs_validos
 
 	def validate_assessment_criteria(self):
 		if self.assessment_criteria:
@@ -82,3 +106,5 @@ def get_programs_without_course(course):
 		if not courses or course not in courses:
 			data.append(program.name)
 	return data
+
+	
