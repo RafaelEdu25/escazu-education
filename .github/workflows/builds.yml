@@ -3,7 +3,7 @@ name: Build Custom Frappe Image
 
 on:
   push:
-    branches: [main]
+    branches: [edupan]
     paths:
       - 'apps.json'
       - 'Containerfile'
