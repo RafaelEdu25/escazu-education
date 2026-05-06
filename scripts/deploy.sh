@@ -20,7 +20,11 @@ GUNICORN=$(kubectl get pods -n "$NAMESPACE" --no-headers | grep erpnext-gunicorn
 kubectl exec -n "$NAMESPACE" "$GUNICORN" -- bash -c \
   "cd /home/frappe/frappe-bench && bench --site $SITE set-maintenance-mode off"
 
-echo "==> Clearing cache..."
+echo "==> Flushing Redis cache (assets_json + all keys)..."
+VALKEY=$(kubectl get pods -n "$NAMESPACE" --no-headers | grep valkey-cache | awk '{print $1}' | head -1)
+kubectl exec -n "$NAMESPACE" "$VALKEY" -c frappe-education-valkey-cache -- redis-cli FLUSHALL
+
+echo "==> Clearing Frappe cache..."
 kubectl exec -n "$NAMESPACE" "$GUNICORN" -- bash -c \
   "cd /home/frappe/frappe-bench && bench --site $SITE clear-cache && bench --site $SITE clear-website-cache"
 
