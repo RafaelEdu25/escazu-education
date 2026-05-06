@@ -11,6 +11,9 @@ def after_install():
 	create_invoice_permissions()
 	create_custom_fields(get_custom_fields())
 	create_permissions(get_permissions())
+	# SGF Escazú — RT-4: campos académicos en Course y Topic
+	from education.education.setup.custom_fields import create_custom_fields as create_sgf_fields
+	create_sgf_fields()
 
 
 def setup_fixtures():

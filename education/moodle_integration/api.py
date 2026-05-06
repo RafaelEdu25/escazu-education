@@ -88,9 +88,18 @@ def webhook_moodle_course_updated(course_data: dict = None) -> Dict:
 		frappe.logger().warning("Moodle webhook - No course data received")
 		return {"status": "error", "message": "No course data provided"}
 
-	moodle_id = course_data.get("id")
-	shortname = course_data.get("shortname")
-	fullname = course_data.get("fullname")
+	
+	other = course_data.get("other") or {}
+
+	moodle_id = (
+    course_data.get("id")
+    or course_data.get("objectid")
+    or other.get("id")
+    or other.get("courseid")
+	)
+	shortname = other.get("shortname") or course_data.get("shortname")
+	fullname = other.get("fullname") or course_data.get("fullname")
+	
 	summary = course_data.get("summary", "")[:500] if course_data.get("summary") else ""
 
 	frappe.logger().info(
@@ -211,7 +220,8 @@ def webhook_moodle_course_updated(course_data: dict = None) -> Dict:
 				"course_name": fullname if fullname else course_name_to_use,
 				"name": course_name_to_use,
 				"moodle_course_id": str(moodle_id) if moodle_id else None,
-				"description": summary
+				"description": summary,
+				"course_type": "Libre" 
 			})
 			new_course.insert(ignore_permissions=True)
 			frappe.db.commit()
