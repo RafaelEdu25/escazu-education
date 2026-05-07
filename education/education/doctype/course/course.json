@@ -12,19 +12,17 @@
   "hero_image",
   "column_break_tflc",
   "description",
-   "supporting_document",
-
+  "supporting_document",
   "section_break_6",
   "topics",
-
-   "documents_tab",
-   "course_documents",
-
+  "prerequisites_tab",
+  "course_prerequisites",
+  "documents_tab",
+  "course_documents",
   "assessment_tab",
   "assessment",
   "default_grading_scale",
   "assessment_criteria",
-  
   "connections_tab"
  ],
 "fields": [
@@ -101,6 +99,17 @@
    "fieldtype": "Tab Break",
    "label": "Connections",
    "show_dashboard": 1
+  },
+  {
+   "fieldname": "prerequisites_tab",
+   "fieldtype": "Tab Break",
+   "label": "Prerrequisitos"
+  },
+  {
+   "fieldname": "course_prerequisites",
+   "fieldtype": "Table",
+   "label": "Prerrequisitos del Curso",
+   "options": "Course Prerequisite Custom"
   },
   {
     "fieldname": "supporting_document",

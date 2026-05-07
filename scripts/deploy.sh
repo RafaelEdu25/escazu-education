@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-IMAGE_TAG="${1:-340ba04}"
+IMAGE_TAG="${1:-bfaca61}"
 SITE="education.escazu.edupan.dev"
 NAMESPACE="frappe"
 RELEASE="frappe-education"
