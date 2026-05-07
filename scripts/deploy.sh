@@ -5,7 +5,7 @@ IMAGE_TAG="${1:-340ba04}"
 SITE="education.escazu.edupan.dev"
 NAMESPACE="frappe"
 RELEASE="frappe-education"
-VALUES="infraestructure/values/frappe.staging.values.yaml"
+VALUES="infrastructure/values/frappe.staging.values.yaml"
 
 echo "==> Deploying image tag: $IMAGE_TAG"
 
@@ -15,8 +15,12 @@ helm upgrade "$RELEASE" frappe/erpnext \
   --set image.tag="$IMAGE_TAG" \
   --wait
 
-echo "==> Disabling maintenance mode..."
+echo "==> Running bench migrate..."
 GUNICORN=$(kubectl get pods -n "$NAMESPACE" --no-headers | grep erpnext-gunicorn | awk '{print $1}' | head -1)
+kubectl exec -n "$NAMESPACE" "$GUNICORN" -- bash -c \
+  "cd /home/frappe/frappe-bench && bench --site $SITE migrate"
+
+echo "==> Disabling maintenance mode..."
 kubectl exec -n "$NAMESPACE" "$GUNICORN" -- bash -c \
   "cd /home/frappe/frappe-bench && bench --site $SITE set-maintenance-mode off"
 
