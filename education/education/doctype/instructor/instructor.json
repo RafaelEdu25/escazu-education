@@ -8,15 +8,22 @@
  "engine": "InnoDB",
  "field_order": [
   "instructor_name",
-  "employee",
-  "gender",
+  "last_name",
+  "cedula",
+  "email_id",
+  "phone",
   "column_break_5",
   "status",
+  "specialty",
+  "supplier_company",
+  "employee",
   "naming_series",
+  "gender",
   "department",
   "image",
   "log_details",
-  "instructor_log"
+  "instructor_log",
+  "user"
  ],
  "fields": [
   {
@@ -25,19 +32,67 @@
    "fieldname": "instructor_name",
    "fieldtype": "Data",
    "in_global_search": 1,
-   "label": "Instructor Name",
+   "label": "Nombre",
+   "reqd": 1
+  },
+  {
+   "fieldname": "last_name",
+   "fieldtype": "Data",
+   "label": "Apellido",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cedula",
+   "fieldtype": "Data",
+   "label": "Cédula",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "email_id",
+   "fieldtype": "Data",
+   "label": "Correo Electrónico",
+   "options": "Email",
+   "reqd": 1,
+   "in_global_search": 1
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Teléfono",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Active",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Estado",
+   "options": "Active\nInactive\nLeft"
+  },
+  {
+   "fieldname": "specialty",
+   "fieldtype": "Data",
+   "label": "Especialidad",
+   "reqd": 1
+  },
+  {
+   "fieldname": "supplier_company",
+   "fieldtype": "Data",
+   "label": "Empresa Proveedora",
    "reqd": 1
   },
   {
    "fieldname": "employee",
    "fieldtype": "Link",
-   "in_list_view": 1,
+   "in_list_view": 0,
    "label": "Employee",
    "options": "Employee"
-  },
-  {
-   "fieldname": "column_break_5",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "naming_series",
@@ -50,7 +105,7 @@
    "fetch_from": "employee.department",
    "fieldname": "department",
    "fieldtype": "Link",
-   "in_list_view": 1,
+   "in_list_view": 0,
    "in_standard_filter": 1,
    "label": "Department",
    "options": "Department"
@@ -73,22 +128,21 @@
    "options": "Instructor Log"
   },
   {
-   "default": "Active",
-   "fieldname": "status",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Status",
-   "options": "Active\nLeft"
-  },
-  {
    "fetch_from": "employee.gender",
    "fieldname": "gender",
    "fieldtype": "Link",
    "label": "Gender",
    "options": "Gender",
    "read_only_depends_on": "employee"
-  }
+  },
+  {
+   "fieldname": "user",
+   "fieldtype": "Link",
+   "label": "User",
+   "options": "User",
+   "read_only": 1,
+   "hidden": 1
+}
  ],
  "image_field": "image",
  "links": [],
