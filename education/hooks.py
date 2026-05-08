@@ -72,12 +72,7 @@ default_roles = [
 
 accounting_dimension_doctypes = ["Fee Schedule", "Fee Structure"]
 
-# SGF Escazú — RT-4: doctypes de jerarquía de cursos
-fixtures = [
-	"Program Module",
-	"Program Module Course",
-	"Program Module Prerequisite",
-]
+# SGF Escazú — RT-4: doctypes de jerarquía de cursos (merged with Custom Field/Property Setter below)
 
 
 global_search_doctypes = {
@@ -298,5 +293,8 @@ fixtures = [
     "Property Setter",
     "Role",
     "User",
-    'notification'
+    'notification',
+    "Program Module",
+    "Program Module Course",
+    "Program Module Prerequisite",
 ]

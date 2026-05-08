@@ -1,0 +1,2 @@
+#!/bin/bash
+docker buildx build --load -f Containerfile -t frappe-local:dev --secret id=apps_json,src=./apps.json --build-arg FRAPPE_PATH=https://github.com/frappe/frappe --build-arg FRAPPE_BRANCH=version-16 .
