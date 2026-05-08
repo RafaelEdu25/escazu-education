@@ -16,13 +16,11 @@ frappe.ui.form.on('Course Schedule', {
 
   onload: (frm) => {
     frm.set_query('instructor', () => {
-      if (frm.instructors.length) {
-        return {
-          filters: {
-            instructor_name: ['in', frm.instructors],
-          },
-        }
-      } else return
+      const filters = { status: 'Active' }
+      if (frm.instructors && frm.instructors.length) {
+        filters.instructor_name = ['in', frm.instructors]
+      }
+      return { filters }
     })
 
     frm.set_query('course', function () {

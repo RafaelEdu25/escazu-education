@@ -173,7 +173,12 @@ frappe.ui.form.on('Student Group Instructor', {
         $.each(doc.instructors, function (idx, val) {
           instructor_list.push(val.instructor)
         })
-        return { filters: [['Instructor', 'name', 'not in', instructor_list]] }
+        return {
+          filters: [
+            ['Instructor', 'name', 'not in', instructor_list],
+            ['Instructor', 'status', '=', 'Active'],
+          ],
+        }
       }
   },
 })
