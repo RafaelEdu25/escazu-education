@@ -297,5 +297,6 @@ fixtures = [
     "Custom Field",
     "Property Setter",
     "Role",
-    "User"
+    "User",
+    'notification'
 ]
