@@ -25,49 +25,52 @@ frappe.ui.form.on('Instructor', {
 		if (frm.is_new() || frm.doc.status !== 'Inactive') return
 
 		frappe.call({
-			method: 'frappe.client.get_list',
-			args: {
-				doctype: 'Course Schedule',
-				filters: {
-					instructor: frm.doc.name,
-					schedule_date: ['>=', frappe.datetime.get_today()],
-				},
-				fields: ['name', 'course', 'schedule_date'],
-				order_by: 'schedule_date asc',
-			},
+			method: 'education.education.doctype.instructor.instructor.get_active_assignments',
+			args: { instructor: frm.doc.name },
 			callback: function (r) {
-				if (r.message && r.message.length > 0) {
-					const filas = r.message
-						.map(c => `<tr>
-							<td>${c.course}</td>
-							<td>${frappe.datetime.str_to_user(c.schedule_date)}</td>
-							<td><a href="/app/course-schedule/${c.name}" target="_blank">${c.name}</a></td>
-						</tr>`)
-						.join('')
+				const data = r.message || {}
+				const horarios = data.schedules || []
+				const grupos = data.groups || []
+				const total = horarios.length + grupos.length
 
-					const tabla = `
-						<p>Este instructor tiene <strong>${r.message.length} curso(s) activo(s)</strong> asignado(s):</p>
-						<table class="table table-bordered table-sm" style="margin-top:10px">
-							<thead>
-								<tr>
-									<th>Curso</th>
-									<th>Fecha</th>
-									<th>Horario</th>
-								</tr>
-							</thead>
-							<tbody>${filas}</tbody>
-						</table>
-						<p style="color:#e74c3c; margin-top:10px">
-							<strong>⚠️ Debe reasignar un instructor a estos cursos antes de confirmar la desactivación.</strong>
-						</p>
-					`
+				if (total === 0) return
 
-					frappe.msgprint({
-						title: __('Advertencia: Instructor con Cursos Activos'),
-						message: tabla,
-						indicator: 'orange',
-					})
-				}
+				// Revertir el campo status — no permitir guardar con Inactive si hay asignaciones
+				frappe.model.set_value(frm.doctype, frm.docname, 'status', 'Active')
+				frm.refresh_field('status')
+
+				let filas = horarios.map(c => `<tr>
+					<td><span class="badge" style="background:#3498db;color:#fff">Horario</span></td>
+					<td>${c.course}</td>
+					<td>${frappe.datetime.str_to_user(c.schedule_date)}</td>
+					<td><a href="/app/course-schedule/${c.name}" target="_blank">${c.name}</a></td>
+				</tr>`).join('')
+
+				filas += grupos.map(g => `<tr>
+					<td><span class="badge" style="background:#8e44ad;color:#fff">Grupo</span></td>
+					<td>${g.course || '—'}</td>
+					<td>—</td>
+					<td><a href="/app/student-group/${g.parent}" target="_blank">${g.parent}</a></td>
+				</tr>`).join('')
+
+				const tabla = `
+					<p>Este instructor tiene <strong>${total} asignación(es) activa(s)</strong>:</p>
+					<table class="table table-bordered table-sm" style="margin-top:10px">
+						<thead>
+							<tr><th>Tipo</th><th>Curso</th><th>Fecha</th><th>Referencia</th></tr>
+						</thead>
+						<tbody>${filas}</tbody>
+					</table>
+					<p style="color:#e74c3c; margin-top:12px">
+						<strong>⚠️ Debe reasignar un instructor a estas asignaciones antes de poder desactivar este perfil.</strong>
+					</p>
+				`
+
+				frappe.msgprint({
+					title: __('Advertencia: Instructor con Cursos Activos'),
+					message: tabla,
+					indicator: 'red',
+				})
 			},
 		})
 	},
