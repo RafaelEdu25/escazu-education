@@ -1,0 +1,158 @@
+name: education
+
+x-frappe: &frappe
+  image: frappe-local:dev
+  volumes:
+    - frappe-sites:/home/frappe/frappe-bench/sites
+    - frappe-logs:/home/frappe/frappe-bench/logs
+  networks:
+    - frappe-network
+
+services:
+  mariadb:
+    image: mariadb:10.8
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --skip-innodb-read-only-compressed
+    environment:
+      MYSQL_ROOT_PASSWORD: "ScureP@ssw0rd202020"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "--password=ScureP@ssw0rd202020"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - frappe-network
+
+  redis:
+    image: redis:alpine
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - frappe-network
+
+  configurator:
+    <<: *frappe
+    entrypoint: ["bash", "-c"]
+    command:
+      - |
+        bench set-config -g db_host mariadb
+        bench set-config -g db_port 3306
+        bench set-config -g redis_cache redis://redis:6379
+        bench set-config -g redis_queue redis://redis:6379
+        bench set-config -g redis_socketio redis://redis:6379
+        bench set-config -g socketio_port 9000
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: "no"
+
+  create-site:
+    <<: *frappe
+    entrypoint: ["bash", "-c"]
+    command:
+      - |
+        [ -d "sites/education.localhost" ] && echo "Site already exists, skipping" && exit 0
+        bench new-site education.localhost \
+          --mariadb-root-password ScureP@ssw0rd202020 \
+          --admin-password admin \
+          --no-mariadb-socket
+        bench --site education.localhost install-app erpnext
+        bench --site education.localhost install-app education
+        bench --site education.localhost set-config developer_mode 1
+        bench --site education.localhost enable-scheduler
+        bench --site education.localhost migrate
+        bench use education.localhost
+    depends_on:
+      configurator:
+        condition: service_completed_successfully
+    restart: "no"
+
+  assets-init:
+    <<: *frappe
+    entrypoint: ["bash", "-c"]
+    command:
+      - |
+        rm -rf /home/frappe/frappe-bench/sites/assets
+        cp -rL /home/frappe/frappe-bench/assets /home/frappe/frappe-bench/sites/assets
+    depends_on:
+      create-site:
+        condition: service_completed_successfully
+    restart: "no"
+
+  backend:
+    <<: *frappe
+    entrypoint: ["bash", "-c"]
+    command:
+      - |
+        exec /home/frappe/frappe-bench/env/bin/gunicorn \
+          --chdir=/home/frappe/frappe-bench/sites \
+          --bind=0.0.0.0:8000 \
+          --threads=4 \
+          --workers=2 \
+          --worker-class=gthread \
+          --worker-tmp-dir=/dev/shm \
+          --timeout=120 \
+          --preload \
+          frappe.app:application
+    depends_on:
+      assets-init:
+        condition: service_completed_successfully
+
+  websocket:
+    <<: *frappe
+    entrypoint: ["bash", "-c"]
+    command:
+      - exec node /home/frappe/frappe-bench/apps/frappe/socketio.js
+    depends_on:
+      assets-init:
+        condition: service_completed_successfully
+
+  scheduler:
+    <<: *frappe
+    entrypoint: ["bash", "-c"]
+    command:
+      - exec bench schedule
+    depends_on:
+      assets-init:
+        condition: service_completed_successfully
+
+  worker:
+    <<: *frappe
+    entrypoint: ["bash", "-c"]
+    command:
+      - exec bench worker --queue default,short,long
+    depends_on:
+      assets-init:
+        condition: service_completed_successfully
+
+  frontend:
+    image: nginx:alpine
+    volumes:
+      - frappe-sites:/var/www/html/sites:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - 8080:80
+    depends_on:
+      - backend
+      - websocket
+    networks:
+      - frappe-network
+
+volumes:
+  mariadb-data:
+  frappe-sites:
+  frappe-logs:
+
+networks:
+  frappe-network:
+    driver: bridge

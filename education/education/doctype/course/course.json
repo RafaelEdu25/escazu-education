@@ -12,17 +12,28 @@
   "hero_image",
   "column_break_tflc",
   "description",
+  "supporting_document",
   "section_break_6",
   "topics",
+  "prerequisites_tab",
+  "course_prerequisites",
+  "documents_tab",
+  "course_documents",
   "assessment_tab",
   "assessment",
   "default_grading_scale",
   "assessment_criteria",
   "connections_tab"
  ],
- "fields": [
-  {
-   "fieldname": "course_name",
+"fields": [
+   {
+    "fieldname": "moodle_course_id",
+    "fieldtype": "Data",
+    "hidden": 1,
+    "label": "Moodle Course ID"
+   },
+   {
+    "fieldname": "course_name",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Course Name",
@@ -88,7 +99,36 @@
    "fieldtype": "Tab Break",
    "label": "Connections",
    "show_dashboard": 1
-  }
+  },
+  {
+   "fieldname": "prerequisites_tab",
+   "fieldtype": "Tab Break",
+   "label": "Prerrequisitos"
+  },
+  {
+   "fieldname": "course_prerequisites",
+   "fieldtype": "Table",
+   "label": "Prerrequisitos del Curso",
+   "options": "Course Prerequisite Custom"
+  },
+  {
+    "fieldname": "supporting_document",
+    "fieldtype": "Attach",
+    "label": "Documento de respaldo",
+    "reqd": 0 ,
+    "in_list_view": 0
+},
+{
+  "fieldname": "documents_tab",
+  "fieldtype": "Tab Break",
+  "label": "Documentos"
+},
+{
+  "fieldname": "course_documents",
+  "fieldtype": "Table",
+  "label": "Documentos de Respaldo",
+  "options": "Course Document"
+}
  ],
  "image_field": "hero_image",
  "links": [],

@@ -1,0 +1,143 @@
+[
+  {
+    "doctype": "Notification",
+    "name": "Instructor Creado - Sistema",
+    "subject": "Nuevo instructor registrado: {{ doc.instructor_name }} {{ doc.last_name }}",
+    "document_type": "Instructor",
+    "event": "New",
+    "channel": "System Notification",
+    "enabled": 1,
+    "recipients": [
+      { "receiver_by_role": "Education Manager" },
+      { "receiver_by_role": "System Manager" }
+    ],
+    "message": "Se ha registrado un nuevo instructor: {{ doc.instructor_name }} {{ doc.last_name }}. Cédula: {{ doc.cedula }}. Especialidad: {{ doc.specialty }}. Empresa: {{ doc.supplier_company }}."
+  },
+  {
+    "doctype": "Notification",
+    "name": "Instructor Creado - Email",
+    "subject": "Nuevo instructor registrado: {{ doc.instructor_name }} {{ doc.last_name }}",
+    "document_type": "Instructor",
+    "event": "New",
+    "channel": "Email",
+    "enabled": 1,
+    "recipients": [
+      { "receiver_by_role": "Education Manager" }
+    ],
+    "message": "<p>Se ha registrado un nuevo instructor en el sistema.</p><ul><li><b>Nombre:</b> {{ doc.instructor_name }} {{ doc.last_name }}</li><li><b>Cédula:</b> {{ doc.cedula }}</li><li><b>Correo:</b> {{ doc.email_id }}</li><li><b>Teléfono:</b> {{ doc.phone }}</li><li><b>Especialidad:</b> {{ doc.specialty }}</li><li><b>Empresa Proveedora:</b> {{ doc.supplier_company }}</li></ul>"
+  },
+  {
+    "doctype": "Notification",
+    "name": "Nuevo Curso Disponible - Sistema",
+    "subject": "Nuevo curso disponible: {{ doc.course_name }}",
+    "document_type": "Course",
+    "event": "New",
+    "channel": "System Notification",
+    "enabled": 1,
+    "recipients": [
+      { "receiver_by_role": "Instructor" },
+      { "receiver_by_role": "Student" },
+      { "receiver_by_role": "Education Manager" }
+    ],
+    "message": "Se ha publicado un nuevo curso en el campus virtual: {{ doc.course_name }}. Ingresa al sistema para más información."
+  },
+  {
+    "doctype": "Notification",
+    "name": "Nuevo Curso Disponible - Email",
+    "subject": "Nuevo curso disponible: {{ doc.course_name }}",
+    "document_type": "Course",
+    "event": "New",
+    "channel": "Email",
+    "enabled": 1,
+    "recipients": [
+      { "receiver_by_role": "Instructor" },
+      { "receiver_by_role": "Student" },
+      { "receiver_by_role": "Education Manager" }
+    ],
+    "message": "<p>Estimado usuario,</p><p>Se ha publicado un nuevo curso en el campus virtual.</p><p><b>Curso:</b> {{ doc.course_name }}</p><p>Ingresa al campus virtual para conocer más detalles e inscribirte.</p>"
+  },
+  {
+    "doctype": "Notification",
+    "name": "Nueva Solicitud Aspirante - Sistema",
+    "subject": "Nueva solicitud de admisión: {{ doc.first_name }} {{ doc.last_name }}",
+    "document_type": "Student Applicant",
+    "event": "New",
+    "channel": "System Notification",
+    "enabled": 1,
+    "recipients": [
+      { "receiver_by_role": "Education Manager" },
+      { "receiver_by_role": "System Manager" }
+    ],
+    "message": "Se ha recibido una nueva solicitud de admisión de {{ doc.first_name }} {{ doc.last_name }} para el programa {{ doc.program }}. Año académico: {{ doc.academic_year }}."
+  },
+  {
+    "doctype": "Notification",
+    "name": "Nueva Solicitud Aspirante - Email Admin",
+    "subject": "Nueva solicitud de admisión: {{ doc.first_name }} {{ doc.last_name }}",
+    "document_type": "Student Applicant",
+    "event": "New",
+    "channel": "Email",
+    "enabled": 1,
+    "recipients": [
+      { "receiver_by_role": "Education Manager" }
+    ],
+    "message": "<p>Se ha recibido una nueva solicitud de admisión.</p><ul><li><b>Aspirante:</b> {{ doc.first_name }} {{ doc.last_name }}</li><li><b>Correo:</b> {{ doc.student_email_address }}</li><li><b>Programa:</b> {{ doc.program }}</li><li><b>Año Académico:</b> {{ doc.academic_year }}</li><li><b>Estado:</b> {{ doc.application_status }}</li></ul><p>Ingresa al sistema para revisar y procesar la solicitud.</p>"
+  },
+  {
+    "doctype": "Notification",
+    "name": "Aspirante Aprobado - Email Aspirante",
+    "subject": "¡Tu solicitud de admisión ha sido aprobada! — {{ doc.program }}",
+    "document_type": "Student Applicant",
+    "event": "Value Change",
+    "value_changed": "application_status",
+    "channel": "Email",
+    "enabled": 1,
+    "condition": "doc.application_status == 'Approved'",
+    "recipients": [
+      { "receiver_by_document_field": "student_email_address" }
+    ],
+    "message": "<p>Estimado/a {{ doc.first_name }} {{ doc.last_name }},</p><p>Nos complace informarte que tu solicitud de admisión ha sido <b>aprobada</b>.</p><ul><li><b>Programa:</b> {{ doc.program }}</li><li><b>Año Académico:</b> {{ doc.academic_year }}</li></ul><p>Pronto recibirás más información sobre el proceso de matrícula. Bienvenido/a al campus virtual.</p>"
+  },
+  {
+    "doctype": "Notification",
+    "name": "Aspirante Aprobado - Sistema Admin",
+    "subject": "Solicitud aprobada: {{ doc.first_name }} {{ doc.last_name }}",
+    "document_type": "Student Applicant",
+    "event": "Value Change",
+    "value_changed": "application_status",
+    "channel": "System Notification",
+    "enabled": 1,
+    "condition": "doc.application_status == 'Approved'",
+    "recipients": [
+      { "receiver_by_role": "Education Manager" }
+    ],
+    "message": "La solicitud de {{ doc.first_name }} {{ doc.last_name }} para el programa {{ doc.program }} ha sido aprobada."
+  },
+  {
+    "doctype": "Notification",
+    "name": "Nueva Matricula - Sistema",
+    "subject": "Nueva matrícula registrada: {{ doc.student_name }}",
+    "document_type": "Program Enrollment",
+    "event": "New",
+    "channel": "System Notification",
+    "enabled": 1,
+    "recipients": [
+      { "receiver_by_role": "Education Manager" },
+      { "receiver_by_role": "System Manager" }
+    ],
+    "message": "El estudiante {{ doc.student_name }} se ha matriculado en el programa {{ doc.program }}. Fecha: {{ doc.enrollment_date }}."
+  },
+  {
+    "doctype": "Notification",
+    "name": "Nueva Matricula - Email Estudiante",
+    "subject": "Confirmación de matrícula — {{ doc.program }}",
+    "document_type": "Program Enrollment",
+    "event": "New",
+    "channel": "Email", 
+    "enabled": 1,
+    "recipients": [
+      { "receiver_by_role": "Education Manager" }
+    ],
+    "message": "<p>Se ha registrado una nueva matrícula en el sistema.</p><ul><li><b>Estudiante:</b> {{ doc.student_name }}</li><li><b>Programa:</b> {{ doc.program }}</li><li><b>Fecha de matrícula:</b> {{ doc.enrollment_date }}</li></ul>"
+  }
+]

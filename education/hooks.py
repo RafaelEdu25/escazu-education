@@ -72,6 +72,8 @@ default_roles = [
 
 accounting_dimension_doctypes = ["Fee Schedule", "Fee Structure"]
 
+# SGF Escazú — RT-4: doctypes de jerarquía de cursos (merged with Custom Field/Property Setter below)
+
 
 global_search_doctypes = {
 	"Education": [
@@ -119,7 +121,8 @@ global_search_doctypes = {
 
 
 translated_doctypes = {
-    "Student Admission": "Admisión de Estudiantes"
+    "Student Admission": "Admisión de Estudiantes",
+    "Student": "Estudiante",
 }
 
 # include js, css files in header of web form
@@ -205,13 +208,13 @@ after_install = "education.install.after_install"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Course": {
+		"after_insert": "education.moodle_integration.events.on_course_created",
+		"after_save":   "education.moodle_integration.events.on_course_saved",
+		"after_rename": "education.moodle_integration.events.on_course_renamed",
+	},
+}
 
 # Scheduled Tasks
 # ---------------
@@ -289,5 +292,9 @@ fixtures = [
     "Custom Field",
     "Property Setter",
     "Role",
-    "User"
+    "User",
+    'notification',
+    "Program Module",
+    "Program Module Course",
+    "Program Module Prerequisite",
 ]

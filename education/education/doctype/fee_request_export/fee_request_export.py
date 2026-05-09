@@ -47,7 +47,8 @@ class FeeRequestExport(Document):
 				& (FR.academic_year == self.academic_year)
 				& (FR.academic_term == self.academic_term)
 				& (FR.company == self.company)
-				& (FR.payment_status == "Unpaid")
+				& (FR.payment_status.isin(["Unpaid", "Partially Paid"]))
+				& ((FR.exported_for_payment == 0) | (FR.exported_for_payment.isnull()))
 			)
 		)
 

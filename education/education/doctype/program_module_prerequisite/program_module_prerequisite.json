@@ -1,0 +1,40 @@
+{
+ "actions": [],
+ "creation": "2026-05-04 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "prerequisite_module",
+  "prerequisite_type"
+ ],
+ "fields": [
+  {
+   "fieldname": "prerequisite_module",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Módulo prerrequisito",
+   "options": "Program Module",
+   "reqd": 1
+  },
+  {
+   "default": "Aprobación",
+   "fieldname": "prerequisite_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Tipo de prerrequisito",
+   "options": "\nAprobación\nCursado"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-05-04 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Program Module Prerequisite",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "ASC",
+ "track_changes": 1
+}

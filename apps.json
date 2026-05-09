@@ -1,0 +1,12 @@
+[
+  {
+    "url": "https://github.com/frappe/erpnext",
+    "branch": "version-16"
+  },
+  {
+    "url": "https://github.com/DevOpsEdupan/education",
+    "branch": "edupan",
+    "skip_assets": false,
+    "skip_asset_regeneration": false
+  }
+]

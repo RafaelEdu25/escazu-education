@@ -15,11 +15,23 @@ class CourseSchedule(Document):
 		self.instructor_name = frappe.db.get_value(
 			"Instructor", self.instructor, "instructor_name"
 		)
+		self.validate_instructor_active()
 		self.set_title()
 		self.validate_course()
 		self.validate_date()
 		self.validate_time()
 		self.validate_overlap()
+
+	def validate_instructor_active(self):
+		status = frappe.db.get_value("Instructor", self.instructor, "status")
+		if status == "Inactive":
+			frappe.throw(
+				_(
+					"El instructor {0} está desactivado y no puede ser asignado a nuevos cursos. "
+					"Por favor seleccione un instructor activo."
+				).format(self.instructor),
+				title=_("⚠️ Instructor Inactivo")
+			)
 
 	def before_save(self):
 		self.set_hex_color()

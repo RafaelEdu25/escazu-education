@@ -1,0 +1,186 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "MOD-.####",
+ "creation": "2026-05-04 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "module_name",
+  "module_code",
+  "course",
+  "order_no",
+  "status", 
+  "column_break_basic",
+  "description",
+  "academic_section",
+  "theory_hours",
+  "practical_hours",
+  "total_hours",
+  "column_break_academic",
+  "min_grade",
+  "min_attendance",
+  "courses_section",
+  "courses_in_module",
+  "prerequisites_section",
+  "prerequisites"
+ ],
+ "fields": [
+  {
+   "fieldname": "module_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Nombre del módulo",
+   "reqd": 1
+  },
+  {
+   "fieldname": "module_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Código del módulo"
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Curso al que pertenece",
+   "options": "Course",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "order_no",
+   "fieldtype": "Int",
+   "label": "Nivel / Secuencia"
+  },
+  {
+   "default": "Activo",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Estado",
+   "options": "Activo\nInactivo"
+  },
+  {
+   "fieldname": "column_break_basic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Descripción del módulo"
+  },
+  {
+   "fieldname": "academic_section",
+   "fieldtype": "Section Break",
+   "label": "Configuración académica"
+  },
+  {
+   "fieldname": "theory_hours",
+   "fieldtype": "Float",
+   "label": "Horas teóricas"
+  },
+  {
+   "fieldname": "practical_hours",
+   "fieldtype": "Float",
+   "label": "Horas prácticas"
+  },
+  {
+   "description": "Calculado automáticamente",
+   "fieldname": "total_hours",
+   "fieldtype": "Float",
+   "label": "Total de horas",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_academic",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "70",
+   "fieldname": "min_grade",
+   "fieldtype": "Float",
+   "label": "Calificación mínima de aprobación"
+  },
+  {
+   "default": "80",
+   "fieldname": "min_attendance",
+   "fieldtype": "Float",
+   "label": "Porcentaje mínimo de asistencia"
+  },
+  {
+   "fieldname": "courses_section",
+   "fieldtype": "Section Break",
+   "label": "Asignaturas del módulo"
+  },
+  {
+   "fieldname": "courses_in_module",
+   "fieldtype": "Table",
+   "label": "Asignaturas",
+   "options": "Program Module Course"
+  },
+  {
+   "fieldname": "prerequisites_section",
+   "fieldtype": "Section Break",
+   "label": "Prerrequisitos del módulo"
+  },
+  {
+   "fieldname": "prerequisites",
+   "fieldtype": "Table",
+   "label": "Prerrequisitos",
+   "options": "Program Module Prerequisite"
+  }
+ ],
+ "links": [],
+ "modified": "2026-05-04 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Program Module",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academics User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Education Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Administrator",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "module_name,course",
+ "show_name_in_global_search": 1,
+ "sort_field": "order_no",
+ "sort_order": "ASC",
+ "track_changes": 1
+}

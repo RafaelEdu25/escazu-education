@@ -12,6 +12,30 @@ from frappe.model.document import Document
 class Course(Document):
 	def validate(self):
 		self.validate_assessment_criteria()
+		self.validate_course_documents()
+
+	def validate_course_documents(self):
+			"""RF-17: eliminar filas vacías y validar campos requeridos."""
+			docs_validos = []
+			for row in self.course_documents:
+				tiene_nombre = bool(row.document_name and row.document_name.strip())
+				tiene_archivo = bool(row.document_file)
+				
+				if not tiene_nombre and not tiene_archivo:
+					# Fila completamente vacía → ignorar silenciosamente
+					continue
+				
+				if tiene_nombre and tiene_archivo:
+					docs_validos.append(row)
+				else:
+					# Fila parcialmente llena → error claro
+					frappe.throw(
+						_("Fila {0} en Documentos: debe completar tanto <b>Nombre</b> como <b>Archivo</b>.").format(
+							row.idx
+						)
+					)
+
+			self.course_documents = docs_validos
 
 	def validate_assessment_criteria(self):
 		if self.assessment_criteria:
@@ -20,6 +44,30 @@ class Course(Document):
 				total_weightage += criteria.weightage or 0
 			if total_weightage != 100:
 				frappe.throw(_("Total Weightage of all Assessment Criteria must be 100%"))
+
+	def after_insert(self):
+		"""Hook llamado después de insertar el documento."""
+		from education.moodle_integration.events import on_course_created
+		on_course_created(self, "after_insert")
+
+	def on_update(self):
+		"""Hook llamado después de actualizar el documento."""
+		# Solo sincronizar si ya tiene moodle_course_id (ya existe en Moodle)
+		if self.moodle_course_id:
+			from education.moodle_integration.events import on_course_updated
+			on_course_updated(self, "on_update")
+
+	def on_rename(self, old_name, new_name, merge=False):
+		"""Hook llamado después de renombrar el documento."""
+		from education.moodle_integration.events import sync_course_to_moodle
+
+		if self.moodle_course_id:
+			frappe.enqueue(
+				sync_course_to_moodle,
+				course_name=new_name,
+				queue="short",
+				enqueue_after_commit=True,
+			)
 
 	def get_topics(self):
 		topic_data = []
@@ -58,3 +106,5 @@ def get_programs_without_course(course):
 		if not courses or course not in courses:
 			data.append(program.name)
 	return data
+
+	
