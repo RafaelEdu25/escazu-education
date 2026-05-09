@@ -18,3 +18,5 @@ education.patches.v15_0.create_student_customer_group
 education.patches.v15_0.create_custom_permissions
 education.patches.v15_0.remove_course_prerequisite_custom_fields
 education.patches.v15_0.create_course_sgf_custom_fields
+education.patches.v15_0.fix_program_module_parent_link
+education.patches.v15_0.update_sgf_custom_fields

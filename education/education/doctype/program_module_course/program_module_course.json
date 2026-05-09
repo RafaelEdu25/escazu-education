@@ -7,6 +7,8 @@
  "field_order": [
   "course",
   "is_mandatory",
+  "theory_hours",
+  "practical_hours",
   "credits",
   "order_no"
  ],
@@ -27,6 +29,24 @@
    "label": "Obligatoria"
   },
   {
+   "fetch_from": "course.theory_hours",
+   "fetch_if_empty": 1,
+   "fieldname": "theory_hours",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Horas teóricas"
+  },
+  {
+   "fetch_from": "course.practical_hours",
+   "fetch_if_empty": 1,
+   "fieldname": "practical_hours",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Horas prácticas"
+  },
+  {
+   "fetch_from": "course.credits",
+   "fetch_if_empty": 1,
    "fieldname": "credits",
    "fieldtype": "Float",
    "in_list_view": 1,

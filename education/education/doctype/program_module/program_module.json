@@ -9,7 +9,7 @@
  "field_order": [
   "module_name",
   "module_code",
-  "course",
+  "program",
   "order_no",
   "status", 
   "column_break_basic",
@@ -41,12 +41,12 @@
    "label": "Código del módulo"
   },
   {
-   "fieldname": "course",
+   "fieldname": "program",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Curso al que pertenece",
-   "options": "Course",
+   "label": "Programa al que pertenece",
+   "options": "Program",
    "reqd": 1
   },
   {
@@ -178,7 +178,7 @@
    "write": 1
   }
  ],
- "search_fields": "module_name,course",
+ "search_fields": "module_name,program",
  "show_name_in_global_search": 1,
  "sort_field": "order_no",
  "sort_order": "ASC",
