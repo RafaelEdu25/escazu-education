@@ -1,5 +1,8 @@
 frappe.ui.form.on('Course', {
 
+  theory_hours: function (frm) { calcular_horas_curso(frm); },
+  practical_hours: function (frm) { calcular_horas_curso(frm); },
+
   refresh: function (frm) {
     if (!frm.doc.__islocal) {
       frm.add_custom_button(__('Add to Programs'), function () {
@@ -439,4 +442,9 @@ let get_programs_without_course = function (course) {
     method: 'education.education.doctype.course.course.get_programs_without_course',
     args: { course: course },
   })
+}
+function calcular_horas_curso(frm) {
+  const theory = frm.doc.theory_hours || 0;
+  const practical = frm.doc.practical_hours || 0;
+  frappe.model.set_value(frm.doctype, frm.docname, "total_hours", theory + practical);
 }

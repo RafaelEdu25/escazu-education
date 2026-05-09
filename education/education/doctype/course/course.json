@@ -12,7 +12,6 @@
   "hero_image",
   "column_break_tflc",
   "description",
-  "supporting_document",
   "section_break_6",
   "topics",
   "prerequisites_tab",
@@ -31,6 +30,12 @@
     "fieldtype": "Data",
     "hidden": 1,
     "label": "Moodle Course ID"
+   },
+   {
+    "fieldname": "supporting_document",
+    "fieldtype": "Attach",
+    "hidden": 1,
+    "label": "Supporting Document"
    },
    {
     "fieldname": "course_name",
@@ -111,13 +116,7 @@
    "label": "Prerrequisitos del Curso",
    "options": "Course Prerequisite Custom"
   },
-  {
-    "fieldname": "supporting_document",
-    "fieldtype": "Attach",
-    "label": "Documento de respaldo",
-    "reqd": 0 ,
-    "in_list_view": 0
-},
+
 {
   "fieldname": "documents_tab",
   "fieldtype": "Tab Break",

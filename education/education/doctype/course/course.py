@@ -11,8 +11,12 @@ from frappe.model.document import Document
 
 class Course(Document):
 	def validate(self):
+		self._calcular_horas_totales()
 		self.validate_assessment_criteria()
 		self.validate_course_documents()
+
+	def _calcular_horas_totales(self):
+		self.total_hours = (self.theory_hours or 0) + (self.practical_hours or 0)
 
 	def validate_course_documents(self):
 			"""RF-17: eliminar filas vacías y validar campos requeridos."""
