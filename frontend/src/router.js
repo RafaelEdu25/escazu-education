@@ -37,19 +37,22 @@ let router = createRouter({
 })
 
 router.beforeEach(async (to, from) => {
-  const { isLoggedIn, user: sessionUser } = sessionStore()
-  const { user } = usersStore()
-  const { student } = studentStore()
+  const { isLoggedIn } = sessionStore()
+  const users = usersStore()
+  const students = studentStore()
 
   if (!isLoggedIn) {
     window.location.href = '/login'
-    return await next(false)
+    return false
   }
 
-  if (user.data.length === 0) {
-    await user.reload()
+  if (!users.user) {
+    await users.fetchUser()
   }
-  await student.reload()
+  
+  if (!students.studentInfo || Object.keys(students.studentInfo).length === 0) {
+    await students.fetchStudent()
+  }
 })
 
 export default router

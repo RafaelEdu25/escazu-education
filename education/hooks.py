@@ -72,6 +72,7 @@ default_roles = [
 
 accounting_dimension_doctypes = ["Fee Schedule", "Fee Structure"]
 
+
 global_search_doctypes = {
 	"Education": [
 		{"doctype": "Article", "index": 1},
@@ -114,6 +115,11 @@ global_search_doctypes = {
 		{"doctype": "Assessment Code", "index": 38},
 		{"doctype": "Discussion", "index": 39},
 	]
+}
+
+
+translated_doctypes = {
+    "Student Admission": "Admisión de Estudiantes"
 }
 
 # include js, css files in header of web form

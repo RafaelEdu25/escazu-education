@@ -1,8 +1,10 @@
 {
   "private": true,
   "scripts": {
-      "postinstall": "cd frontend && yarn install --check-files",
-      "dev": "cd frontend && yarn dev",
-      "build": "cd frontend && yarn build"
+    "postinstall": "cd frontend && yarn install --check-files",
+    "dev": "cd frontend && yarn dev",
+    "build": "cd frontend && yarn build",
+    "docker:init": "docker exec -it education-app-1 bash /app/docker/init.sh",
+    "docker:prod": "docker exec -it education-app-1 bash /app/docker/production.sh"
   }
 }
