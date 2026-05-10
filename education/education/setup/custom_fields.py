@@ -19,6 +19,8 @@ def get_custom_fields():
 				"fieldtype": "Select",
 				"options": "\nLibre\nModular\nTécnico",
 				"reqd": 1,
+				"in_list_view": 1,
+				"in_standard_filter": 1,
 				"insert_after": "course_name",
 				"description": (
 					"Libre: curso independiente sin módulos. "
@@ -58,11 +60,19 @@ def get_custom_fields():
 				"insert_after": "theory_hours",
 			},
 			{
+				"fieldname": "total_hours",
+				"label": "Total de horas",
+				"fieldtype": "Float",
+				"read_only": 1,
+				"description": "Calculado automáticamente",
+				"insert_after": "practical_hours",
+			},
+			{
 				"fieldname": "modality",
 				"label": "Modalidad",
 				"fieldtype": "Select",
 				"options": "\nPresencial\nVirtual\nHíbrida",
-				"insert_after": "practical_hours",
+				"insert_after": "total_hours",
 			},
 			{
 				"fieldname": "course_objective",
@@ -130,6 +140,16 @@ def get_custom_fields():
 				"label": "Competencias que desarrolla",
 				"fieldtype": "Text Editor",
 				"insert_after": "unit_objective",
+			},
+		],
+		"Student Group": [
+			{
+				"fieldname": "program_module",
+				"label": "Módulo",
+				"fieldtype": "Link",
+				"options": "Program Module",
+				"insert_after": "batch",
+				"in_standard_filter": 1,
 			},
 		],
 	}

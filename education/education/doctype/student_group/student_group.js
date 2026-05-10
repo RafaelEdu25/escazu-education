@@ -7,6 +7,14 @@ frappe.ui.form.on('Student Group', {
         },
       }
     })
+
+    frm.set_query('program_module', function () {
+      return {
+        filters: {
+          program: frm.doc.program,
+        },
+      }
+    })
     if (!frm.__islocal) {
       frm.set_query('student', 'students', function () {
         let filters = {

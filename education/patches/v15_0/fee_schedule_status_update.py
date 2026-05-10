@@ -1,6 +1,5 @@
 import frappe
 
-
 def execute():
 	status_map = {
 		"Successful": "Invoice Created",
