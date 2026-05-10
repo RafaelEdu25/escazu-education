@@ -10,6 +10,7 @@
   "student",
   "student_name",
   "enrollment_date",
+  "enrollment_status",
   "column_break_4",
   "program",
   "academic_year",
@@ -94,6 +95,12 @@
    "fieldtype": "Date",
    "label": "Enrollment Date",
    "reqd": 1
+  },
+  {
+   "fieldname": "enrollment_status",
+   "fieldtype": "Select",
+   "label": "Estado matrícula",
+   "options": "Activo\nCompletado\nRetirado"
   },
   {
    "default": "0",

@@ -8,6 +8,7 @@
  "document_type": "Document",
  "engine": "InnoDB",
  "field_order": [
+  "custom_header",
   "section_break_1",
   "enabled",
   "section_break_3",
@@ -28,6 +29,19 @@
   "student_mobile_number",
   "gender",
   "nationality",
+  "current_program",
+  "custom_tab_5",
+  "custom_custom",
+  "custom_estudios_previos",
+  "custom_discapacidad",
+  "custom_column_break_7qeby",
+  "custom_profesión",
+  "custom_ubicación_de_trabajo",
+  "custom_experiencia_en_emprendimiento_años",
+  "custom_acepta_términos",
+  "custom_politicas_privacidad",
+  "custom_section_break_uwptn",
+  "custom_identificacion",
   "address_tab",
   "section_break_22",
   "address_line_1",
@@ -58,6 +72,10 @@
  ],
  "fields": [
   {
+   "fieldname": "custom_header",
+   "fieldtype": "HTML"
+  },
+  {
    "fieldname": "section_break_1",
    "fieldtype": "Section Break"
   },
@@ -65,7 +83,7 @@
    "default": "1",
    "fieldname": "enabled",
    "fieldtype": "Check",
-   "label": "Enabled"
+   "label": "Habilitado"
   },
   {
    "fieldname": "section_break_3",
@@ -75,24 +93,24 @@
    "fieldname": "first_name",
    "fieldtype": "Data",
    "in_global_search": 1,
-   "label": "First Name",
+   "label": "Primer Nombre",
    "reqd": 1
   },
   {
    "fieldname": "middle_name",
    "fieldtype": "Data",
-   "label": "Middle Name"
+   "label": "Segundo Nombre"
   },
   {
    "fieldname": "last_name",
    "fieldtype": "Data",
    "in_global_search": 1,
-   "label": "Last Name"
+   "label": "Apellidos"
   },
   {
    "fieldname": "user",
    "fieldtype": "Link",
-   "label": "User ID",
+   "label": "ID de Usuario",
    "options": "User"
   },
   {
@@ -102,7 +120,7 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
-   "label": "Naming Series",
+   "label": "Serie de Nomenclatura",
    "no_copy": 1,
    "options": "EDU-STU-.YYYY.-",
    "set_only_once": 1
@@ -111,7 +129,7 @@
    "fieldname": "student_email_id",
    "fieldtype": "Data",
    "in_global_search": 1,
-   "label": "Student Email Address",
+   "label": "Correo Electrónico",
    "reqd": 1,
    "unique": 1
   },
@@ -119,14 +137,14 @@
    "fieldname": "student_mobile_number",
    "fieldtype": "Data",
    "in_global_search": 1,
-   "label": "Student Mobile Number"
+   "label": "Número de Teléfono"
   },
   {
    "default": "Today",
    "fieldname": "joining_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Joining Date"
+   "label": "Fecha de Ingreso"
   },
   {
    "fieldname": "image",
@@ -138,17 +156,17 @@
   {
    "fieldname": "section_break_7",
    "fieldtype": "Section Break",
-   "label": "Personal Details"
+   "label": "Detalles Personales"
   },
   {
    "fieldname": "date_of_birth",
    "fieldtype": "Date",
-   "label": "Date of Birth"
+   "label": "Fecha de Nacimiento"
   },
   {
    "fieldname": "blood_group",
    "fieldtype": "Select",
-   "label": "Blood Group",
+   "label": "Grupo Sanguíneo",
    "options": "\nA+\nA-\nB+\nB-\nO+\nO-\nAB+\nAB-"
   },
   {
@@ -158,18 +176,84 @@
   {
    "fieldname": "gender",
    "fieldtype": "Link",
-   "label": "Gender",
+   "label": "Género",
    "options": "Gender"
   },
   {
    "fieldname": "nationality",
    "fieldtype": "Data",
-   "label": "Nationality"
+   "label": "Nacionalidad"
+  },
+  {
+   "fieldname": "current_program",
+   "fieldtype": "Link",
+   "label": "Programa Actual",
+   "options": "Program"
+  },
+  {
+   "fieldname": "custom_tab_5",
+   "fieldtype": "Tab Break",
+   "label": "Extras"
+  },
+  {
+   "fieldname": "custom_custom",
+   "fieldtype": "Section Break",
+   "label": "Custom"
+  },
+  {
+   "fieldname": "custom_estudios_previos",
+   "fieldtype": "Select",
+   "label": "Estudios Previos",
+   "options": "Primaria\nSecundaria\nBachiller\nTécnico\nLicenciatura\nIngeniería"
+  },
+  {
+   "fieldname": "custom_discapacidad",
+   "fieldtype": "Select",
+   "label": "Discapacidad",
+   "options": "Ninguna\nVisión\nAuditiva\nMotriz\nOtro"
+  },
+  {
+   "fieldname": "custom_column_break_7qeby",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "custom_profesión",
+   "fieldtype": "Data",
+   "label": "Profesión"
+  },
+  {
+   "fieldname": "custom_ubicación_de_trabajo",
+   "fieldtype": "Data",
+   "label": "Ubicación de Trabajo"
+  },
+  {
+   "fieldname": "custom_experiencia_en_emprendimiento_años",
+   "fieldtype": "Int",
+   "label": "Experiencia en Emprendimiento (años)"
+  },
+  {
+   "fieldname": "custom_acepta_términos",
+   "fieldtype": "Check",
+   "label": "Acepta Términos"
+  },
+  {
+   "fieldname": "custom_politicas_privacidad",
+   "fieldtype": "Check",
+   "label": "Políticas de Privacidad y Manejo de Datos"
+  },
+  {
+   "fieldname": "custom_section_break_uwptn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "custom_identificacion",
+   "fieldtype": "Attach",
+   "label": "Identificacion"
   },
   {
    "fieldname": "student_applicant",
    "fieldtype": "Link",
-   "label": "Student Applicant",
+   "label": "Solicitante",
    "options": "Student Applicant",
    "read_only": 1
   },
@@ -180,17 +264,17 @@
   {
    "fieldname": "address_line_1",
    "fieldtype": "Data",
-   "label": "Address Line 1"
+   "label": "Dirección 1"
   },
   {
    "fieldname": "address_line_2",
    "fieldtype": "Data",
-   "label": "Address Line 2"
+   "label": "Dirección 2"
   },
   {
    "fieldname": "pincode",
    "fieldtype": "Data",
-   "label": "Pincode"
+   "label": "Código Postal"
   },
   {
    "fieldname": "column_break_20",
@@ -199,40 +283,40 @@
   {
    "fieldname": "city",
    "fieldtype": "Data",
-   "label": "City"
+   "label": "Ciudad"
   },
   {
    "fieldname": "state",
    "fieldtype": "Data",
-   "label": "State"
+   "label": "Estado o Provincia"
   },
   {
    "fieldname": "country",
    "fieldtype": "Link",
-   "label": "Country",
+   "label": "País",
    "options": "Country"
   },
   {
    "fieldname": "section_break_18",
    "fieldtype": "Section Break",
-   "label": "Guardian Details"
+   "label": "Detalles de Tutores"
   },
   {
    "fieldname": "guardians",
    "fieldtype": "Table",
-   "label": "Guardians",
+   "label": "Tutores",
    "options": "Student Guardian"
   },
   {
    "fieldname": "section_break_20",
    "fieldtype": "Section Break",
-   "label": "Sibling Details",
+   "label": "Detalles de Hermanos",
    "options": "Country"
   },
   {
    "fieldname": "siblings",
    "fieldtype": "Table",
-   "label": "Siblings",
+   "label": "Hermanos",
    "options": "Student Sibling"
   },
   {
@@ -242,12 +326,12 @@
   {
    "fieldname": "date_of_leaving",
    "fieldtype": "Date",
-   "label": "Date of Leaving"
+   "label": "Fecha de Salida"
   },
   {
    "fieldname": "leaving_certificate_number",
    "fieldtype": "Data",
-   "label": "Leaving Certificate Number"
+   "label": "Número de Certificado de Salida"
   },
   {
    "fieldname": "column_break_31",
@@ -256,56 +340,56 @@
   {
    "fieldname": "reason_for_leaving",
    "fieldtype": "Text",
-   "label": "Reason For Leaving"
+   "label": "Razón de Salida"
   },
   {
    "fieldname": "student_name",
    "fieldtype": "Data",
    "hidden": 1,
-   "label": "Student Name"
+   "label": "Nombre del Estudiante"
   },
   {
    "fieldname": "address_tab",
    "fieldtype": "Tab Break",
-   "label": "Address"
+   "label": "Dirección"
   },
   {
    "fieldname": "relations_tab",
    "fieldtype": "Tab Break",
-   "label": "Relations"
+   "label": "Relaciones"
   },
   {
    "fieldname": "exit_tab",
    "fieldtype": "Tab Break",
-   "label": "Exit"
+   "label": "Salida"
   },
   {
    "fieldname": "connections_tab",
    "fieldtype": "Tab Break",
-   "label": "Connections",
+   "label": "Conexiones",
    "show_dashboard": 1
   },
   {
    "fieldname": "customer_details_tab",
    "fieldtype": "Tab Break",
-   "label": "Customer Details"
+   "label": "Detalles del Cliente"
   },
   {
    "fieldname": "customer_details_section",
    "fieldtype": "Section Break",
-   "label": "Customer Details"
+   "label": "Detalles del Cliente"
   },
   {
    "fieldname": "customer",
    "fieldtype": "Link",
-   "label": "Customer",
+   "label": "Cliente",
    "options": "Customer",
    "read_only": 1
   },
   {
    "fieldname": "customer_group",
    "fieldtype": "Link",
-   "label": "Customer Group",
+   "label": "Grupo de Clientes",
    "options": "Customer Group"
   },
   {

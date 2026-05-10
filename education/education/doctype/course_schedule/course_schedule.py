@@ -99,13 +99,16 @@ class CourseSchedule(Document):
 	def validate_overlap(self):
 		"""Validates overlap for Student Group, Instructor, Room"""
 
-		from education.education.utils import validate_overlap_for
+		from education.education.utils import validate_overlap_for, get_overlap_for
 
 		# Validate overlapping course schedules.
 		if self.student_group:
 			validate_overlap_for(self, "Course Schedule", "student_group")
 
-		validate_overlap_for(self, "Course Schedule", "instructor")
+		instructor_overlap = get_overlap_for(self, "Course Schedule", "instructor")
+		if instructor_overlap:
+			frappe.msgprint(_("Advertencia: El instructor tiene otro horario en este bloque."), alert=True)
+
 		validate_overlap_for(self, "Course Schedule", "room")
 
 		# validate overlapping assessment schedules.
