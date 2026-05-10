@@ -168,15 +168,13 @@ class Instructor(Document):
 				"email": email,
 				"first_name": self.instructor_name,
 				"last_name": self.get("last_name") or "",
-				"mobile_no": self.get("phone") or "",
-				"send_welcome_email": 1,   # Frappe envía credenciales automáticamente
+				"send_welcome_email": 1,
 				"roles": [{"role": "Instructor"}],
 			})
 			user.insert(ignore_permissions=True)
 
 			# Guardar referencia al usuario creado en el Instructor
 			frappe.db.set_value("Instructor", self.name, "user", user.name)
-			frappe.db.commit()
 
 			frappe.msgprint(
 				_("Usuario creado exitosamente. Se han enviado las credenciales a {0}.").format(email),

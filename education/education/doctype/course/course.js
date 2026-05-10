@@ -8,7 +8,35 @@ frappe.ui.form.on('Course', {
       frm.add_custom_button(__('Add to Programs'), function () {
         frm.trigger('add_course_to_programs')
       })
+
+      // RF-26 / RF-27: botones de cambio de estado
+      const status = frm.doc.course_status
+
+      if (status === 'Inactivo') {
+        frm.add_custom_button(__('Activar Curso'), () => {
+          set_course_status(frm, 'Activo')
+        }, __('Estado'))
+      }
+
+      if (status === 'Activo') {
+        frm.add_custom_button(__('Desactivar Curso'), () => {
+          set_course_status(frm, 'Inactivo')
+        }, __('Estado'))
+      }
+
+      if (status !== 'Cancelado') {
+        frm.add_custom_button(__('Cancelar Curso'), () => {
+          frappe.confirm(
+            __('¿Está seguro de cancelar este curso? Esta acción no puede revertirse si no existen estudiantes matriculados y conservará el registro como histórico.'),
+            () => set_course_status(frm, 'Cancelado')
+          )
+        }, __('Estado'))
+      }
+
+      // El campo siempre es read-only: el cambio de estado solo se hace por los botones del grupo Estado
+      frm.set_df_property('course_status', 'read_only', 1)
     }
+
     frm.set_query('default_grading_scale', function () {
       return { filters: { docstatus: 1 } }
     })
@@ -443,6 +471,18 @@ let get_programs_without_course = function (course) {
     args: { course: course },
   })
 }
+// RF-26 / RF-27: cambia el estado del curso y guarda
+function set_course_status(frm, new_status) {
+  frappe.model.set_value(frm.doctype, frm.docname, 'course_status', new_status)
+  frm.save().then(() => {
+    const indicator = new_status === 'Activo' ? 'green'
+      : new_status === 'Cancelado' ? 'red'
+      : 'gray'
+    frappe.show_alert({ message: __('Estado del curso actualizado a: {0}', [__(new_status)]), indicator })
+  })
+}
+
+
 function calcular_horas_curso(frm) {
   const theory = frm.doc.theory_hours || 0;
   const practical = frm.doc.practical_hours || 0;

@@ -11,11 +11,31 @@ class ProgramModule(Document):
 		self._validar_asignaturas_duplicadas()
 		self._validar_prerrequisito_circular()
 
+	def on_update(self):
+		self._recalcular_duracion_programa()
+
+	def on_trash(self):
+		self._recalcular_duracion_programa()
+
+	def _recalcular_duracion_programa(self):
+		"""Actualiza program_duration en el Program padre al guardar o eliminar un módulo."""
+		if not self.program:
+			return
+		result = frappe.db.sql(
+			"SELECT COALESCE(SUM(total_hours), 0) FROM `tabProgram Module` WHERE program = %s",
+			self.program,
+		)
+		total = result[0][0] if result else 0
+		frappe.db.set_value("Program", self.program, "program_duration", total)
+
 	def _calcular_horas_totales(self):
-		"""Suma horas de las asignaturas; si no hay filas usa los campos manuales."""
+		"""Suma horas de las asignaturas; si no hay filas o ninguna tiene horas, usa los campos manuales."""
 		if self.courses_in_module:
-			self.theory_hours = sum(r.theory_hours or 0 for r in self.courses_in_module)
-			self.practical_hours = sum(r.practical_hours or 0 for r in self.courses_in_module)
+			theory_sum = sum(r.theory_hours or 0 for r in self.courses_in_module)
+			practical_sum = sum(r.practical_hours or 0 for r in self.courses_in_module)
+			if theory_sum or practical_sum:
+				self.theory_hours = theory_sum
+				self.practical_hours = practical_sum
 		self.total_hours = (self.theory_hours or 0) + (self.practical_hours or 0)
 
 	def _validar_tipo_programa(self):

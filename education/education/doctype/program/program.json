@@ -9,13 +9,28 @@
  "field_order": [
   "program_name",
   "program_type",
+  "program_status",
   "department",
   "hero_image",
   "column_break_3",
   "program_abbreviation",
+  "coordinator",
+  "program_duration",
   "section_break_courses",
   "courses",
   "section_break_modules",
+  "program_modules",
+  "eligibility_tab",
+  "eligibility_section",
+  "min_age",
+  "max_age",
+  "min_education_level",
+  "column_break_elig",
+  "accepts_disability",
+  "disability_types",
+  "required_profession",
+  "work_location",
+  "min_entrepreneurship_years",
   "connections_tab"
  ],
  "fields": [
@@ -37,11 +52,22 @@
    "reqd": 1
   },
   {
+   "fieldname": "program_status",
+   "fieldtype": "Select",
+   "label": "Estado",
+   "options": "Activo\nInactivo",
+   "default": "Activo",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "bold": 1,
+   "reqd": 1
+  },
+  {
    "fieldname": "department",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Department",
+   "label": "Escuela",
    "options": "Department"
   },
   {
@@ -53,6 +79,27 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Program Abbreviation"
+  },
+  {
+   "fieldname": "coordinator",
+   "fieldtype": "Link",
+   "label": "Instructor / Coordinador",
+   "options": "Instructor",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "program_duration",
+   "fieldtype": "Float",
+   "label": "Duración total (horas)",
+   "read_only": 1,
+   "description": "Calculado automáticamente según las horas totales de los módulos"
+  },
+  {
+   "depends_on": "eval:doc.program_type=='Libre'",
+   "fieldname": "section_break_courses",
+   "fieldtype": "Section Break",
+   "label": "Cursos del programa"
   },
   {
    "depends_on": "eval:doc.program_type=='Libre'",
@@ -68,10 +115,76 @@
    "label": "Módulos del programa"
   },
   {
-   "depends_on": "eval:doc.program_type=='Libre'",
-   "fieldname": "section_break_courses",
+   "depends_on": "eval:doc.program_type=='Modular' || doc.program_type=='Técnico'",
+   "fieldname": "program_modules",
+   "fieldtype": "Table",
+   "label": "Módulos",
+   "options": "Program Module List",
+   "read_only": 1
+  },
+  {
+   "fieldname": "eligibility_tab",
+   "fieldtype": "Tab Break",
+   "label": "Criterios de Elegibilidad"
+  },
+  {
+   "fieldname": "eligibility_section",
    "fieldtype": "Section Break",
-   "label": "Cursos del programa"
+   "label": "Requisitos de admisión"
+  },
+  {
+   "fieldname": "min_age",
+   "fieldtype": "Int",
+   "label": "Edad mínima",
+   "description": "Dejar en 0 para no aplicar"
+  },
+  {
+   "fieldname": "max_age",
+   "fieldtype": "Int",
+   "label": "Edad máxima",
+   "description": "Dejar en 0 para no aplicar"
+  },
+  {
+   "fieldname": "min_education_level",
+   "fieldtype": "Select",
+   "label": "Nivel mínimo de estudios",
+   "options": "\nPrimaria\nSecundaria\nBachiller\nTécnico\nLicenciatura\nIngeniería"
+  },
+  {
+   "fieldname": "column_break_elig",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "accepts_disability",
+   "fieldtype": "Check",
+   "label": "Acepta personas con discapacidad",
+   "default": "1"
+  },
+  {
+   "fieldname": "disability_types",
+   "fieldtype": "Select",
+   "label": "Tipo de discapacidad requerida",
+   "options": "\nVisión\nAuditiva\nMotriz\nOtro",
+   "depends_on": "eval:doc.accepts_disability==1",
+   "description": "Dejar vacío para aceptar cualquier tipo"
+  },
+  {
+   "fieldname": "required_profession",
+   "fieldtype": "Data",
+   "label": "Profesión requerida",
+   "description": "Dejar vacío para no aplicar"
+  },
+  {
+   "fieldname": "work_location",
+   "fieldtype": "Data",
+   "label": "Ubicación de trabajo requerida",
+   "description": "Dejar vacío para no aplicar"
+  },
+  {
+   "fieldname": "min_entrepreneurship_years",
+   "fieldtype": "Int",
+   "label": "Años mínimos de emprendimiento",
+   "description": "Dejar en 0 para no aplicar"
   },
   {
    "fieldname": "connections_tab",
@@ -129,7 +242,7 @@
    "link_fieldname": "program"
   }
  ],
- "modified": "2026-02-04 12:17:24.314384",
+ "modified": "2026-05-10 00:00:01.000000",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Program",

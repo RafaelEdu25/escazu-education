@@ -21,6 +21,7 @@
   "column_break_academic",
   "min_grade",
   "min_attendance",
+  "requires_certification",
   "courses_section",
   "courses_in_module",
   "prerequisites_section",
@@ -112,6 +113,12 @@
    "label": "Porcentaje mínimo de asistencia"
   },
   {
+   "default": "0",
+   "fieldname": "requires_certification",
+   "fieldtype": "Check",
+   "label": "Emite certificado"
+  },
+  {
    "fieldname": "courses_section",
    "fieldtype": "Section Break",
    "label": "Asignaturas del módulo"
@@ -135,7 +142,7 @@
   }
  ],
  "links": [],
- "modified": "2026-05-04 00:00:00.000000",
+ "modified": "2026-05-10 00:00:02.000000",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Program Module",

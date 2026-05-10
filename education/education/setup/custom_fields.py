@@ -14,25 +14,10 @@ def get_custom_fields():
 		"Course": [
 			# --- Información básica del curso ---
 			{
-				"fieldname": "course_type",
-				"label": "Tipo de curso",
-				"fieldtype": "Select",
-				"options": "\nLibre\nModular\nTécnico",
-				"reqd": 1,
-				"in_list_view": 1,
-				"in_standard_filter": 1,
-				"insert_after": "course_name",
-				"description": (
-					"Libre: curso independiente sin módulos. "
-					"Modular: estructura de módulos secuenciales. "
-					"Técnico: formación técnica con título."
-				),
-			},
-			{
 				"fieldname": "course_code",
 				"label": "Código del curso",
 				"fieldtype": "Data",
-				"insert_after": "course_type",
+				"insert_after": "course_status",
 			},
 			# --- Sección: Configuración académica ---
 			{

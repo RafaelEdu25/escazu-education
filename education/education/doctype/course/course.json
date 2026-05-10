@@ -9,6 +9,10 @@
  "field_order": [
   "course_name",
   "department",
+  "course_type",
+  "col_break_type_status",
+  "course_status",
+  "has_active_enrollment",
   "hero_image",
   "column_break_tflc",
   "description",
@@ -25,6 +29,41 @@
   "connections_tab"
  ],
 "fields": [
+   {
+    "fieldname": "course_type",
+    "fieldtype": "Select",
+    "label": "Tipo de curso",
+    "options": "\nLibre\nModular\nTécnico",
+    "reqd": 1,
+    "in_list_view": 1,
+    "in_standard_filter": 1,
+    "description": "Libre: curso independiente sin módulos. Modular: estructura de módulos secuenciales. Técnico: formación técnica con título."
+   },
+   {
+    "fieldname": "col_break_type_status",
+    "fieldtype": "Column Break",
+    "label": ""
+   },
+   {
+    "fieldname": "course_status",
+    "fieldtype": "Select",
+    "label": "Estado del Curso",
+    "options": "Activo\nInactivo\nCancelado",
+    "default": "Activo",
+    "in_list_view": 1,
+    "in_standard_filter": 1,
+    "bold": 1,
+    "reqd": 1
+   },
+   {
+    "default": "0",
+    "fieldname": "has_active_enrollment",
+    "fieldtype": "Check",
+    "label": "Tiene matrícula activa",
+    "read_only": 1,
+    "in_list_view": 1,
+    "bold": 1
+   },
    {
     "fieldname": "moodle_course_id",
     "fieldtype": "Data",
@@ -131,7 +170,7 @@
  ],
  "image_field": "hero_image",
  "links": [],
- "modified": "2023-12-19 10:03:17.393260",
+ "modified": "2026-05-10 00:00:03.000000",
  "modified_by": "Administrator",
  "module": "Education",
  "name": "Course",
@@ -191,5 +230,10 @@
  "show_name_in_global_search": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [
+  {"color": "Green", "title": "Activo"},
+  {"color": "Gray",  "title": "Inactivo"},
+  {"color": "Red",   "title": "Cancelado"}
+ ],
+ "track_changes": 1
 }

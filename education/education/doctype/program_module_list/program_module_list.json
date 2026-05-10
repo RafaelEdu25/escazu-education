@@ -1,0 +1,63 @@
+{
+ "actions": [],
+ "creation": "2026-05-10 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "module",
+  "module_name",
+  "order_no",
+  "status",
+  "total_hours"
+ ],
+ "fields": [
+  {
+   "fieldname": "module",
+   "fieldtype": "Link",
+   "label": "Módulo",
+   "options": "Program Module",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "module_name",
+   "fieldtype": "Data",
+   "label": "Nombre",
+   "in_list_view": 1,
+   "read_only": 1,
+   "fetch_from": "module.module_name"
+  },
+  {
+   "fieldname": "order_no",
+   "fieldtype": "Int",
+   "label": "Secuencia",
+   "in_list_view": 1,
+   "read_only": 1,
+   "fetch_from": "module.order_no"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Data",
+   "label": "Estado",
+   "in_list_view": 1,
+   "read_only": 1,
+   "fetch_from": "module.status"
+  },
+  {
+   "fieldname": "total_hours",
+   "fieldtype": "Float",
+   "label": "Total Horas",
+   "in_list_view": 1,
+   "read_only": 1,
+   "fetch_from": "module.total_hours"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-05-10 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Program Module List",
+ "owner": "Administrator",
+ "permissions": []
+}

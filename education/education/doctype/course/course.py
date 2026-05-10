@@ -14,6 +14,16 @@ class Course(Document):
 		self._calcular_horas_totales()
 		self.validate_assessment_criteria()
 		self.validate_course_documents()
+		self.validate_status_change()
+		self._validar_no_en_matricula_activa()
+		self._actualizar_estado_matricula()
+
+	def _actualizar_estado_matricula(self):
+		if not self.is_new():
+			self.has_active_enrollment = 1 if _get_active_enrollment_term_for_course(self.name) else 0
+
+	def on_trash(self):
+		self._validar_no_en_matricula_activa()
 
 	def _calcular_horas_totales(self):
 		self.total_hours = (self.theory_hours or 0) + (self.practical_hours or 0)
@@ -40,6 +50,76 @@ class Course(Document):
 					)
 
 			self.course_documents = docs_validos
+
+	def validate_status_change(self):
+		"""RF-26/RF-27: controla cambios de estado del curso."""
+		if self.is_new():
+			return
+
+		before = self._doc_before_save
+		if not before:
+			return
+
+		prev_status = before.get("course_status")
+		new_status = self.course_status
+
+		if prev_status == new_status:
+			return
+
+		# RF-26/RF-27: solo roles autorizados pueden cambiar el estado
+		allowed_roles = {"Administrator", "Education Manager", "System Manager"}
+		user_roles = set(frappe.get_roles(frappe.session.user))
+		if not allowed_roles & user_roles:
+			frappe.throw(
+				_("Solo un Administrador o Education Manager puede cambiar el estado del curso."),
+				title=_("Permiso denegado"),
+			)
+
+		# RF-27: bloquear cancelación si hay estudiantes matriculados
+		if new_status == "Cancelado":
+			# Usar UNION para contar estudiantes únicos entre ambas rutas sin duplicados
+			result = frappe.db.sql(
+				"""
+				SELECT COUNT(DISTINCT student) as total FROM (
+					SELECT student FROM `tabCourse Enrollment`
+					WHERE course = %s
+					UNION
+					SELECT pe.student FROM `tabProgram Enrollment Course` pec
+					INNER JOIN `tabProgram Enrollment` pe ON pe.name = pec.parent
+					WHERE pec.course = %s
+					  AND pe.docstatus = 1
+				) AS matriculados
+				""",
+				(self.name, self.name),
+				as_dict=True,
+			)
+			total_enrolled = result[0].total if result else 0
+
+			if total_enrolled:
+				frappe.throw(
+					_("No se puede cancelar el curso <b>{0}</b>: tiene {1} estudiante(s) matriculado(s).").format(
+						self.course_name, total_enrolled
+					),
+					title=_("Cancelación bloqueada"),
+				)
+
+	def _validar_no_en_matricula_activa(self):
+		"""RT-3: bloquea edición y eliminación si el curso tiene matrícula activa abierta."""
+		if self.is_new():
+			return
+		term = _get_active_enrollment_term_for_course(self.name)
+		if term:
+			frappe.throw(
+				_("El curso <b>{0}</b> no puede modificarse ni eliminarse: "
+				  "está dentro del período de matrícula activa del término <b>{1}</b> "
+				  "({2} al {3}).").format(
+					self.course_name,
+					term.name,
+					frappe.format(term.enrollment_start_date, "Date"),
+					frappe.format(term.enrollment_end_date, "Date"),
+				),
+				title=_("Matrícula activa"),
+			)
 
 	def validate_assessment_criteria(self):
 		if self.assessment_criteria:
@@ -80,6 +160,45 @@ class Course(Document):
 			if topic_doc.topic_content:
 				topic_data.append(topic_doc)
 		return topic_data
+
+
+def _get_active_enrollment_term_for_course(course_name):
+	"""
+	Retorna el Academic Term activo cuya ventanilla de matrícula está abierta
+	y que tiene al menos un Student Group que usa este curso.
+	Retorna None si no hay ninguno.
+	"""
+	today = frappe.utils.today()
+
+	# Buscar Student Groups que usen este curso y tengan academic_term definido
+	groups = frappe.db.get_all(
+		"Student Group",
+		filters={"course": course_name, "disabled": 0, "academic_term": ["!=", ""]},
+		fields=["academic_term"],
+	)
+	if not groups:
+		return None
+
+	term_names = list({g.academic_term for g in groups if g.academic_term})
+	if not term_names:
+		return None
+
+	# De esos términos, buscar si alguno tiene ventanilla activa y hoy está en rango
+	for term_name in term_names:
+		term = frappe.db.get_value(
+			"Academic Term",
+			term_name,
+			["name", "enrollment_open", "enrollment_start_date", "enrollment_end_date"],
+			as_dict=True,
+		)
+		if not term or not term.enrollment_open:
+			continue
+		start = term.enrollment_start_date
+		end = term.enrollment_end_date
+		if start and end and str(start) <= today <= str(end):
+			return term
+
+	return None
 
 
 @frappe.whitelist()
