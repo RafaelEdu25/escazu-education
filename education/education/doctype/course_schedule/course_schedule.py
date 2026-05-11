@@ -10,6 +10,35 @@ from frappe import _
 from frappe.model.document import Document
 
 
+@frappe.whitelist()
+@frappe.validate_and_sanitize_search_inputs
+def get_courses_for_student_group(doctype, txt, searchfield, start, page_len, filters):
+	"""Retorna los cursos del Program Module vinculado al Student Group."""
+	student_group = filters.get("student_group")
+	if not student_group:
+		return []
+
+	program_module = frappe.db.get_value("Student Group", student_group, "program_module")
+	if not program_module:
+		return frappe.db.sql(
+			"""SELECT name, course_name FROM `tabCourse`
+			WHERE (name LIKE %(txt)s OR course_name LIKE %(txt)s)
+			ORDER BY name LIMIT %(start)s, %(page_len)s""",
+			{"txt": f"%{txt}%", "start": start, "page_len": page_len},
+		)
+
+	return frappe.db.sql(
+		"""SELECT pmc.course, c.course_name
+		FROM `tabProgram Module Course` pmc
+		INNER JOIN `tabCourse` c ON c.name = pmc.course
+		WHERE pmc.parent = %(module)s
+		AND (pmc.course LIKE %(txt)s OR c.course_name LIKE %(txt)s)
+		ORDER BY pmc.order_no, pmc.course
+		LIMIT %(start)s, %(page_len)s""",
+		{"module": program_module, "txt": f"%{txt}%", "start": start, "page_len": page_len},
+	)
+
+
 class CourseSchedule(Document):
 	def validate(self):
 		self.instructor_name = frappe.db.get_value(

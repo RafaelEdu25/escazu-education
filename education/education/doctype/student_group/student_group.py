@@ -5,19 +5,84 @@
 import frappe
 from frappe import _
 from frappe.model.document import Document
-from frappe.utils import cint
+from frappe.utils import cint, today
 
 from education.education.utils import validate_duplicate_student
 
 
 class StudentGroup(Document):
 	def validate(self):
+		self.validate_enrollment_period()
 		self.validate_mandatory_fields()
 		self.validate_strength()
 		self.validate_students()
 		self.validate_prerequisites()
 		self.validate_and_set_child_table_fields()
 		validate_duplicate_student(self.students)
+
+	def validate_enrollment_period(self):
+		"""RF-22: Bloquea edición cuando el período de matrícula está activo.
+		Solo System Manager puede editar en ese período."""
+		if not self.academic_term or self.is_new():
+			return
+
+		if "System Manager" in frappe.get_roles(frappe.session.user):
+			return
+
+		term = frappe.db.get_value(
+			"Academic Term",
+			self.academic_term,
+			["enrollment_open", "enrollment_start_date", "enrollment_end_date"],
+			as_dict=True,
+		)
+
+		if not term or not term.enrollment_open:
+			return
+
+		hoy = today()
+		start = str(term.enrollment_start_date or "")
+		end = str(term.enrollment_end_date or "")
+
+		if start and end and start <= hoy <= end:
+			frappe.throw(
+				_(
+					"No se puede editar la oferta académica mientras el período de matrícula esté activo "
+					"({0} al {1}). Solo un Administrador del Sistema puede realizar cambios en este período."
+				).format(
+					frappe.format(term.enrollment_start_date, "Date"),
+					frappe.format(term.enrollment_end_date, "Date"),
+				),
+				title=_("Período de Matrícula Activo"),
+			)
+
+	@frappe.whitelist()
+	def get_enrollment_status(self):
+		"""RF-21/22: Retorna el estado del período de matrícula del Academic Term vinculado."""
+		if not self.academic_term:
+			return {"open": False}
+
+		term = frappe.db.get_value(
+			"Academic Term",
+			self.academic_term,
+			["enrollment_open", "enrollment_start_date", "enrollment_end_date"],
+			as_dict=True,
+		)
+
+		if not term:
+			return {"open": False}
+
+		hoy = today()
+		start = str(term.enrollment_start_date or "")
+		end = str(term.enrollment_end_date or "")
+		is_open = bool(
+			term.enrollment_open and start and end and start <= hoy <= end
+		)
+
+		return {
+			"open": is_open,
+			"enrollment_start_date": term.enrollment_start_date,
+			"enrollment_end_date": term.enrollment_end_date,
+		}
 
 	def validate_prerequisites(self):
 		if not self.course:
