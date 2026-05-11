@@ -127,14 +127,4 @@ def get_custom_fields():
 				"insert_after": "unit_objective",
 			},
 		],
-		"Student Group": [
-			{
-				"fieldname": "program_module",
-				"label": "Módulo",
-				"fieldtype": "Link",
-				"options": "Program Module",
-				"insert_after": "batch",
-				"in_standard_filter": 1,
-			},
-		],
 	}
