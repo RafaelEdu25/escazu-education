@@ -23,19 +23,38 @@ frappe.ui.form.on('Course Schedule', {
       return { filters }
     })
 
-    frm.set_query('course', function () {
-      return {
-        query:
-          'education.education.doctype.program_enrollment.program_enrollment.get_program_courses',
-        filters: {
-          program: frm.doc.program,
-        },
-      }
-    })
+    frm.events.set_course_query(frm)
+  },
+
+  set_course_query: (frm) => {
+    if (frm.doc.student_group) {
+      frappe.db.get_value('Student Group', frm.doc.student_group, ['course', 'group_based_on', 'program_module'], (r) => {
+        if (r && r.course && r.group_based_on === 'Course') {
+          // Grupo tipo Course: curso fijo, autocompletar y bloquear
+          frm.set_value('course', r.course)
+          frm.set_df_property('course', 'read_only', 1)
+        } else if (r && r.program_module) {
+          // Grupo con módulo definido: filtrar solo los cursos del módulo
+          frm.set_df_property('course', 'read_only', 0)
+          frm.set_query('course', () => ({
+            query: 'education.education.doctype.course_schedule.course_schedule.get_courses_for_student_group',
+            filters: { student_group: frm.doc.student_group },
+          }))
+        } else {
+          // Sin módulo ni curso: selección libre
+          frm.set_df_property('course', 'read_only', 0)
+          frm.set_query('course', () => ({}))
+        }
+      })
+    } else {
+      frm.set_df_property('course', 'read_only', 0)
+      frm.set_query('course', () => ({}))
+    }
   },
 
   student_group: (frm) => {
     frm.events.get_instructors(frm)
+    frm.events.set_course_query(frm)
   },
 
   get_instructors: (frm) => {
