@@ -7,6 +7,7 @@
  "document_type": "Document",
  "engine": "InnoDB",
  "field_order": [
+  "custom_header",
   "first_name",
   "middle_name",
   "last_name",
@@ -48,26 +49,42 @@
   "column_break_23",
   "state",
   "pincode",
-  "country"
+  "country",
+  "custom_tab_5",
+  "custom_custom",
+  "custom_estudios_previos",
+  "custom_discapacidad",
+  "custom_column_break_7qeby",
+  "custom_profesión",
+  "custom_ubicación_de_trabajo",
+  "custom_experiencia_en_emprendimiento_años",
+  "custom_acepta_términos",
+  "custom_politicas_privacidad",
+  "custom_section_break_uwptn",
+  "custom_identificacion"
  ],
  "fields": [
+  {
+   "fieldname": "custom_header",
+   "fieldtype": "HTML"
+  },
   {
    "fieldname": "first_name",
    "fieldtype": "Data",
    "in_global_search": 1,
-   "label": "First Name",
+   "label": "Primer Nombre",
    "reqd": 1
   },
   {
    "fieldname": "middle_name",
    "fieldtype": "Data",
-   "label": "Middle Name"
+   "label": "Segundo Nombre"
   },
   {
    "fieldname": "last_name",
    "fieldtype": "Data",
    "in_global_search": 1,
-   "label": "Last Name"
+   "label": "Apellidos"
   },
   {
    "fieldname": "program",
@@ -76,7 +93,7 @@
    "in_global_search": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Program",
+   "label": "Programa",
    "options": "Program",
    "reqd": 1
   },
@@ -84,7 +101,7 @@
    "default": "0",
    "fieldname": "paid",
    "fieldtype": "Check",
-   "label": "Paid"
+   "label": "Pagado"
   },
   {
    "fieldname": "column_break_8",
@@ -93,7 +110,7 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
-   "label": "Naming Series",
+   "label": "Serie de Nomenclatura",
    "no_copy": 1,
    "options": "EDU-APP-.YYYY.-",
    "set_only_once": 1
@@ -103,7 +120,7 @@
    "fieldname": "application_status",
    "fieldtype": "Select",
    "in_filter": 1,
-   "label": "Application Status",
+   "label": "Estado de Solicitud",
    "no_copy": 1,
    "options": "Applied\nApproved\nRejected\nAdmitted",
    "read_only": 1
@@ -112,32 +129,32 @@
    "default": "Today",
    "fieldname": "application_date",
    "fieldtype": "Date",
-   "label": "Application Date"
+   "label": "Fecha de Solicitud"
   },
   {
    "fieldname": "academic_year",
    "fieldtype": "Link",
-   "label": "Academic Year",
+   "label": "Año Académico",
    "options": "Academic Year",
    "reqd": 1
   },
   {
    "fieldname": "academic_term",
    "fieldtype": "Link",
-   "label": "Academic Term",
+   "label": "Periodo Académico",
    "options": "Academic Term"
   },
   {
    "fieldname": "student_admission",
    "fieldtype": "Link",
-   "label": "Student Admission",
+   "label": "Admisión",
    "options": "Student Admission"
   },
   {
    "fieldname": "image",
    "fieldtype": "Attach Image",
    "hidden": 1,
-   "label": "Image"
+   "label": "Imagen"
   },
   {
    "fieldname": "section_break_4",
@@ -146,18 +163,18 @@
   {
    "fieldname": "date_of_birth",
    "fieldtype": "Date",
-   "label": "Date of Birth"
+   "label": "Fecha de Nacimiento"
   },
   {
    "fieldname": "gender",
    "fieldtype": "Link",
-   "label": "Gender",
+   "label": "Género",
    "options": "Gender"
   },
   {
    "fieldname": "blood_group",
    "fieldtype": "Select",
-   "label": "Blood Group",
+   "label": "Grupo Sanguíneo",
    "options": "\nA+\nA-\nB+\nB-\nO+\nO-\nAB+\nAB-"
   },
   {
@@ -167,19 +184,19 @@
   {
    "fieldname": "student_email_id",
    "fieldtype": "Data",
-   "label": "Student Email Address",
+   "label": "Correo Electrónico",
    "options": "Email",
    "unique": 1
   },
   {
    "fieldname": "student_mobile_number",
    "fieldtype": "Data",
-   "label": "Student Mobile Number"
+   "label": "Número de Teléfono"
   },
   {
    "fieldname": "nationality",
    "fieldtype": "Data",
-   "label": "Nationality"
+   "label": "Nacionalidad"
   },
   {
    "fieldname": "home_address",
@@ -188,17 +205,17 @@
   {
    "fieldname": "address_line_1",
    "fieldtype": "Data",
-   "label": "Address Line 1"
+   "label": "Dirección 1"
   },
   {
    "fieldname": "address_line_2",
    "fieldtype": "Data",
-   "label": "Address Line 2"
+   "label": "Dirección 2"
   },
   {
    "fieldname": "pincode",
    "fieldtype": "Data",
-   "label": "Pincode"
+   "label": "Código Postal"
   },
   {
    "fieldname": "column_break_23",
@@ -207,33 +224,33 @@
   {
    "fieldname": "city",
    "fieldtype": "Data",
-   "label": "City"
+   "label": "Ciudad"
   },
   {
    "fieldname": "state",
    "fieldtype": "Data",
-   "label": "State"
+   "label": "Estado o Provincia"
   },
   {
    "fieldname": "section_break_20",
    "fieldtype": "Section Break",
-   "label": "Guardian Details"
+   "label": "Detalles de Tutores"
   },
   {
    "fieldname": "guardians",
    "fieldtype": "Table",
-   "label": "Guardians",
+   "label": "Tutores",
    "options": "Student Guardian"
   },
   {
    "fieldname": "section_break_21",
    "fieldtype": "Section Break",
-   "label": "Sibling Details"
+   "label": "Detalles de Hermanos"
   },
   {
    "fieldname": "siblings",
    "fieldtype": "Table",
-   "label": "Siblings",
+   "label": "Hermanos",
    "options": "Student Sibling"
   },
   {
@@ -244,12 +261,12 @@
    "fieldname": "title",
    "fieldtype": "Data",
    "hidden": 1,
-   "label": "Title"
+   "label": "Título"
   },
   {
    "fieldname": "amended_from",
    "fieldtype": "Link",
-   "label": "Amended From",
+   "label": "Modificado De",
    "no_copy": 1,
    "options": "Student Applicant",
    "print_hide": 1,
@@ -258,7 +275,7 @@
   {
    "fieldname": "student_category",
    "fieldtype": "Link",
-   "label": "Student Category",
+   "label": "Categoría de Estudiante",
    "options": "Student Category"
   },
   {
@@ -272,23 +289,83 @@
   {
    "fieldname": "personal_details_tab",
    "fieldtype": "Tab Break",
-   "label": "Personal Details"
+   "label": "Detalles Personales"
   },
   {
    "fieldname": "relations_tab",
    "fieldtype": "Tab Break",
-   "label": "Relations"
+   "label": "Relaciones"
   },
   {
    "fieldname": "address_tab",
    "fieldtype": "Tab Break",
-   "label": "Address"
+   "label": "Dirección"
   },
   {
    "fieldname": "country",
    "fieldtype": "Link",
-   "label": "Country",
+   "label": "País",
    "options": "Country"
+  },
+  {
+   "fieldname": "custom_tab_5",
+   "fieldtype": "Tab Break",
+   "label": "Extras"
+  },
+  {
+   "fieldname": "custom_custom",
+   "fieldtype": "Section Break",
+   "label": "Personalizado"
+  },
+  {
+   "fieldname": "custom_estudios_previos",
+   "fieldtype": "Select",
+   "label": "Estudios Previos",
+   "options": "Primaria\nSecundaria\nBachiller\nTécnico\nLicenciatura\nIngeniería"
+  },
+  {
+   "fieldname": "custom_discapacidad",
+   "fieldtype": "Select",
+   "label": "Discapacidad",
+   "options": "Ninguna\nVisión\nAuditiva\nMotriz\nOtro"
+  },
+  {
+   "fieldname": "custom_column_break_7qeby",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "custom_profesión",
+   "fieldtype": "Data",
+   "label": "Profesión"
+  },
+  {
+   "fieldname": "custom_ubicación_de_trabajo",
+   "fieldtype": "Data",
+   "label": "Ubicación de Trabajo"
+  },
+  {
+   "fieldname": "custom_experiencia_en_emprendimiento_años",
+   "fieldtype": "Int",
+   "label": "Experiencia en Emprendimiento (años)"
+  },
+  {
+   "fieldname": "custom_acepta_términos",
+   "fieldtype": "Check",
+   "label": "Acepta Términos"
+  },
+  {
+   "fieldname": "custom_politicas_privacidad",
+   "fieldtype": "Check",
+   "label": "Políticas de Privacidad y Manejo de Datos"
+  },
+  {
+   "fieldname": "custom_section_break_uwptn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "custom_identificacion",
+   "fieldtype": "Attach",
+   "label": "Identificacion"
   }
  ],
  "filters": [],

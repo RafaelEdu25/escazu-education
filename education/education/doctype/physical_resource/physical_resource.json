@@ -1,0 +1,110 @@
+{
+    "name": "Physical Resource",
+    "doctype": "DocType",
+    "module": "Education",
+    "naming_rule": "By fieldname",
+    "autoname": "field:resource_code",
+    "track_changes": 1,
+    "quick_entry": 1,
+    "fields": [
+        {
+            "fieldname": "resource_code",
+            "label": "Código",
+            "fieldtype": "Data",
+            "reqd": 1,
+            "in_list_view": 1,
+            "description": "Ej: PC-LABA-001, PROY-AULA101-001"
+        },
+        {
+            "fieldname": "resource_name",
+            "label": "Nombre del Recurso",
+            "fieldtype": "Data",
+            "reqd": 1,
+            "in_list_view": 1
+        },
+        {
+            "fieldname": "resource_type",
+            "label": "Tipo",
+            "fieldtype": "Select",
+            "options": "Computadora\nProyector\nPizarra Digital\nMobiliario\nHerramienta\nOtro",
+            "reqd": 1,
+            "in_list_view": 1
+        },
+        {
+            "fieldname": "col_break_1",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "room",
+            "label": "Aula / Espacio",
+            "fieldtype": "Link",
+            "options": "Room",
+            "in_list_view": 1,
+            "description": "Ubicación habitual de este recurso"
+        },
+        {
+            "fieldname": "status",
+            "label": "Estado",
+            "fieldtype": "Select",
+            "options": "Disponible\nEn Mantenimiento\nFuera de Servicio\nDado de Baja",
+            "default": "Disponible",
+            "reqd": 1,
+            "in_list_view": 1
+        },
+        {
+            "fieldname": "is_fixed",
+            "label": "Es Fijo (no se mueve del aula)",
+            "fieldtype": "Check",
+            "default": 1
+        },
+        {
+            "fieldname": "section_detail",
+            "label": "Detalle",
+            "fieldtype": "Section Break"
+        },
+        {
+            "fieldname": "brand",
+            "label": "Marca / Modelo",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "serial_no",
+            "label": "Número de Serie",
+            "fieldtype": "Data"
+        },
+        {
+            "fieldname": "col_break_2",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "purchase_date",
+            "label": "Fecha de Adquisición",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "notes",
+            "label": "Observaciones",
+            "fieldtype": "Small Text"
+        },
+        {
+            "fieldname": "resource_image",
+            "label": "Foto",
+            "fieldtype": "Attach Image"
+        }
+    ],
+    "permissions": [
+        {
+            "role": "Academics User",
+            "read": 1,
+            "write": 1,
+            "create": 1
+        },
+        {
+            "role": "System Manager",
+            "read": 1,
+            "write": 1,
+            "create": 1,
+            "delete": 1
+        }
+    ]
+}

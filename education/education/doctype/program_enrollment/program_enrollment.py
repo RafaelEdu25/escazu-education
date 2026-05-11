@@ -18,9 +18,36 @@ class ProgramEnrollment(Document):
 	def validate(self):
 		self.set_student_name()
 		self.validate_duplication()
+		self.validate_eligibility()
 
 		if not self.courses:
 			self.extend("courses", self.get_courses())
+
+	def validate_eligibility(self):
+		student = frappe.get_doc("Student", self.student)
+		program = frappe.get_doc("Program", self.program)
+
+		# Obtener atributos de forma segura (por si aún no existen en la base de datos)
+		min_age = getattr(program, "min_age", 0)
+		max_age = getattr(program, "max_age", 0)
+		req_edu = getattr(program, "required_education_level", None)
+		accepts_disability = getattr(program, "accepts_disability", 1)
+
+		if (min_age and min_age > 0) or (max_age and max_age > 0):
+			if not student.date_of_birth:
+				frappe.throw(_("Se requiere la Fecha de Nacimiento del estudiante para validar elegibilidad."))
+			from frappe.utils import getdate, date_diff, nowdate
+			age = date_diff(nowdate(), student.date_of_birth) / 365.25
+			if min_age and min_age > 0 and age < min_age:
+				frappe.throw(_("El participante no cumple con la edad mínima del programa."))
+			if max_age and max_age > 0 and age > max_age:
+				frappe.throw(_("El participante excede la edad máxima del programa."))
+
+		if req_edu and getattr(student, "custom_estudios_previos", None) != req_edu:
+			frappe.throw(_("Nivel educativo no cumple con los requisitos del programa."))
+
+		if accepts_disability == 0 and getattr(student, "custom_discapacidad", "Ninguna") != "Ninguna":
+			frappe.throw(_("Este programa no está habilitado para personas con discapacidad."))
 
 	def set_student_name(self):
 		if not self.student_name:
@@ -30,10 +57,15 @@ class ProgramEnrollment(Document):
 		self.update_student_joining_date()
 		self.make_fee_records()
 		self.create_course_enrollments()
+		self.update_student_current_program(self.program)
 
 	def on_cancel(self):
 		self.delete_course_enrollments()
-		pass
+		self.update_student_current_program(None)
+
+	def update_student_current_program(self, program):
+		if self.student:
+			frappe.db.set_value("Student", self.student, "current_program", program)
 
 	def validate_duplication(self):
 		enrollment = frappe.db.exists(

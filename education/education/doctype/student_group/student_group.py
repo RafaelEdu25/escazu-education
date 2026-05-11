@@ -15,8 +15,48 @@ class StudentGroup(Document):
 		self.validate_mandatory_fields()
 		self.validate_strength()
 		self.validate_students()
+		self.validate_prerequisites()
 		self.validate_and_set_child_table_fields()
 		validate_duplicate_student(self.students)
+
+	def validate_prerequisites(self):
+		if not self.course:
+			return
+		
+		# Validar prerrequisitos del curso
+		prereqs = []
+		if frappe.db.exists("DocType", "Course Prerequisite"):
+			prereqs = frappe.get_all("Course Prerequisite", filters={"parent": self.course}, fields=["prerequisite_course"])
+		elif frappe.db.exists("DocType", "Course Prerequisite Custom"):
+			prereqs = frappe.get_all("Course Prerequisite Custom", filters={"parent": self.course}, fields=["prerequisite_course"])
+
+		if not prereqs:
+			return
+
+		for d in self.students:
+			for pr in prereqs:
+				enrollment = frappe.db.sql("""
+					SELECT name FROM `tabCourse Enrollment`
+					WHERE student = %s AND course = %s AND docstatus = 1
+				""", (d.student, pr.prerequisite_course))
+				
+				if not enrollment:
+					frappe.throw(_("El participante {0} no ha completado el curso prerrequisito: {1}").format(d.student_name, pr.prerequisite_course))
+
+	@frappe.whitelist()
+	def cancel_offer(self):
+		# Verificar inscritos
+		if self.students and len(self.students) > 0:
+			frappe.throw(_("No se puede cancelar una oferta con estudiantes matriculados. Retire los estudiantes primero."))
+		
+		self.status = "Cancelado"
+		self.disabled = 1
+		# Si hubiera campo published = 0, se asignaría aquí
+		if hasattr(self, "published"):
+			self.published = 0
+			
+		self.save(ignore_permissions=True)
+		return _("La oferta ha sido cancelada exitosamente.")
 
 	def validate_mandatory_fields(self):
 		if self.group_based_on == "Course" and not self.course:
