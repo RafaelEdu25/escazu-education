@@ -248,13 +248,13 @@ frappe.ui.form.on('Student Group', {
         based_on: 'Student Group',
         student_group: frm.doc.name
       });
-    }, __('Tools'));
+    }, __('Herramientas'));
 
     frm.add_custom_button(__('<i class="fa fa-clock-o"></i> Horarios'), () => {
       frappe.set_route('Form', 'Course Scheduling Tool', {
         student_group: frm.doc.name
       });
-    }, __('Tools'));
+    }, __('Herramientas'));
 
     // Grupo: Comunicación
     frm.add_custom_button(__('Actualizar Correos Tutores'), () => {
@@ -264,13 +264,13 @@ frappe.ui.form.on('Student Group', {
         freeze: true,
         callback: () => frappe.show_alert({ message: __('Lista de correos actualizada'), indicator: 'blue' })
       });
-    }, __('Actions'));
+    }, __('Acciones'));
 
     frm.add_custom_button(__('Ver Newsletters'), () => {
       frappe.set_route('List', 'Newsletter', {
         'Newsletter Email Group.email_group': frm.doc.name
       });
-    }, __('View'));
+    }, __('Ver'));
 
     // Acción de Peligro: Cancelar
     if (frm.doc.status !== 'Cancelado') {
@@ -286,7 +286,7 @@ frappe.ui.form.on('Student Group', {
             }
           });
         });
-      }, __('Actions'));
+      }, __('Acciones'));
 
       $(`[data-label='${__("Cancelar Oferta")}']`).addClass('btn-danger').css('color', 'white');
     }

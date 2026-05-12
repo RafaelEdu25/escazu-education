@@ -13,6 +13,13 @@ from frappe.utils import get_link_to_form
 class CourseEnrollment(Document):
 	def validate(self):
 		self.validate_duplication()
+		self.check_eligibility()
+
+	def check_eligibility(self):
+		from education.education.eligibility import check_course_eligibility
+		res = check_course_eligibility(self.student, self.course)
+		if not res.get("eligible"):
+			frappe.throw(res.get("message"), title=_("Elegibilidad Insuficiente"))
 
 	def get_progress(self, student):
 		"""
