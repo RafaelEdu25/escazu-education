@@ -100,22 +100,14 @@ frappe.ui.form.on('Program Enrollment', {
 
 frappe.ui.form.on('Program Enrollment Course', {
   courses_add: function (frm) {
-    frm.fields_dict['courses'].grid.get_field('course').get_query = function (
-      doc
-    ) {
-      var course_list = []
-      $.each(frm.doc.courses || [], function (_idx, val) {
-        if (val.course) course_list.push(val.course)
-      })
-
-      let program_courses = (frm.program_courses || []).map(e => e.course)
-
-      if (!program_courses.length) {
-				return { filters: [['Course', 'name', 'not in', course_list]] };
-      } else {
-				return { filters: [['Course', 'name', 'not in', course_list],
-					['Course', 'name', 'in', program_courses]] }
-      }
+    frm.fields_dict['courses'].grid.get_field('course').get_query = function (doc) {
+      return {
+        query: 'education.education.eligibility.fetch_eligible_courses',
+        filters: {
+          student: doc.student,
+          program: doc.program
+        }
+      };
     }
   },
 })

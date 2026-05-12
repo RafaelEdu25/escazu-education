@@ -133,3 +133,37 @@ class CourseSchedule(Document):
 			"purple": "#F9F0FF",
 		}
 		self.color = colors[self.class_schedule_color or "green"]
+
+
+@frappe.whitelist()
+def check_conflicts(doc_name, instructor, room, schedule_date, from_time, to_time):
+    """
+    Función para verificar conflictos antes de guardar.
+    Retorna una lista de mensajes de advertencia.
+    """
+    from education.education.utils import get_overlap_for
+    
+    # Creamos un objeto temporal para usar las funciones de overlap existentes
+    tmp_doc = frappe._dict({
+        "doctype": "Course Schedule",
+        "name": doc_name,
+        "instructor": instructor,
+        "room": room,
+        "schedule_date": schedule_date,
+        "from_time": from_time,
+        "to_time": to_time
+    })
+
+    warnings = []
+
+    # Verificar Instructor
+    instructor_overlap = get_overlap_for(tmp_doc, "Course Schedule", "instructor")
+    if instructor_overlap:
+        warnings.append(_("El Instructor {0} ya tiene una clase asignada en este horario.").format(instructor))
+
+    # Verificar Salón (Room)
+    room_overlap = get_overlap_for(tmp_doc, "Course Schedule", "room")
+    if room_overlap:
+        warnings.append(_("El Salón {0} ya se encuentra ocupado en este horario.").format(room))
+
+    return warnings
