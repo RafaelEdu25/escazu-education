@@ -765,3 +765,14 @@ def get_student_attendance(student, student_group):
 		filters={"student": student, "student_group": student_group, "docstatus": 1},
 		fields=["date", "status", "name"],
 	)
+# --- Tu código personalizado ---
+def update_user_category(doc, method=None):
+    # Obtenemos los roles asignados al usuario
+    roles = [r.role for r in doc.roles]
+    
+    if "Student" in roles:
+        doc.user_category = "Student"
+    elif "Instructor" in roles:
+        doc.user_category = "Instructor"
+    else:
+        doc.user_category = "Staff"

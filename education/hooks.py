@@ -209,11 +209,17 @@ after_install = "education.install.after_install"
 # Hook on document methods and events
 
 doc_events = {
+	"User": {
+        "before_save": "education.api.update_user_category"
+    },
+
+
 	"Course": {
 		"after_insert": "education.moodle_integration.events.on_course_created",
 		"after_save":   "education.moodle_integration.events.on_course_saved",
 		"after_rename": "education.moodle_integration.events.on_course_renamed",
 	},
+	
 }
 
 # Scheduled Tasks
@@ -291,10 +297,5 @@ before_tests = "education.education.test_utils.before_tests"
 fixtures = [
     "Custom Field",
     "Property Setter",
-    "Role",
-    "User",
-    'notification',
-    "Program Module",
-    "Program Module Course",
-    "Program Module Prerequisite",
+    "Role"
 ]
