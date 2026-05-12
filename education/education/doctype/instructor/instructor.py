@@ -74,37 +74,27 @@ class Instructor(Document):
 				frappe.throw(_("El campo {0} es obligatorio.").format(label))
 
 	def validate_deactivation(self):
-		"""
-		Al intentar desactivar un instructor, verifica si tiene cursos activos.
-		Si los tiene, lanza error con el listado de asignaciones afectadas.
-		"""
+		"""Al desactivar un instructor verifica que no tenga horarios futuros asignados."""
 		if self.is_new():
 			return
 
 		previous_status = frappe.db.get_value("Instructor", self.name, "status")
+		if previous_status != "Active" or self.status != "Inactive":
+			return
 
-		# Solo actuar si el status cambió de Active → Inactive
-		if previous_status == "Active" and self.status == "Inactive":
-			horarios = self._get_active_schedules()
-			grupos = self._get_active_student_groups()
+		horarios = self._get_active_schedules()
+		if not horarios:
+			return
 
-			if horarios or grupos:
-				lineas = []
-				for c in horarios:
-					lineas.append(f"  • [Horario] {c.course} — {c.schedule_date} ({c.name})")
-				for g in grupos:
-					lineas.append(f"  • [Grupo] {g['parent']} — Curso: {g['course'] or 'N/A'}")
-
-				lista = "\n".join(lineas)
-				total = len(horarios) + len(grupos)
-				frappe.throw(
-					_(
-						"No se puede desactivar el instructor porque tiene {0} asignación(es) activa(s):\n\n"
-						"{1}\n\n"
-						"Por favor, reasigne un instructor antes de desactivar este perfil."
-					).format(total, lista),
-					title=_("⚠️ Instructor con Cursos Activos")
-				)
+		lineas = [f"  • {c.course} — {frappe.format(c.schedule_date, 'Date')} ({c.name})" for c in horarios]
+		frappe.throw(
+			_(
+				"No se puede desactivar el instructor porque tiene {0} horario(s) futuro(s) asignado(s):\n\n"
+				"{1}\n\n"
+				"Por favor, reasigne o elimine esos horarios antes de desactivar este perfil."
+			).format(len(horarios), "\n".join(lineas)),
+			title=_("⚠️ Instructor con Horarios Activos"),
+		)
 
 	def _get_active_schedules(self):
 		"""Retorna los Course Schedules futuros asignados a este instructor."""
@@ -113,25 +103,11 @@ class Instructor(Document):
 			filters={
 				"instructor": self.name,
 				"schedule_date": [">=", frappe.utils.today()],
+				"docstatus": ["!=", 2],
 			},
 			fields=["name", "course", "schedule_date"],
 			order_by="schedule_date asc",
 		)
-
-	def _get_active_student_groups(self):
-		"""Retorna los Student Groups donde este instructor está asignado como responsable."""
-		grupos = frappe.db.get_all(
-			"Student Group Instructor",
-			filters={"instructor": self.name},
-			fields=["parent"],
-		)
-		result = []
-		for g in grupos:
-			course = frappe.db.get_value("Student Group", g.parent, "course") or ""
-			disabled = frappe.db.get_value("Student Group", g.parent, "disabled") or 0
-			if not disabled:
-				result.append({"parent": g.parent, "course": course})
-		return result
 
 
 	def validate_duplicate_employee(self):
@@ -194,30 +170,18 @@ class Instructor(Document):
 
 @frappe.whitelist()
 def get_active_assignments(instructor):
-	"""Retorna horarios futuros y grupos activos del instructor para validación en cliente."""
+	"""Retorna horarios futuros del instructor para validación en cliente."""
 	schedules = frappe.db.get_all(
 		"Course Schedule",
 		filters={
 			"instructor": instructor,
 			"schedule_date": [">=", frappe.utils.today()],
+			"docstatus": ["!=", 2],
 		},
 		fields=["name", "course", "schedule_date"],
 		order_by="schedule_date asc",
 	)
-
-	raw_groups = frappe.db.get_all(
-		"Student Group Instructor",
-		filters={"instructor": instructor},
-		fields=["parent"],
-	)
-	groups = []
-	for g in raw_groups:
-		disabled = frappe.db.get_value("Student Group", g.parent, "disabled") or 0
-		if not disabled:
-			course = frappe.db.get_value("Student Group", g.parent, "course") or ""
-			groups.append({"parent": g.parent, "course": course})
-
-	return {"schedules": schedules, "groups": groups}
+	return {"schedules": schedules, "groups": []}
 
 
 def get_timeline_data(doctype, name):
