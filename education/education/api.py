@@ -10,7 +10,58 @@ from frappe.email.doctype.email_group.email_group import add_subscribers
 from frappe.model.mapper import get_mapped_doc
 from frappe.utils import cstr, flt, getdate, today
 from frappe.utils.dateutils import get_dates_from_timegrain
+from frappe.utils import getdate, today, date_diff
 
+def notificar_programa_segmentado(doc, method):
+    # Solo actuar si el programa está "Activo" y es un cambio reciente
+    if doc.program_status != "Activo":
+        return
+
+    # 1. Obtener todos los estudiantes habilitados con correo
+    students = frappe.get_all("Student", 
+        filters={"enabled": 1}, 
+        fields=["name", "first_name", "student_email_id", "date_of_birth", 
+                "custom_estudios_previos", "custom_profesión", "custom_ubicación_de_trabajo"]
+    )
+
+    for student in students:
+        # --- FILTRO 1: EDAD ---
+        if doc.min_age or doc.max_age:
+            if not student.date_of_birth: continue
+            age = (getdate(today()) - getdate(student.date_of_birth)).days // 365
+            if doc.min_age and age < doc.min_age: continue
+            if doc.max_age and age > doc.max_age: continue
+
+        # --- FILTRO 2: NIVEL ACADÉMICO ---
+        # Definimos jerarquía para comparar "Licenciatura > Primaria"
+        niveles = {"": 0, "Primaria": 1, "Secundaria": 2, "Bachiller": 3, "Técnico": 4, "Licenciatura": 5, "Ingeniería": 6}
+        if doc.min_education_level:
+            estudiante_nivel = niveles.get(student.custom_estudios_previos, 0)
+            programa_nivel = niveles.get(doc.min_education_level, 0)
+            if estudiante_nivel < programa_nivel: continue
+
+        # --- FILTRO 3: UBICACIÓN (Si aplica) ---
+        if doc.work_location and doc.work_location.lower() not in (student.custom_ubicación_de_trabajo or "").lower():
+            continue
+
+        # Si pasó todos los filtros, enviamos el correo
+        enviar_correo_personalizado(student, doc)
+
+def enviar_correo_personalizado(student, program):
+    message = f"""
+        <h3>¡Nuevo programa disponible para ti, {student.first_name}!</h3>
+        <p>Basado en tu perfil, te invitamos a inscribirte en: <b>{program.program_name}</b></p>
+        <p><b>Descripción:</b> {program.program_type}</p>
+        <hr>
+        <p>Puedes ver más detalles en nuestro campus virtual.</p>
+    """
+    
+    frappe.sendmail(
+        recipients=[student.student_email_id],
+        subject=f"Oportunidad académica: {program.program_name}",
+        message=message,
+        delayed=True # Para no saturar el servidor si son muchos correos
+    )
 
 def get_course(program):
 	"""Return list of courses for a particular program
@@ -765,3 +816,14 @@ def get_student_attendance(student, student_group):
 		filters={"student": student, "student_group": student_group, "docstatus": 1},
 		fields=["date", "status", "name"],
 	)
+
+@frappe.whitelist()
+def notificar_correccion(docname):
+    doc = frappe.get_doc("Student Applicant", docname)
+    
+    # 1. Cambiar el estado para que el aspirante sepa que debe actuar
+    doc.application_status = "Applied" # O un estado nuevo si lo creaste
+    doc.save()
+    
+    
+    return True

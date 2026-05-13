@@ -8,8 +8,12 @@
     "channel": "System Notification",
     "enabled": 1,
     "recipients": [
-      { "receiver_by_role": "Education Manager" },
-      { "receiver_by_role": "System Manager" }
+      {
+        "receiver_by_role": "Education Manager"
+      },
+      {
+        "receiver_by_role": "System Manager"
+      }
     ],
     "message": "Se ha registrado un nuevo instructor: {{ doc.instructor_name }} {{ doc.last_name }}. Cédula: {{ doc.cedula }}. Especialidad: {{ doc.specialty }}. Empresa: {{ doc.supplier_company }}."
   },
@@ -22,7 +26,9 @@
     "channel": "Email",
     "enabled": 1,
     "recipients": [
-      { "receiver_by_role": "Education Manager" }
+      {
+        "receiver_by_role": "Education Manager"
+      }
     ],
     "message": "<p>Se ha registrado un nuevo instructor en el sistema.</p><ul><li><b>Nombre:</b> {{ doc.instructor_name }} {{ doc.last_name }}</li><li><b>Cédula:</b> {{ doc.cedula }}</li><li><b>Correo:</b> {{ doc.email_id }}</li><li><b>Teléfono:</b> {{ doc.phone }}</li><li><b>Especialidad:</b> {{ doc.specialty }}</li><li><b>Empresa Proveedora:</b> {{ doc.supplier_company }}</li></ul>"
   },
@@ -35,9 +41,15 @@
     "channel": "System Notification",
     "enabled": 1,
     "recipients": [
-      { "receiver_by_role": "Instructor" },
-      { "receiver_by_role": "Student" },
-      { "receiver_by_role": "Education Manager" }
+      {
+        "receiver_by_role": "Instructor"
+      },
+      {
+        "receiver_by_role": "Student"
+      },
+      {
+        "receiver_by_role": "Education Manager"
+      }
     ],
     "message": "Se ha publicado un nuevo curso en el campus virtual: {{ doc.course_name }}. Ingresa al sistema para más información."
   },
@@ -50,9 +62,15 @@
     "channel": "Email",
     "enabled": 1,
     "recipients": [
-      { "receiver_by_role": "Instructor" },
-      { "receiver_by_role": "Student" },
-      { "receiver_by_role": "Education Manager" }
+      {
+        "receiver_by_role": "Instructor"
+      },
+      {
+        "receiver_by_role": "Student"
+      },
+      {
+        "receiver_by_role": "Education Manager"
+      }
     ],
     "message": "<p>Estimado usuario,</p><p>Se ha publicado un nuevo curso en el campus virtual.</p><p><b>Curso:</b> {{ doc.course_name }}</p><p>Ingresa al campus virtual para conocer más detalles e inscribirte.</p>"
   },
@@ -65,8 +83,12 @@
     "channel": "System Notification",
     "enabled": 1,
     "recipients": [
-      { "receiver_by_role": "Education Manager" },
-      { "receiver_by_role": "System Manager" }
+      {
+        "receiver_by_role": "Education Manager"
+      },
+      {
+        "receiver_by_role": "System Manager"
+      }
     ],
     "message": "Se ha recibido una nueva solicitud de admisión de {{ doc.first_name }} {{ doc.last_name }} para el programa {{ doc.program }}. Año académico: {{ doc.academic_year }}."
   },
@@ -79,7 +101,9 @@
     "channel": "Email",
     "enabled": 1,
     "recipients": [
-      { "receiver_by_role": "Education Manager" }
+      {
+        "receiver_by_role": "Education Manager"
+      }
     ],
     "message": "<p>Se ha recibido una nueva solicitud de admisión.</p><ul><li><b>Aspirante:</b> {{ doc.first_name }} {{ doc.last_name }}</li><li><b>Correo:</b> {{ doc.student_email_address }}</li><li><b>Programa:</b> {{ doc.program }}</li><li><b>Año Académico:</b> {{ doc.academic_year }}</li><li><b>Estado:</b> {{ doc.application_status }}</li></ul><p>Ingresa al sistema para revisar y procesar la solicitud.</p>"
   },
@@ -94,7 +118,9 @@
     "enabled": 1,
     "condition": "doc.application_status == 'Approved'",
     "recipients": [
-      { "receiver_by_document_field": "student_email_address" }
+      {
+        "receiver_by_document_field": "student_email_address"
+      }
     ],
     "message": "<p>Estimado/a {{ doc.first_name }} {{ doc.last_name }},</p><p>Nos complace informarte que tu solicitud de admisión ha sido <b>aprobada</b>.</p><ul><li><b>Programa:</b> {{ doc.program }}</li><li><b>Año Académico:</b> {{ doc.academic_year }}</li></ul><p>Pronto recibirás más información sobre el proceso de matrícula. Bienvenido/a al campus virtual.</p>"
   },
@@ -109,7 +135,9 @@
     "enabled": 1,
     "condition": "doc.application_status == 'Approved'",
     "recipients": [
-      { "receiver_by_role": "Education Manager" }
+      {
+        "receiver_by_role": "Education Manager"
+      }
     ],
     "message": "La solicitud de {{ doc.first_name }} {{ doc.last_name }} para el programa {{ doc.program }} ha sido aprobada."
   },
@@ -122,8 +150,12 @@
     "channel": "System Notification",
     "enabled": 1,
     "recipients": [
-      { "receiver_by_role": "Education Manager" },
-      { "receiver_by_role": "System Manager" }
+      {
+        "receiver_by_role": "Education Manager"
+      },
+      {
+        "receiver_by_role": "System Manager"
+      }
     ],
     "message": "El estudiante {{ doc.student_name }} se ha matriculado en el programa {{ doc.program }}. Fecha: {{ doc.enrollment_date }}."
   },
@@ -133,11 +165,45 @@
     "subject": "Confirmación de matrícula — {{ doc.program }}",
     "document_type": "Program Enrollment",
     "event": "New",
-    "channel": "Email", 
+    "channel": "Email",
     "enabled": 1,
     "recipients": [
-      { "receiver_by_role": "Education Manager" }
+      {
+        "receiver_by_role": "Education Manager"
+      }
     ],
     "message": "<p>Se ha registrado una nueva matrícula en el sistema.</p><ul><li><b>Estudiante:</b> {{ doc.student_name }}</li><li><b>Programa:</b> {{ doc.program }}</li><li><b>Fecha de matrícula:</b> {{ doc.enrollment_date }}</li></ul>"
+  },
+  {
+    "doctype": "Notification",
+    "name": "Corrección de Documentos - Email Aspirante",
+    "subject": "Acción Requerida: Corrección de documentos para {{ doc.program }}",
+    "document_type": "Student Applicant",
+    "event": "Save",
+    "channel": "Email",
+    "enabled": 1,
+    "condition": "doc.custom_documentos_incorrectos",
+    "recipients": [
+      {
+        "receiver_by_document_field": "student_email_id"
+      }
+    ],
+    "message": "<p>Estimado/a {{ doc.first_name }},</p><p>Hemos revisado su solicitud y se requiere la corrección de los siguientes documentos:</p><ul><li><b>Documentos:</b> {{ doc.custom_documentos_incorrectos }}</li></ul>{% if doc.custom_comentarios_correccion %}<p><b>Observaciones del administrador:</b> {{ doc.custom_comentarios_correccion }}</p>{% endif %}<p>Por favor, ingrese al portal lo antes posible para cargar los archivos correctos y continuar con su proceso de admisión.</p>"
+  },
+  {
+    "doctype": "Notification",
+    "name": "Corrección de Documentos - Sistema",
+    "subject": "Corrección notificada a: {{ doc.first_name }} {{ doc.last_name }}",
+    "document_type": "Student Applicant",
+    "event": "Save",
+    "channel": "System Notification",
+    "enabled": 1,
+    "condition": "doc.custom_documentos_incorrectos",
+    "recipients": [
+      {
+        "receiver_by_role": "Education Manager"
+      }
+    ],
+    "message": "Se ha solicitado corrección de documentos a {{ doc.first_name }} {{ doc.last_name }}. Documentos marcados: {{ doc.custom_documentos_incorrectos }}."
   }
 ]

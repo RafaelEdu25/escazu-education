@@ -15,6 +15,8 @@ frappe.ui.form.on('Student Applicant', {
 
     if (!frm.is_new()) {
       const status = frm.doc.application_status;
+
+      // Botones estándar de Aprobación/Rechazo
       if (status === 'Applied') {
         frm.add_custom_button(__('Approve'), () => {
           frm.set_value('application_status', 'Approved');
@@ -32,12 +34,49 @@ frappe.ui.form.on('Student Applicant', {
           frm.save();
         }, 'Actions');
       }
+
+      // --- Lógica para el botón de Notificar Corrección ---
+      if (frm.fields_dict['custom_notificar_aspirante']) {
+        frm.fields_dict['custom_notificar_aspirante'].$input.on('click', function () {
+          frm.events.notificar_correccion_script(frm);
+        });
+      }
     }
 
     frappe.db.get_value('Education Settings', { name: 'Education Settings' }, 'user_creation_skip', (r) => {
       if (r && cint(r.user_creation_skip) !== 1) {
         frm.set_df_property('student_email_id', 'reqd', 1);
       }
+    });
+  },
+
+  // Función que se ejecuta al presionar el botón de notificación
+  notificar_correccion_script: function (frm) {
+    if (!frm.doc.custom_documentos_incorrectos || frm.doc.custom_documentos_incorrectos.length === 0) {
+      frappe.msgprint({
+        title: __('Faltan datos'),
+        indicator: 'orange',
+        message: __('Por favor, seleccione al menos un documento en la lista de corrección.')
+      });
+      return;
+    }
+
+    frappe.confirm(__('¿Está seguro de que desea enviar la notificación de corrección al aspirante?'), () => {
+      frappe.call({
+        method: 'education.education.api.notificar_correccion',
+        args: {
+          docname: frm.doc.name
+        },
+        callback: function (r) {
+          if (r.message) {
+            frappe.show_alert({
+              message: __('Notificación enviada correctamente'),
+              indicator: 'green'
+            });
+            frm.reload_doc();
+          }
+        }
+      });
     });
   },
 
@@ -58,25 +97,16 @@ frappe.ui.form.on('Student Applicant', {
     }
   },
 
-  // --- VALIDACIÓN CORREGIDA ---
-
   program: function (frm) {
-    console.log("Cambio en programa detectado");
     frm.trigger('check_eligibility');
   },
 
   date_of_birth: function (frm) {
-    console.log("Cambio en fecha detectado");
     frm.trigger('check_eligibility');
   },
 
-  program: function (frm) { frm.trigger('check_eligibility'); },
-  date_of_birth: function (frm) { frm.trigger('check_eligibility'); },
-
   check_eligibility: function (frm) {
     if (frm.doc.program && frm.doc.date_of_birth) {
-      console.log("Enviando validación para:", frm.doc.program, frm.doc.date_of_birth);
-
       frappe.call({
         method: 'education.education.eligibility.check_program_eligibility',
         args: {
@@ -86,9 +116,7 @@ frappe.ui.form.on('Student Applicant', {
           is_new: frm.is_new() ? 1 : 0
         },
         callback: function (r) {
-          console.log("Respuesta del servidor:", r.message);
           if (r.message && r.message.eligible === false) {
-            // Usamos msgprint con indicator para que sea muy visible
             frappe.msgprint({
               title: __('Incompatibilidad Detectada'),
               indicator: 'red',
@@ -97,6 +125,16 @@ frappe.ui.form.on('Student Applicant', {
           }
         }
       });
+    }
+  },
+  validate: function (frm) {
+    if (!frm.doc.custom_acepta_términos || !frm.doc.custom_politicas_privacidad) {
+      frappe.msgprint({
+        title: __('Validación Requerida'),
+        indicator: 'red',
+        message: __('Debe leer y aceptar la Declaración Jurada y el Consentimiento Informado para continuar.')
+      });
+      frappe.validated = false;
     }
   }
 });
