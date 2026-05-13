@@ -296,7 +296,6 @@ fixtures = [
     "Property Setter",
     "Role",
     "User",
-    'notification',
     "Program Module",
     "Program Module Course",
     "Program Module Prerequisite",

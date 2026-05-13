@@ -16,7 +16,8 @@ frappe.ui.form.on('Program', {
   accepts_disability: function (frm) {
     frm.toggle_display('disability_types', frm.doc.accepts_disability)
     if (!frm.doc.accepts_disability) {
-      frm.set_value('disability_types', '')
+      frm.clear_table('disability_types')
+      frm.refresh_field('disability_types')
     }
   },
 

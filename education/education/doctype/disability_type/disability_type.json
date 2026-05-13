@@ -1,0 +1,44 @@
+{
+ "actions": [],
+ "autoname": "field:disability_name",
+ "creation": "2026-05-11 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": ["disability_name"],
+ "fields": [
+  {
+   "fieldname": "disability_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tipo de discapacidad",
+   "reqd": 1,
+   "unique": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-05-11 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Disability Type",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Academics User",
+   "write": 1
+  }
+ ],
+ "sort_field": "disability_name",
+ "sort_order": "ASC",
+ "track_changes": 0
+}

@@ -331,9 +331,9 @@
         },
         {
             "fieldname": "custom_discapacidad",
-            "fieldtype": "Select",
+            "fieldtype": "Table MultiSelect",
             "label": "Discapacidad",
-            "options": "Ninguna\nVisión\nAuditiva\nMotriz\nOtro"
+            "options": "Student Disability Type"
         },
         {
             "fieldname": "custom_column_break_7qeby",

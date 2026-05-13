@@ -162,11 +162,11 @@
   },
   {
    "fieldname": "disability_types",
-   "fieldtype": "Select",
-   "label": "Tipo de discapacidad requerida",
-   "options": "\nVisión\nAuditiva\nMotriz\nOtro",
+   "fieldtype": "Table MultiSelect",
+   "label": "Tipos de discapacidad requerida",
+   "options": "Program Disability Type",
    "depends_on": "eval:doc.accepts_disability==1",
-   "description": "Dejar vacío para aceptar cualquier tipo"
+   "description": "Dejar vacío para aceptar cualquier tipo de discapacidad"
   },
   {
    "fieldname": "required_profession",

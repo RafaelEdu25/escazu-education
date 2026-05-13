@@ -46,7 +46,8 @@ class ProgramEnrollment(Document):
 		if req_edu and getattr(student, "custom_estudios_previos", None) != req_edu:
 			frappe.throw(_("Nivel educativo no cumple con los requisitos del programa."))
 
-		if accepts_disability == 0 and getattr(student, "custom_discapacidad", "Ninguna") != "Ninguna":
+		student_disabilities = [row.disability_type for row in (getattr(student, "custom_discapacidad", None) or [])]
+		if accepts_disability == 0 and student_disabilities:
 			frappe.throw(_("Este programa no está habilitado para personas con discapacidad."))
 
 	def set_student_name(self):

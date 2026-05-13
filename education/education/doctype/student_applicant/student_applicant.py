@@ -91,16 +91,7 @@ class StudentApplicant(Document):
 
 	def validate_program_eligibility(self):
 		"""RT-2: valida los criterios de elegibilidad configurados en el Program."""
-		program = frappe.db.get_value(
-			"Program",
-			self.program,
-			[
-				"program_status", "min_age", "max_age", "min_education_level",
-				"accepts_disability", "disability_types",
-				"required_profession", "work_location", "min_entrepreneurship_years",
-			],
-			as_dict=True,
-		)
+		program = frappe.get_doc("Program", self.program) if frappe.db.exists("Program", self.program) else None
 
 		if not program:
 			return
@@ -149,9 +140,9 @@ class StudentApplicant(Document):
 				)
 
 		# Validar discapacidad
+		applicant_disabilities = [row.disability_type for row in (self.get("custom_discapacidad") or [])]
 		if not program.accepts_disability:
-			applicant_disability = self.get("custom_discapacidad") or "Ninguna"
-			if applicant_disability and applicant_disability != "Ninguna":
+			if applicant_disabilities:
 				frappe.throw(
 					_("El programa <b>{0}</b> no está configurado para personas con discapacidad.").format(
 						self.program
@@ -159,11 +150,12 @@ class StudentApplicant(Document):
 					title=_("Criterio de discapacidad no cumplido"),
 				)
 		elif program.accepts_disability and program.disability_types:
-			applicant_disability = self.get("custom_discapacidad") or ""
-			if applicant_disability and applicant_disability != "Ninguna" and applicant_disability != program.disability_types:
+			allowed_types = [row.disability_type for row in program.disability_types]
+			incompatible = [d for d in applicant_disabilities if d not in allowed_types]
+			if incompatible:
 				frappe.throw(
-					_("El programa <b>{0}</b> solo acepta el tipo de discapacidad: <b>{1}</b>.").format(
-						self.program, program.disability_types
+					_("El programa <b>{0}</b> solo acepta los siguientes tipos de discapacidad: <b>{1}</b>.").format(
+						self.program, ", ".join(allowed_types)
 					),
 					title=_("Tipo de discapacidad no compatible"),
 				)

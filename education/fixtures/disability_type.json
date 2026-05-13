@@ -1,0 +1,27 @@
+[
+ {
+  "doctype": "Disability Type",
+  "name": "Discapacidad Motriz",
+  "disability_name": "Discapacidad Motriz"
+ },
+ {
+  "doctype": "Disability Type",
+  "name": "Discapacidad Visual",
+  "disability_name": "Discapacidad Visual"
+ },
+ {
+  "doctype": "Disability Type",
+  "name": "Discapacidad Auditiva",
+  "disability_name": "Discapacidad Auditiva"
+ },
+ {
+  "doctype": "Disability Type",
+  "name": "Adecuación Curricular o Dificultad para Aprender",
+  "disability_name": "Adecuación Curricular o Dificultad para Aprender"
+ },
+ {
+  "doctype": "Disability Type",
+  "name": "Apoyo para Leer y Escribir",
+  "disability_name": "Apoyo para Leer y Escribir"
+ }
+]

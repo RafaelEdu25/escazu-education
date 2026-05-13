@@ -30,7 +30,10 @@ frappe.ui.form.on('Student Group', {
       // 3. Configurar Botones de Acción (Agrupados lógicamente)
       frm.trigger('setup_buttons');
 
-      // 4. Mensaje de introducción dinámico
+      // 4. RF-21/22: Consultar estado de matrícula y mostrar advertencia
+      frm.trigger('check_enrollment_status');
+
+      // 5. Mensaje de introducción dinámico
       if (!frm.doc.students || frm.doc.students.length === 0) {
         frm.set_intro(__('Este grupo no tiene estudiantes. Use el botón "Obtener Estudiantes" para poblar la lista.'), 'orange');
       } else {
@@ -38,7 +41,7 @@ frappe.ui.form.on('Student Group', {
       }
     }
 
-    // 5. Aplicar lógica de visibilidad inicial
+    // 6. Aplicar lógica de visibilidad inicial
     frm.trigger('modality');
   },
 
@@ -224,8 +227,7 @@ frappe.ui.form.on('Student Group', {
       let color = percent >= 100 ? 'red' : (percent >= 80 ? 'orange' : 'green');
       frm.dashboard.add_indicator(
         __('Cupos: {0}/{1}', [frm.doc.enrolled_count, frm.doc.max_strength]),
-        color,
-        'fa-users'
+        color
       );
     }
 
@@ -233,10 +235,42 @@ frappe.ui.form.on('Student Group', {
     if (frm.doc.modality) {
       frm.dashboard.add_indicator(
         __('Modalidad: {0}', [frm.doc.modality]),
-        'blue',
-        frm.doc.modality === 'Virtual' ? 'fa-laptop' : 'fa-building'
+        'blue'
       );
     }
+  },
+
+  check_enrollment_status: function (frm) {
+    if (!frm.doc.academic_term) return;
+
+    frm.call('get_enrollment_status').then(r => {
+      if (!r || !r.message) return;
+      const status = r.message;
+
+      // RF-21: Indicador de matrícula en dashboard
+      if (status.open) {
+        frm.dashboard.add_indicator(
+          __('Matrícula Abierta: {0} — {1}', [
+            frappe.datetime.str_to_user(status.enrollment_start_date),
+            frappe.datetime.str_to_user(status.enrollment_end_date),
+          ]),
+          'green'
+        );
+        // RF-22: Advertencia de restricción de edición
+        frm.set_intro(
+          __('⚠️ El período de matrícula está activo ({0} al {1}). Solo un Administrador del Sistema puede editar esta oferta.', [
+            frappe.datetime.str_to_user(status.enrollment_start_date),
+            frappe.datetime.str_to_user(status.enrollment_end_date),
+          ]),
+          'orange'
+        );
+      } else if (status.enrollment_start_date) {
+        frm.dashboard.add_indicator(
+          __('Matrícula Cerrada'),
+          'grey'
+        );
+      }
+    });
   },
 
   setup_buttons: function (frm) {
@@ -384,7 +418,11 @@ frappe.ui.form.on('Student Group', {
   student_group_name: function (frm) { frm.trigger('render_custom_ui'); },
   program: function (frm) { frm.trigger('render_custom_ui'); },
   status: function (frm) { frm.trigger('render_custom_ui'); },
-  academic_year: function (frm) { frm.trigger('render_custom_ui'); }
+  academic_year: function (frm) { frm.trigger('render_custom_ui'); },
+  academic_term: function (frm) {
+    frm.trigger('render_custom_ui');
+    if (!frm.is_new()) frm.trigger('check_enrollment_status');
+  }
 });
 
 // Mejora en Tabla de Instructores
