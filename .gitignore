@@ -14,3 +14,4 @@ education/www/student-portal.html
 
 infrastructure/manifests/mariadb-galera-secret.yaml
 infrastructure/values/frappe.staging.values.yaml
+infrastructure/values/db.moodle.staging.values.yaml
