@@ -1,400 +1,443 @@
 {
- "actions": [],
- "allow_import": 1,
- "autoname": "naming_series:",
- "creation": "2015-09-11 11:50:09.740807",
- "doctype": "DocType",
- "document_type": "Document",
- "engine": "InnoDB",
- "field_order": [
-  "custom_header",
-  "first_name",
-  "middle_name",
-  "last_name",
-  "column_break_8",
-  "naming_series",
-  "application_date",
-  "application_status",
-  "program",
-  "section_break_xuzu",
-  "student_email_id",
-  "student_admission",
-  "student_category",
-  "image",
-  "column_break_lvby",
-  "academic_year",
-  "academic_term",
-  "paid",
-  "section_break_23",
-  "title",
-  "amended_from",
-  "personal_details_tab",
-  "section_break_4",
-  "date_of_birth",
-  "gender",
-  "blood_group",
-  "column_break_12",
-  "student_mobile_number",
-  "nationality",
-  "relations_tab",
-  "section_break_20",
-  "guardians",
-  "section_break_21",
-  "siblings",
-  "address_tab",
-  "home_address",
-  "address_line_1",
-  "address_line_2",
-  "city",
-  "column_break_23",
-  "state",
-  "pincode",
-  "country",
-  "custom_tab_5",
-  "custom_custom",
-  "custom_estudios_previos",
-  "custom_discapacidad",
-  "custom_column_break_7qeby",
-  "custom_profesión",
-  "custom_ubicación_de_trabajo",
-  "custom_experiencia_en_emprendimiento_años",
-  "custom_acepta_términos",
-  "custom_politicas_privacidad",
-  "custom_section_break_uwptn",
-  "custom_identificacion"
- ],
- "fields": [
-  {
-   "fieldname": "custom_header",
-   "fieldtype": "HTML"
-  },
-  {
-   "fieldname": "first_name",
-   "fieldtype": "Data",
-   "in_global_search": 1,
-   "label": "Primer Nombre",
-   "reqd": 1
-  },
-  {
-   "fieldname": "middle_name",
-   "fieldtype": "Data",
-   "label": "Segundo Nombre"
-  },
-  {
-   "fieldname": "last_name",
-   "fieldtype": "Data",
-   "in_global_search": 1,
-   "label": "Apellidos"
-  },
-  {
-   "fieldname": "program",
-   "fieldtype": "Link",
-   "in_filter": 1,
-   "in_global_search": 1,
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Programa",
-   "options": "Program",
-   "reqd": 1
-  },
-  {
-   "default": "0",
-   "fieldname": "paid",
-   "fieldtype": "Check",
-   "label": "Pagado"
-  },
-  {
-   "fieldname": "column_break_8",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "naming_series",
-   "fieldtype": "Select",
-   "label": "Serie de Nomenclatura",
-   "no_copy": 1,
-   "options": "EDU-APP-.YYYY.-",
-   "set_only_once": 1
-  },
-  {
-   "allow_on_submit": 1,
-   "fieldname": "application_status",
-   "fieldtype": "Select",
-   "in_filter": 1,
-   "label": "Estado de Solicitud",
-   "no_copy": 1,
-   "options": "Applied\nApproved\nRejected\nAdmitted",
-   "read_only": 1
-  },
-  {
-   "default": "Today",
-   "fieldname": "application_date",
-   "fieldtype": "Date",
-   "label": "Fecha de Solicitud"
-  },
-  {
-   "fieldname": "academic_year",
-   "fieldtype": "Link",
-   "label": "Año Académico",
-   "options": "Academic Year",
-   "reqd": 1
-  },
-  {
-   "fieldname": "academic_term",
-   "fieldtype": "Link",
-   "label": "Periodo Académico",
-   "options": "Academic Term"
-  },
-  {
-   "fieldname": "student_admission",
-   "fieldtype": "Link",
-   "label": "Admisión",
-   "options": "Student Admission"
-  },
-  {
-   "fieldname": "image",
-   "fieldtype": "Attach Image",
-   "hidden": 1,
-   "label": "Imagen"
-  },
-  {
-   "fieldname": "section_break_4",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "date_of_birth",
-   "fieldtype": "Date",
-   "label": "Fecha de Nacimiento"
-  },
-  {
-   "fieldname": "gender",
-   "fieldtype": "Link",
-   "label": "Género",
-   "options": "Gender"
-  },
-  {
-   "fieldname": "blood_group",
-   "fieldtype": "Select",
-   "label": "Grupo Sanguíneo",
-   "options": "\nA+\nA-\nB+\nB-\nO+\nO-\nAB+\nAB-"
-  },
-  {
-   "fieldname": "column_break_12",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "student_email_id",
-   "fieldtype": "Data",
-   "label": "Correo Electrónico",
-   "options": "Email",
-   "unique": 1
-  },
-  {
-   "fieldname": "student_mobile_number",
-   "fieldtype": "Data",
-   "label": "Número de Teléfono"
-  },
-  {
-   "fieldname": "nationality",
-   "fieldtype": "Data",
-   "label": "Nacionalidad"
-  },
-  {
-   "fieldname": "home_address",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "address_line_1",
-   "fieldtype": "Data",
-   "label": "Dirección 1"
-  },
-  {
-   "fieldname": "address_line_2",
-   "fieldtype": "Data",
-   "label": "Dirección 2"
-  },
-  {
-   "fieldname": "pincode",
-   "fieldtype": "Data",
-   "label": "Código Postal"
-  },
-  {
-   "fieldname": "column_break_23",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "city",
-   "fieldtype": "Data",
-   "label": "Ciudad"
-  },
-  {
-   "fieldname": "state",
-   "fieldtype": "Data",
-   "label": "Estado o Provincia"
-  },
-  {
-   "fieldname": "section_break_20",
-   "fieldtype": "Section Break",
-   "label": "Detalles de Tutores"
-  },
-  {
-   "fieldname": "guardians",
-   "fieldtype": "Table",
-   "label": "Tutores",
-   "options": "Student Guardian"
-  },
-  {
-   "fieldname": "section_break_21",
-   "fieldtype": "Section Break",
-   "label": "Detalles de Hermanos"
-  },
-  {
-   "fieldname": "siblings",
-   "fieldtype": "Table",
-   "label": "Hermanos",
-   "options": "Student Sibling"
-  },
-  {
-   "fieldname": "section_break_23",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "title",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "Título"
-  },
-  {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Modificado De",
-   "no_copy": 1,
-   "options": "Student Applicant",
-   "print_hide": 1,
-   "read_only": 1
-  },
-  {
-   "fieldname": "student_category",
-   "fieldtype": "Link",
-   "label": "Categoría de Estudiante",
-   "options": "Student Category"
-  },
-  {
-   "fieldname": "section_break_xuzu",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_lvby",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "personal_details_tab",
-   "fieldtype": "Tab Break",
-   "label": "Detalles Personales"
-  },
-  {
-   "fieldname": "relations_tab",
-   "fieldtype": "Tab Break",
-   "label": "Relaciones"
-  },
-  {
-   "fieldname": "address_tab",
-   "fieldtype": "Tab Break",
-   "label": "Dirección"
-  },
-  {
-   "fieldname": "country",
-   "fieldtype": "Link",
-   "label": "País",
-   "options": "Country"
-  },
-  {
-   "fieldname": "custom_tab_5",
-   "fieldtype": "Tab Break",
-   "label": "Extras"
-  },
-  {
-   "fieldname": "custom_custom",
-   "fieldtype": "Section Break",
-   "label": "Personalizado"
-  },
-  {
-   "fieldname": "custom_estudios_previos",
-   "fieldtype": "Select",
-   "label": "Estudios Previos",
-   "options": "Primaria\nSecundaria\nBachiller\nTécnico\nLicenciatura\nIngeniería"
-  },
-  {
-   "fieldname": "custom_discapacidad",
-   "fieldtype": "Table MultiSelect",
-   "label": "Discapacidad",
-   "options": "Student Disability Type"
-  },
-  {
-   "fieldname": "custom_column_break_7qeby",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "custom_profesión",
-   "fieldtype": "Data",
-   "label": "Profesión"
-  },
-  {
-   "fieldname": "custom_ubicación_de_trabajo",
-   "fieldtype": "Data",
-   "label": "Ubicación de Trabajo"
-  },
-  {
-   "fieldname": "custom_experiencia_en_emprendimiento_años",
-   "fieldtype": "Int",
-   "label": "Experiencia en Emprendimiento (años)"
-  },
-  {
-   "fieldname": "custom_acepta_términos",
-   "fieldtype": "Check",
-   "label": "Acepta Términos"
-  },
-  {
-   "fieldname": "custom_politicas_privacidad",
-   "fieldtype": "Check",
-   "label": "Políticas de Privacidad y Manejo de Datos"
-  },
-  {
-   "fieldname": "custom_section_break_uwptn",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "custom_identificacion",
-   "fieldtype": "Attach",
-   "label": "Identificacion"
-  }
- ],
- "filters": [],
- "image_field": "image",
- "links": [],
- "modified": "2023-12-06 16:27:13.360469",
- "modified_by": "Administrator",
- "module": "Education",
- "name": "Student Applicant",
- "naming_rule": "By \"Naming Series\" field",
- "owner": "Administrator",
- "permissions": [
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "import": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Academics User",
-   "share": 1,
-   "write": 1
-  }
- ],
- "show_name_in_global_search": 1,
- "sort_field": "modified",
- "sort_order": "DESC",
- "states": [],
- "title_field": "title"
+    "actions": [],
+    "allow_import": 1,
+    "autoname": "naming_series:",
+    "creation": "2015-09-11 11:50:09.740807",
+    "doctype": "DocType",
+    "document_type": "Document",
+    "engine": "InnoDB",
+    "field_order": [
+        "custom_header",
+        "first_name",
+        "middle_name",
+        "last_name",
+        "column_break_8",
+        "naming_series",
+        "application_date",
+        "application_status",
+        "program",
+        "section_break_xuzu",
+        "student_email_id",
+        "student_admission",
+        "student_category",
+        "image",
+        "column_break_lvby",
+        "academic_year",
+        "academic_term",
+        "paid",
+        "section_break_23",
+        "title",
+        "amended_from",
+        "personal_details_tab",
+        "section_break_4",
+        "date_of_birth",
+        "gender",
+        "blood_group",
+        "column_break_12",
+        "student_mobile_number",
+        "nationality",
+        "relations_tab",
+        "section_break_20",
+        "guardians",
+        "section_break_21",
+        "siblings",
+        "address_tab",
+        "home_address",
+        "address_line_1",
+        "address_line_2",
+        "city",
+        "column_break_23",
+        "state",
+        "pincode",
+        "country",
+        "custom_tab_5",
+        "custom_custom",
+        "custom_estudios_previos",
+        "custom_discapacidad",
+        "custom_column_break_7qeby",
+        "custom_profesión",
+        "custom_ubicación_de_trabajo",
+        "custom_experiencia_en_emprendimiento_años",
+        "custom_section_legal",
+        "custom_html_declaracion",
+        "custom_acepta_términos",
+        "custom_politicas_privacidad",
+        "custom_section_break_uwptn",
+        "custom_identificacion",
+        "custom_revision_section",
+        "custom_documentos_incorrectos",
+        "custom_comentarios_correccion",
+        "custom_notificar_aspirante"
+    ],
+    "fields": [
+        {
+            "fieldname": "custom_header",
+            "fieldtype": "HTML"
+        },
+        {
+            "fieldname": "first_name",
+            "fieldtype": "Data",
+            "in_global_search": 1,
+            "label": "Primer Nombre",
+            "reqd": 1
+        },
+        {
+            "fieldname": "middle_name",
+            "fieldtype": "Data",
+            "label": "Segundo Nombre"
+        },
+        {
+            "fieldname": "last_name",
+            "fieldtype": "Data",
+            "in_global_search": 1,
+            "label": "Apellidos"
+        },
+        {
+            "fieldname": "program",
+            "fieldtype": "Link",
+            "in_filter": 1,
+            "in_global_search": 1,
+            "in_list_view": 1,
+            "in_standard_filter": 1,
+            "label": "Programa",
+            "options": "Program",
+            "reqd": 1
+        },
+        {
+            "default": "0",
+            "fieldname": "paid",
+            "fieldtype": "Check",
+            "label": "Pagado"
+        },
+        {
+            "fieldname": "column_break_8",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "naming_series",
+            "fieldtype": "Select",
+            "label": "Serie de Nomenclatura",
+            "no_copy": 1,
+            "options": "EDU-APP-.YYYY.-",
+            "set_only_once": 1
+        },
+        {
+            "allow_on_submit": 1,
+            "fieldname": "application_status",
+            "fieldtype": "Select",
+            "in_filter": 1,
+            "label": "Estado de Solicitud",
+            "no_copy": 1,
+            "options": "Applied\nApproved\nRejected\nAdmitted",
+            "read_only": 1
+        },
+        {
+            "default": "Today",
+            "fieldname": "application_date",
+            "fieldtype": "Date",
+            "label": "Fecha de Solicitud"
+        },
+        {
+            "fieldname": "academic_year",
+            "fieldtype": "Link",
+            "label": "Año Académico",
+            "options": "Academic Year",
+            "reqd": 1
+        },
+        {
+            "fieldname": "academic_term",
+            "fieldtype": "Link",
+            "label": "Periodo Académico",
+            "options": "Academic Term"
+        },
+        {
+            "fieldname": "student_admission",
+            "fieldtype": "Link",
+            "label": "Admisión",
+            "options": "Student Admission"
+        },
+        {
+            "fieldname": "image",
+            "fieldtype": "Attach Image",
+            "hidden": 1,
+            "label": "Imagen"
+        },
+        {
+            "fieldname": "section_break_4",
+            "fieldtype": "Section Break"
+        },
+        {
+            "fieldname": "date_of_birth",
+            "fieldtype": "Date",
+            "label": "Fecha de Nacimiento"
+        },
+        {
+            "fieldname": "gender",
+            "fieldtype": "Link",
+            "label": "Género",
+            "options": "Gender"
+        },
+        {
+            "fieldname": "blood_group",
+            "fieldtype": "Select",
+            "label": "Grupo Sanguíneo",
+            "options": "\nA+\nA-\nB+\nB-\nO+\nO-\nAB+\nAB-"
+        },
+        {
+            "fieldname": "column_break_12",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "student_email_id",
+            "fieldtype": "Data",
+            "label": "Correo Electrónico",
+            "options": "Email",
+            "unique": 1
+        },
+        {
+            "fieldname": "student_mobile_number",
+            "fieldtype": "Data",
+            "label": "Número de Teléfono"
+        },
+        {
+            "fieldname": "nationality",
+            "fieldtype": "Data",
+            "label": "Nacionalidad"
+        },
+        {
+            "fieldname": "home_address",
+            "fieldtype": "Section Break"
+        },
+        {
+            "fieldname": "address_line_1",
+            "fieldtype": "Data",
+            "label": "Dirección 1"
+        },
+        {
+            "fieldname": "address_line_2",
+            "fieldtype": "Data",
+            "label": "Dirección 2"
+        },
+        {
+            "fieldname": "pincode",
+            "fieldtype": "Data",
+            "label": "Código Postal"
+        },
+        {
+            "fieldname": "column_break_23",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "city",
+            "fieldtype": "Data",
+            "label": "Ciudad"
+        },
+        {
+            "fieldname": "state",
+            "fieldtype": "Data",
+            "label": "Estado o Provincia"
+        },
+        {
+            "fieldname": "section_break_20",
+            "fieldtype": "Section Break",
+            "label": "Detalles de Tutores"
+        },
+        {
+            "fieldname": "guardians",
+            "fieldtype": "Table",
+            "label": "Tutores",
+            "options": "Student Guardian"
+        },
+        {
+            "fieldname": "section_break_21",
+            "fieldtype": "Section Break",
+            "label": "Detalles de Hermanos"
+        },
+        {
+            "fieldname": "siblings",
+            "fieldtype": "Table",
+            "label": "Hermanos",
+            "options": "Student Sibling"
+        },
+        {
+            "fieldname": "section_break_23",
+            "fieldtype": "Section Break"
+        },
+        {
+            "fieldname": "title",
+            "fieldtype": "Data",
+            "hidden": 1,
+            "label": "Título"
+        },
+        {
+            "fieldname": "amended_from",
+            "fieldtype": "Link",
+            "label": "Modificado De",
+            "no_copy": 1,
+            "options": "Student Applicant",
+            "print_hide": 1,
+            "read_only": 1
+        },
+        {
+            "fieldname": "student_category",
+            "fieldtype": "Link",
+            "label": "Categoría de Estudiante",
+            "options": "Student Category"
+        },
+        {
+            "fieldname": "section_break_xuzu",
+            "fieldtype": "Section Break"
+        },
+        {
+            "fieldname": "column_break_lvby",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "personal_details_tab",
+            "fieldtype": "Tab Break",
+            "label": "Detalles Personales"
+        },
+        {
+            "fieldname": "relations_tab",
+            "fieldtype": "Tab Break",
+            "label": "Relaciones"
+        },
+        {
+            "fieldname": "address_tab",
+            "fieldtype": "Tab Break",
+            "label": "Dirección"
+        },
+        {
+            "fieldname": "country",
+            "fieldtype": "Link",
+            "label": "País",
+            "options": "Country"
+        },
+        {
+            "fieldname": "custom_tab_5",
+            "fieldtype": "Tab Break",
+            "label": "Extras"
+        },
+        {
+            "fieldname": "custom_custom",
+            "fieldtype": "Section Break",
+            "label": "Personalizado"
+        },
+        {
+            "fieldname": "custom_estudios_previos",
+            "fieldtype": "Select",
+            "label": "Estudios Previos",
+            "options": "Primaria\nSecundaria\nBachiller\nTécnico\nLicenciatura\nIngeniería"
+        },
+        {
+            "fieldname": "custom_discapacidad",
+            "fieldtype": "Table MultiSelect",
+            "label": "Discapacidad",
+            "options": "Student Disability Type"
+        },
+        {
+            "fieldname": "custom_column_break_7qeby",
+            "fieldtype": "Column Break"
+        },
+        {
+            "fieldname": "custom_profesión",
+            "fieldtype": "Data",
+            "label": "Profesión"
+        },
+        {
+            "fieldname": "custom_ubicación_de_trabajo",
+            "fieldtype": "Data",
+            "label": "Ubicación de Trabajo"
+        },
+        {
+            "fieldname": "custom_experiencia_en_emprendimiento_años",
+            "fieldtype": "Int",
+            "label": "Experiencia en Emprendimiento (años)"
+        },
+        {
+            "fieldname": "custom_section_legal",
+            "fieldtype": "Section Break",
+            "label": "Términos y Condiciones"
+        },
+        {
+            "fieldname": "custom_html_declaracion",
+            "fieldtype": "HTML",
+            "options": "<div style='background-color: #f4f7f9; padding: 18px; border: 1px solid #d1d8dd; border-radius: 8px; height: 250px; overflow-y: scroll; font-size: 13px; line-height: 1.6; color: #333; margin-bottom: 15px;'><h4 style='margin-top:0;'>Declaración Jurada</h4><p>Declaro bajo fe de juramento que la información consignada en este formulario electrónico es verdadera, por lo que asumo las responsabilidades y consecuencias administrativas y penales que correspondan en caso de falsedad, inexactitud, u omisión para el acceso a los servicios...</p><h4>Consentimiento Informado</h4><p>Por este medio digital autorizo de manera libre, inequívoca, específica e informada a la Municipalidad de Escazú...</p></div>"
+        },
+        {
+            "fieldname": "custom_acepta_términos",
+            "fieldtype": "Check",
+            "label": "Acepto la Declaración Jurada",
+            "reqd": 1
+        },
+        {
+            "fieldname": "custom_politicas_privacidad",
+            "fieldtype": "Check",
+            "label": "Acepto el Consentimiento Informado (Manejo de Datos)",
+            "reqd": 1
+        },
+        {
+            "fieldname": "custom_section_break_uwptn",
+            "fieldtype": "Section Break",
+            "label": "Documentación"
+        },
+        {
+            "fieldname": "custom_identificacion",
+            "fieldtype": "Attach",
+            "label": "Identificación"
+        },
+        {
+            "fieldname": "custom_revision_section",
+            "fieldtype": "Section Break",
+            "label": "Revisión de Documentos"
+        },
+        {
+            "fieldname": "custom_documentos_incorrectos",
+            "fieldtype": "MultiCheck",
+            "label": "Documentos que requieren corrección",
+            "options": "Identificación\nCertificado de Discapacidad\nFoto de Perfil",
+            "description": "Seleccione los documentos que el aspirante debe volver a subir."
+        },
+        {
+            "fieldname": "custom_comentarios_correccion",
+            "fieldtype": "Small Text",
+            "label": "Detalles de la corrección",
+            "description": "Explique brevemente qué debe corregir el aspirante."
+        },
+        {
+            "fieldname": "custom_notificar_aspirante",
+            "fieldtype": "Button",
+            "label": "Notificar Corrección",
+            "options": "notificar_correccion_script"
+        }
+    ],
+    "filters": [],
+    "image_field": "image",
+    "links": [],
+    "modified": "2026-05-13 02:30:00.000000",
+    "modified_by": "Administrator",
+    "module": "Education",
+    "name": "Student Applicant",
+    "naming_rule": "By \"Naming Series\" field",
+    "owner": "Administrator",
+    "permissions": [
+        {
+            "create": 1,
+            "delete": 1,
+            "email": 1,
+            "export": 1,
+            "import": 1,
+            "print": 1,
+            "read": 1,
+            "report": 1,
+            "role": "Academics User",
+            "share": 1,
+            "write": 1
+        }
+    ],
+    "show_name_in_global_search": 1,
+    "sort_field": "modified",
+    "sort_order": "DESC",
+    "states": [],
+    "title_field": "title"
 }

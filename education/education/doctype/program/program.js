@@ -74,3 +74,12 @@ function sync_modules(frm) {
     },
   })
 }
+frappe.ui.form.on('Program', {
+  refresh: function (frm) {
+    frm.add_custom_button(__('Ver Estudiantes Matriculados'), function () {
+      frappe.set_route('List', 'Program Enrollment', {
+        program: frm.doc.name
+      });
+    }, __('Consultas'));
+  }
+});

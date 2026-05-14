@@ -209,6 +209,9 @@ after_install = "education.install.after_install"
 # Hook on document methods and events
 
 doc_events = {
+	"Program": {
+        "on_update": "education.education.api.notificar_programa_segmentado"
+    },
 	"Course": {
 		"after_insert": "education.moodle_integration.events.on_course_created",
 		"after_save":   "education.moodle_integration.events.on_course_saved",

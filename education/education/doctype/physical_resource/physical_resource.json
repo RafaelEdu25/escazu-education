@@ -1,110 +1,147 @@
 {
-    "name": "Physical Resource",
-    "doctype": "DocType",
-    "module": "Education",
-    "naming_rule": "By fieldname",
-    "autoname": "field:resource_code",
-    "track_changes": 1,
-    "quick_entry": 1,
-    "fields": [
-        {
-            "fieldname": "resource_code",
-            "label": "Código",
-            "fieldtype": "Data",
-            "reqd": 1,
-            "in_list_view": 1,
-            "description": "Ej: PC-LABA-001, PROY-AULA101-001"
-        },
-        {
-            "fieldname": "resource_name",
-            "label": "Nombre del Recurso",
-            "fieldtype": "Data",
-            "reqd": 1,
-            "in_list_view": 1
-        },
-        {
-            "fieldname": "resource_type",
-            "label": "Tipo",
-            "fieldtype": "Select",
-            "options": "Computadora\nProyector\nPizarra Digital\nMobiliario\nHerramienta\nOtro",
-            "reqd": 1,
-            "in_list_view": 1
-        },
-        {
-            "fieldname": "col_break_1",
-            "fieldtype": "Column Break"
-        },
-        {
-            "fieldname": "room",
-            "label": "Aula / Espacio",
-            "fieldtype": "Link",
-            "options": "Room",
-            "in_list_view": 1,
-            "description": "Ubicación habitual de este recurso"
-        },
-        {
-            "fieldname": "status",
-            "label": "Estado",
-            "fieldtype": "Select",
-            "options": "Disponible\nEn Mantenimiento\nFuera de Servicio\nDado de Baja",
-            "default": "Disponible",
-            "reqd": 1,
-            "in_list_view": 1
-        },
-        {
-            "fieldname": "is_fixed",
-            "label": "Es Fijo (no se mueve del aula)",
-            "fieldtype": "Check",
-            "default": 1
-        },
-        {
-            "fieldname": "section_detail",
-            "label": "Detalle",
-            "fieldtype": "Section Break"
-        },
-        {
-            "fieldname": "brand",
-            "label": "Marca / Modelo",
-            "fieldtype": "Data"
-        },
-        {
-            "fieldname": "serial_no",
-            "label": "Número de Serie",
-            "fieldtype": "Data"
-        },
-        {
-            "fieldname": "col_break_2",
-            "fieldtype": "Column Break"
-        },
-        {
-            "fieldname": "purchase_date",
-            "label": "Fecha de Adquisición",
-            "fieldtype": "Date"
-        },
-        {
-            "fieldname": "notes",
-            "label": "Observaciones",
-            "fieldtype": "Small Text"
-        },
-        {
-            "fieldname": "resource_image",
-            "label": "Foto",
-            "fieldtype": "Attach Image"
-        }
-    ],
-    "permissions": [
-        {
-            "role": "Academics User",
-            "read": 1,
-            "write": 1,
-            "create": 1
-        },
-        {
-            "role": "System Manager",
-            "read": 1,
-            "write": 1,
-            "create": 1,
-            "delete": 1
-        }
-    ]
+ "actions": [],
+ "autoname": "field:resource_code",
+ "creation": "2026-05-10 16:40:04.881403",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "resource_code",
+  "resource_name",
+  "resource_type",
+  "col_break_1",
+  "room",
+  "status",
+  "is_fixed",
+  "section_detail",
+  "brand",
+  "serial_no",
+  "col_break_2",
+  "purchase_date",
+  "notes",
+  "resource_image"
+ ],
+ "fields": [
+  {
+   "description": "Ej: PC-LABA-001, PROY-AULA101-001",
+   "fieldname": "resource_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "C\u00f3digo",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "resource_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Nombre del Recurso",
+   "reqd": 1
+  },
+  {
+   "fieldname": "resource_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Tipo",
+   "options": "Computadora\nProyector\nPizarra Digital\nMobiliario\nHerramienta\nOtro",
+   "reqd": 1
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Ubicaci\u00f3n habitual de este recurso",
+   "fieldname": "room",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Aula / Espacio",
+   "options": "Room",
+   "reqd": 1
+  },
+  {
+   "default": "Disponible",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Estado",
+   "options": "Disponible\nEn Mantenimiento\nFuera de Servicio\nDado de Baja",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "is_fixed",
+   "fieldtype": "Check",
+   "label": "Es Fijo (no se mueve del aula)"
+  },
+  {
+   "fieldname": "section_detail",
+   "fieldtype": "Section Break",
+   "label": "Detalle"
+  },
+  {
+   "fieldname": "brand",
+   "fieldtype": "Data",
+   "label": "Marca / Modelo"
+  },
+  {
+   "fieldname": "serial_no",
+   "fieldtype": "Data",
+   "label": "N\u00famero de Serie"
+  },
+  {
+   "fieldname": "col_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "purchase_date",
+   "fieldtype": "Date",
+   "label": "Fecha de Adquisici\u00f3n"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Observaciones"
+  },
+  {
+   "fieldname": "resource_image",
+   "fieldtype": "Attach Image",
+   "label": "Foto"
+  }
+ ],
+ "links": [],
+ "modified": "2026-05-11 05:51:43.063376",
+ "modified_by": "Administrator",
+ "module": "Education",
+ "name": "Physical Resource",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Student",
+   "share": 1
+  }
+ ],
+ "quick_entry": 1,
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
 }
